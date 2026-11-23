@@ -1,182 +1,129 @@
 <!--
-  The top bar and the header (design/src/shell.js topbar(),
-  header(), menuPanel(); set A "Classic"):
+  Play Lab's header (the approved design's shared/app.js labHeader(), play-lab.css .lab-mast / .lab-navigation):
 
-  - the top bar (it scrolls away): the counter's days and hours, the way to
-    pay and "Pickup at <street>" on the left; the language & currency pill
-    (EN · USD; the region-switcher kit's chips in a small panel), the phone
-    and the email on the right. All from the shop's live data.
-  - the header (it sticks): "Shop ⌄" (every collection with its best
-    seller's photo and its lowest price, and the deals line), Deals,
-    Journal, About and Contact on the left; the shop's live title drawn as
-    the centred wordmark (with the city under it); search (live suggestions from the
-    catalogue, Enter opens every result), the account, the bag with its
-    count and "Order now" on the right.
-  - phone (≤979px): the menu button, the wordmark (never lost), search and
-    the bag; the menu is a panel from the left with the collections (the
-    first 6, "Show N more" past 8), the pages, the account, a "Language &
-    currency" row (a bottom sheet) and the counter's lines. No bottom tab bar.
+  - the mast: the menu button (phones), the square glyph and the shop's live title in condensed capitals with the
+    skin's sub line; a wide search (live suggestions from the catalogue while typing; Enter opens every result);
+    saved toys, the account and the "Bag" button with its count.
+  - the navigation row: "Departments" (opens the departments panel), the shop's departments in its own order (as
+    many as fit on one line; the rest are in the panel), then Deals, Compare, Guides and the language & currency pill
+    (EN · USD; the region-switcher kit's chips in a small panel).
+  - phone (≤620px): menu, wordmark, account and bag on the first line, the search under it; the navigation row is
+    the panel. The panel ("Explore <shop>") has Shop all toys and Deals, the departments with their own images (the
+    first 6, "Show N more" past 8), then the guides, saved toys, compare, help, sign-in and the region row. No
+    bottom tab bar.
 
-  Every layer opens on a click and closes on a second click, Esc, a click
-  outside or a page change (ly.ts layers); the menu, the bag and the sheet
-  add the scrim. The panels are teleported to <body>. A shop with custom
-  header code keeps Selldone's header (StorefrontLayout).
+  Every layer opens on a click and closes on a second click, Esc, a click outside or a page change (ly.ts layers);
+  the panel, the bag and the sheet add the scrim. The panels are teleported to <body>. A shop with custom header
+  code keeps Selldone's header (StorefrontLayout). Nothing names a department, product or price: all live.
 -->
 <template>
-  <div v-if="!$store.getters.getIsNative" class="ly ly-hdrwrap">
+  <div v-if="!$store.getters.getIsNative" class="ly ly-hdrwrap pl-shell">
     <a class="skip" href="#main" @click.prevent="skip">{{ t("ly.hdr.skip", "Skip to content") }}</a>
 
-    <div class="topbar">
-      <div class="wrap tb-in">
-        <ul v-if="facts.ready" :aria-label="t('ly.hdr.facts', 'Shop facts')" class="tb-l">
-          <li v-if="openLine">{{ openLine }}</li>
-          <li v-if="facts.gateway?.name">{{ facts.gateway.name }}</li>
-          <li v-if="facts.pickup && street">{{ t("ly.hdr.pickupAt", "Pickup at {street}", { street }) }}</li>
-        </ul>
-        <ul :aria-label="t('ly.hdr.contact', 'Contact')" class="tb-r">
-          <li v-if="regionOn" class="tb-rg">
+    <header id="hdr" class="pl-header">
+      <div class="pl-wrap pl-mast">
+        <div class="pl-mast-start">
+          <button
+            :aria-expanded="is('menu') ? 'true' : 'false'"
+            :aria-label="t('ly.hdr.menu', 'Menu')"
+            aria-controls="menu"
+            class="pl-ibtn pl-menu-btn"
+            type="button"
+            @click="toggle('menu', $event)"
+          >
+            <ly-icon name="menu" />
+          </button>
+          <ly-logo />
+        </div>
+
+        <div ref="sbox" class="pl-search-box" @focusout="onBlur" @keydown.esc="sug = false">
+          <form :class="['pl-search', { open: sug && !!query }]" role="search" @submit.prevent="submit()">
+            <label class="sr-only" for="pl-q">{{ t("pl.hdr.searchLabel", "Search toys") }}</label>
+            <input
+              id="pl-q"
+              ref="q"
+              :aria-expanded="sug && !!query ? 'true' : 'false'"
+              :placeholder="searchPlaceholder"
+              :value="q"
+              aria-autocomplete="list"
+              aria-controls="pl-sug"
+              autocomplete="off"
+              enterkeyhint="search"
+              role="combobox"
+              type="search"
+              @focus="sug = true"
+              @input="onInput"
+              @keydown.down.prevent="move(1)"
+              @keydown.up.prevent="move(-1)"
+            />
+            <button :aria-label="t('ly.hdr.search', 'Search')" type="submit"><ly-icon name="search" /></button>
+          </form>
+          <div v-show="sug && !!query" id="pl-sug" class="pl-sug" role="listbox">
+            <ul v-if="hits.length">
+              <li v-for="(p, i) in hits" :key="p.id">
+                <router-link :class="{ hl: i === cursor }" :to="productTo(p)" role="option" @click="done()">
+                  <span class="pl-sug-ph"><img :src="thumb(p)" alt="" /></span>
+                  <span class="pl-sug-tx"
+                    ><b>{{ p.title }}</b><small><bdi>{{ catTitle(catOf(p.category_id)) }}</bdi></small></span
+                  >
+                  <span class="money">{{ money(priceView(shop, p).now) }}</span>
+                </router-link>
+              </li>
+            </ul>
+            <p v-if="!hits.length" class="pl-sug-none">{{ t("pl.hdr.noMatch", "No toys match “{q}” yet. Press Enter to search everything.", { q: query }) }}</p>
+            <router-link v-else :to="searchTo(query)" class="pl-sug-all" @click="done()">{{ t("ly.hdr.allFor", "See every result for “{q}”", { q: query }) }}<ly-icon name="arrow" /></router-link>
+          </div>
+        </div>
+
+        <div class="pl-actions">
+          <router-link :aria-label="t('pl.hdr.saved', 'Saved toys')" :title="t('pl.hdr.saved', 'Saved toys')" :to="savedTo" class="pl-ibtn pl-save"><ly-icon name="heart" /></router-link>
+          <router-link :aria-label="t('ly.hdr.account', 'Account')" :title="t('ly.hdr.account', 'Account')" :to="accountTo" class="pl-ibtn acct"><ly-icon name="user" /></router-link>
+          <button
+            :aria-expanded="is('drawer') ? 'true' : 'false'"
+            :aria-label="t('pl.hdr.bagAria', { one: 'Bag, {n} item', other: 'Bag, {n} items' }, { n: units })"
+            aria-controls="drawer"
+            class="pl-bag-btn"
+            type="button"
+            @click="toggle('drawer', $event)"
+          >
+            <ly-icon name="bag" /><span class="pl-bag-word">{{ t("pl.hdr.bag", "Bag") }}</span><span v-if="units" class="pl-bag-count">{{ units > 99 ? "99+" : units }}</span>
+          </button>
+        </div>
+      </div>
+
+      <nav :aria-label="t('pl.hdr.shopNav', 'Shop')" class="pl-nav">
+        <div class="pl-wrap pl-nav-in">
+          <button :aria-expanded="is('menu') ? 'true' : 'false'" aria-controls="menu" class="pl-btn quiet pl-dept-btn" type="button" @click="toggle('menu', $event)">
+            <ly-icon name="grid" />{{ t("pl.hdr.departments", "Departments") }}
+          </button>
+          <div ref="links" class="pl-nav-links">
+            <router-link v-for="(c, i) in cats" :key="c.id" :aria-current="onCat(c) ? 'page' : undefined" :class="{ 'pl-off': i >= fit }" :tabindex="i >= fit ? -1 : undefined" :to="catTo(c)"
+              ><bdi>{{ catTitle(c) }}</bdi></router-link
+            >
+          </div>
+          <div class="pl-nav-end">
+            <router-link :aria-current="onDeals ? 'page' : undefined" :to="dealsTo">{{ t("ly.hdr.deals", "Deals") }}</router-link>
+            <router-link :aria-current="onCompare ? 'page' : undefined" :to="compareTo">{{ t("pl.hdr.compare", "Compare") }}</router-link>
+            <router-link :aria-current="onJournal ? 'page' : undefined" :to="blogTo">{{ t("pl.hdr.guides", "Guides") }}</router-link>
             <button
+              v-if="regionOn"
               :key="regionKey"
               :aria-expanded="is('rgp') ? 'true' : 'false'"
               :aria-label="t('ly.hdr.regionAria', 'Language and currency: {value}', { value: regionShort })"
               aria-controls="rgp"
-              class="rg-pill rs-pick__btn"
+              class="pl-region rs-pick__btn"
               type="button"
               @click="toggle('rgp', $event)"
             >
-              <ly-icon name="globe" /><span dir="ltr">{{ regionShort }}</span><ly-icon cls="chev" name="down" />
+              <ly-icon name="globe" /><span dir="ltr">{{ regionShort }}</span>
             </button>
-          </li>
-          <li v-if="facts.ready && facts.phone" class="tb-tel"><a :href="tel" dir="ltr">{{ facts.phone }}</a></li>
-          <li v-if="facts.ready && facts.email" class="tb-mail"><a :href="'mailto:' + facts.email">{{ facts.email }}</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <header id="hdr" class="hdr">
-      <div class="wrap hdr-in">
-        <button
-          :aria-expanded="is('menu') ? 'true' : 'false'"
-          :aria-label="t('ly.hdr.menu', 'Menu')"
-          aria-controls="menu"
-          class="ibtn menu-btn"
-          type="button"
-          @click="toggle('menu', $event)"
-        >
-          <ly-icon name="menu" />
-        </button>
-
-        <nav :aria-label="t('ly.hdr.main', 'Main')" class="nav">
-          <ul>
-            <li class="has-dd">
-              <button :aria-expanded="is('dd-shop') ? 'true' : 'false'" aria-controls="dd-shop" class="nav-a" type="button" @click="toggle('dd-shop', $event)">
-                {{ t("ly.hdr.shop", "Shop") }}<ly-icon cls="chev" name="down" />
-              </button>
-              <div id="dd-shop" :class="['dd', { open: is('dd-shop') }]">
-                <div class="dd-main">
-                <p class="dd-h">{{ t("ly.hdr.collections", "The collections") }}</p>
-                <ul class="dd-list">
-                  <li v-for="c in cats" :key="c.id">
-                    <router-link :to="catTo(c)">
-                      <span class="dd-th"><img v-if="topImg(c)" :src="topImg(c)" alt="" loading="lazy" /></span>
-                      <span class="dd-tx"
-                        ><b><bdi>{{ catTitle(c) }}</bdi></b><small v-if="fromPrice(c)">{{ t("ly.hdr.from", "From {price}", { price: fromPrice(c) }) }}</small></span
-                      >
-                    </router-link>
-                  </li>
-                </ul>
-                <router-link :to="dealsTo" class="dd-all">{{ dealsLine }}<ly-icon name="right" /></router-link>
-                </div>
-                <router-link v-if="feature" :to="catTo(feature)" class="dd-feat">
-                  <span class="dd-fph"><img :src="featurePhoto" alt="" loading="lazy" /></span>
-                  <span class="dd-fk">{{ t("ly.hdr.mostOrdered", "Most ordered") }}</span>
-                  <b><bdi>{{ catTitle(feature) }}</bdi></b>
-                </router-link>
-              </div>
-            </li>
-            <li>
-              <router-link :aria-current="onDeals ? 'page' : undefined" :to="dealsTo" class="nav-a">{{ t("ly.hdr.deals", "Deals") }}</router-link>
-            </li>
-            <li>
-              <router-link :aria-current="onJournal ? 'page' : undefined" :to="blogTo" class="nav-a">{{ t("ly.hdr.journal", "Journal") }}</router-link>
-            </li>
-            <li>
-              <router-link :to="aboutTo" class="nav-a">{{ t("ly.hdr.about", "About") }}</router-link>
-            </li>
-            <li>
-              <router-link :to="contactTo" class="nav-a">{{ t("ly.hdr.contact", "Contact") }}</router-link>
-            </li>
-          </ul>
-        </nav>
-
-        <ly-logo />
-
-        <div class="tools">
-          <button :aria-expanded="is('srch') ? 'true' : 'false'" :aria-label="t('ly.hdr.search', 'Search')" aria-controls="srch" class="ibtn" type="button" @click="toggle('srch', $event)">
-            <ly-icon name="search" />
-          </button>
-          <router-link :aria-label="t('ly.hdr.account', 'Account')" :to="accountTo" class="ibtn acct"><ly-icon name="user" /></router-link>
-          <button
-            :aria-expanded="is('drawer') ? 'true' : 'false'"
-            :aria-label="t('ly.hdr.bagAria', { one: 'Bag, {n} piece', other: 'Bag, {n} pieces' }, { n: units })"
-            aria-controls="drawer"
-            class="ibtn bag-btn"
-            type="button"
-            @click="toggle('drawer', $event)"
-          >
-            <ly-icon name="bag" /><span v-if="units" class="count">{{ units > 99 ? "99+" : units }}</span>
-          </button>
-          <a :href="orderHref" class="btn sm alt order" @click.prevent="orderNow">{{ t("ly.hdr.orderNow", "Order now") }}</a>
-        </div>
-      </div>
-
-      <!-- Search: suggestions while typing (the live catalogue); Enter opens every result. -->
-      <div id="srch" :class="['srch', { open: is('srch') }]" role="search">
-        <div class="wrap srch-in">
-          <form class="srch-f" @submit.prevent="submit()">
-            <ly-icon name="search" />
-            <input
-              ref="q"
-              :aria-label="t('ly.hdr.searchLabel', 'Search the bakery')"
-              :placeholder="searchPlaceholder"
-              :value="q"
-              autocomplete="off"
-              enterkeyhint="search"
-              type="search"
-              @input="q = $event.target.value"
-              @keydown.down.prevent="move(1)"
-              @keydown.up.prevent="move(-1)"
-            />
-            <button :aria-label="t('ly.hdr.closeSearch', 'Close search')" class="ibtn x" type="button" @click="closeLayer()"><ly-icon name="close" /></button>
-          </form>
-          <div class="srch-out">
-            <p v-if="!query" class="srch-hint">
-              <template v-if="popular.length">{{ t("ly.hdr.popular", "Popular:") }}</template>
-              <button v-for="w in popular" :key="w" class="chip" type="button" @click="setQuery(w)">{{ w }}</button>
-            </p>
-            <template v-else>
-              <ul v-if="hits.length" class="srch-list" role="listbox">
-                <li v-for="(p, i) in hits" :key="p.id">
-                  <router-link :class="{ hl: i === cursor }" :to="productTo(p)" role="option">
-                    <span class="th"><img :src="thumb(p)" alt="" /></span>
-                    <span class="tx"
-                      ><b>{{ p.title }}</b
-                      ><small><bdi>{{ catTitle(catOf(p.category_id)) }}</bdi> · {{ t("ly.card.perLow", "per {unit}", { unit: unitOf(p) }) }}</small></span
-                    >
-                    <span class="ly money">{{ money(priceView(shop, p).now) }}</span>
-                  </router-link>
-                </li>
-              </ul>
-              <p v-if="!hits.length" class="srch-hint">{{ t("ly.hdr.noMatch", "Nothing matches “{q}”. Try another word.", { q: query }) }}</p>
-              <router-link v-else :to="searchTo(query)" class="srch-all">{{ t("ly.hdr.allFor", "See every result for “{q}”", { q: query }) }}<ly-icon name="arrow" /></router-link>
-            </template>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
 
     <teleport to="body">
-      <div :dir="rtl ? 'rtl' : 'ltr'" class="ly ly-layers">
+      <div :dir="rtl ? 'rtl' : 'ltr'" class="ly ly-layers pl-shell">
         <!-- Language and currency (the region-switcher kit's chips; its class
              names stay on the pill, panel and sheet so its checks find them). -->
         <div v-if="regionOn" id="rgp" ref="rgp" :aria-label="t('region.title', 'Language & currency')" :class="['rgp', 'rs-pop', { open: is('rgp') }]" :style="rgpPos" role="dialog">
@@ -185,54 +132,38 @@
           <p v-if="regionNote" class="rgp-note">{{ regionNote }}</p>
         </div>
 
-        <!-- The phone menu: a panel from the left. -->
-        <nav id="menu" :aria-label="t('ly.hdr.menu', 'Menu')" :class="['panel', 'menu', { open: is('menu') }]">
-          <div class="pn-hd">
-            <span class="pn-t">{{ t("ly.hdr.menu", "Menu") }}</span>
-            <button :aria-label="t('ly.hdr.closeMenu', 'Close menu')" class="ibtn x" type="button" @click="closeLayer()"><ly-icon name="close" /></button>
+        <!-- The departments panel (the design's menu.html), from the start side. -->
+        <nav id="menu" :aria-label="t('pl.hdr.explore', 'Explore {name}', { name: shopName })" :class="['panel', 'menu', 'pl-menu', { open: is('menu') }]">
+          <div class="pl-menu-hd">
+            <h2><bdi>{{ t("pl.hdr.explore", "Explore {name}", { name: shopName }) }}</bdi></h2>
+            <button :aria-label="t('ly.hdr.closeMenu', 'Close menu')" class="pl-ibtn" type="button" @click="closeLayer()"><ly-icon name="close" /></button>
           </div>
-          <p class="pn-h">{{ t("ly.hdr.collections", "The collections") }}</p>
-          <ul class="pn-list">
-            <li v-for="c in menuCats" :key="c.id">
-              <router-link :to="catTo(c)">
-                <span class="th"><img v-if="topImg(c)" :src="topImg(c)" alt="" loading="lazy" /></span><span><bdi>{{ catTitle(c) }}</bdi></span><ly-icon cls="chev" name="right" />
-              </router-link>
-            </li>
-            <li v-if="menuRest.length">
-              <button :aria-expanded="moreOpen ? 'true' : 'false'" class="pn-more" type="button" @click="moreOpen = !moreOpen">
-                <span class="th"><ly-icon :name="moreOpen ? 'up' : 'down'" /></span
-                ><span>{{ moreOpen ? t("ly.hdr.fewer", "Show fewer") : t("ly.hdr.more", "Show {n} more", { n: menuRest.length }) }}</span>
+          <div class="pl-menu-body">
+            <div class="pl-menu-top">
+              <router-link :to="allTo" class="pl-btn primary">{{ t("pl.hdr.allToys", "Shop all toys") }}</router-link>
+              <router-link :to="dealsTo" class="pl-btn quiet">{{ t("ly.hdr.deals", "Deals") }}</router-link>
+            </div>
+            <ul class="pl-menu-cats">
+              <li v-for="c in menuCats" :key="c.id">
+                <router-link :to="catTo(c)">
+                  <span class="pl-menu-ph"><img v-if="catImg(c)" :src="catImg(c)" alt="" loading="lazy" /></span><span class="pl-menu-name"><bdi>{{ catTitle(c) }}</bdi></span
+                  ><ly-icon cls="pl-fwd" name="chev" />
+                </router-link>
+              </li>
+            </ul>
+            <button v-if="menuRest.length" :aria-expanded="moreOpen ? 'true' : 'false'" class="pl-btn quiet pl-menu-more" type="button" @click="moreOpen = !moreOpen">
+              {{ moreOpen ? t("ly.hdr.fewer", "Show fewer") : t("ly.hdr.more", "Show {n} more", { n: menuRest.length }) }}
+            </button>
+            <div class="pl-menu-links">
+              <router-link :to="blogTo">{{ t("pl.hdr.playGuides", "Play guides") }}</router-link>
+              <router-link :to="savedTo">{{ t("pl.hdr.saved", "Saved toys") }}</router-link>
+              <router-link :to="compareTo">{{ t("pl.hdr.compareToys", "Compare toys") }}</router-link>
+              <router-link :to="faqTo">{{ t("pl.hdr.help", "Help and FAQ") }}</router-link>
+              <router-link :to="accountTo">{{ signedIn ? t("ly.hdr.account", "Account") : t("pl.hdr.signIn", "Sign in") }}</router-link>
+              <button v-if="regionOn" :key="regionKey" aria-controls="langsheet" class="pl-region rs-row" type="button" @click="openLayer('langsheet', $event.currentTarget)">
+                <ly-icon name="globe" /><span dir="ltr">{{ regionShort }}</span>
               </button>
-            </li>
-          </ul>
-          <ul class="pn-list plain">
-            <li>
-              <router-link :to="dealsTo"><span>{{ t("ly.hdr.deals", "Deals") }}</span><ly-icon cls="chev" name="right" /></router-link>
-            </li>
-            <li>
-              <router-link :to="blogTo"><span>{{ t("ly.hdr.journal", "Journal") }}</span><ly-icon cls="chev" name="right" /></router-link>
-            </li>
-            <li>
-              <router-link :to="aboutTo"><span>{{ t("ly.hdr.about", "About") }}</span><ly-icon cls="chev" name="right" /></router-link>
-            </li>
-            <li>
-              <router-link :to="contactTo"><span>{{ t("ly.hdr.contact", "Contact") }}</span><ly-icon cls="chev" name="right" /></router-link>
-            </li>
-            <li>
-              <router-link :to="accountTo"><span>{{ t("ly.hdr.account", "Account") }}</span><ly-icon cls="chev" name="right" /></router-link>
-            </li>
-            <li v-if="regionOn">
-              <button :key="regionKey" aria-controls="langsheet" class="pn-rg rs-row" type="button" @click="openLayer('langsheet', $event.currentTarget)">
-                <span>{{ t("region.title", "Language & currency") }}</span><span class="pn-rg-v" dir="ltr">{{ regionShort }}</span><ly-icon cls="chev" name="right" />
-              </button>
-            </li>
-          </ul>
-          <div class="pn-info">
-            <p v-if="openLine"><ly-icon name="clock" /><span>{{ openLine }}</span></p>
-            <p v-if="facts.address"><ly-icon name="pin" /><span><bdi>{{ facts.address }}</bdi></span></p>
-            <p v-if="facts.phone">
-              <a :href="tel"><ly-icon name="phone" /><span dir="ltr">{{ facts.phone }}</span></a>
-            </p>
+            </div>
           </div>
         </nav>
 
@@ -264,18 +195,17 @@ import LyBagDrawer from "./LyBagDrawer.vue";
 import LyQuickView from "../ui/LyQuickView.vue";
 import RegionChips from "../../region-switcher/RegionChips.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
-import { catalogueRoute, dealsRoute, percentOff } from "../../kalio/kalio-catalog";
+import { catalogueRoute, dealsRoute } from "../../kalio/kalio-catalog";
 import { journalRoute } from "../../kalio/pages/kalio-journal";
 import { currencies, currentCurrency, currentLanguage, hasChoice, isRtl, regionState, showLanguages } from "../../region-switcher/region";
-import { openLine as openLineOf,
-  bySells,
+import {
+  catImage,
   catOf,
   catTitle,
   catTo,
   closeLayer,
   closeOnRoute,
   ly,
-  inCat,
   isModal,
   layer,
   loadDm,
@@ -284,17 +214,10 @@ import { openLine as openLineOf,
   priceView,
   productImage,
   productTo,
-  scrollBehavior,
-  shopFacts,
   toggleLayer,
-  unitOf,
   wireLayers,
 } from "../ly";
 import { t } from "../../kalio/i18n/kalio-i18n";
-import { collectionPhoto } from "../ly-photos";
-
-/* Words that say nothing about a pastry, left out of "Popular". */
-const STOP = new Set(["and", "with", "the", "of", "a", "an", "in", "on", "mini", "classic", "double", "cake", "cakes"]);
 
 export default {
   name: "LyHeader",
@@ -304,14 +227,11 @@ export default {
   },
   emits: ["search", "clear"],
 
-  data: () => ({ q: "", cursor: -1, moreOpen: false, rgpPos: {}, layer, ly, region: regionState }),
+  data: () => ({ q: "", cursor: -1, sug: false, moreOpen: false, fit: 99, rgpPos: {}, layer, ly, region: regionState }),
 
   computed: {
     shop() {
       return this.$store.getters.getShop;
-    },
-    facts() {
-      return shopFacts(this.shop);
     },
     rtl() {
       void this.region.language;
@@ -320,36 +240,23 @@ export default {
     cats() {
       return this.ly.cats;
     },
-    /* The most-ordered collection with its own photo (the Shop menu's feature card); none without a photo. */
-    feature() {
-      const ranked = this.cats
-        .map((c, i) => ({ c, i, sold: inCat(c.id).reduce((s, p) => s + (p.sells || 0), 0) }))
-        .filter((x) => x.sold || inCat(x.c.id).length)
-        .sort((a, b) => b.sold - a.sold || a.i - b.i);
-      const hit = ranked.find((x) => collectionPhoto(x.c));
-      return hit ? hit.c : null;
+    signedIn() {
+      return !!this.$store.getters.getUser;
     },
-    featurePhoto() {
-      return this.feature ? collectionPhoto(this.feature) : null;
+    shopName() {
+      const n = this.shop?.title || "";
+      return n.charAt(0).toUpperCase() + n.slice(1);
     },
-    street() {
-      const p = this.facts.pickupPoint;
-      return p?.address || String(this.facts.address || "").split(",")[0];
-    },
-    /* "Open every day 8:00–18:00" (the counter's days and hours). */
-    openLine() {
-      return openLineOf(this.facts);
-    },
-    tel() {
-      return "tel:" + String(this.facts.phone || "").replace(/[^\d+]/g, "");
-    },
-    /* the Journal link stays lit on a post too (the router marks only the list itself) */
+    /* the Guides link stays lit on a post too */
     onJournal() {
       const r = window.$storefront?.routes || {};
       return [r.BLOGS_PAGE, r.SHOP_BLOG_PAGE, r.SHOP_BLOG_PAGE_SLUG].filter(Boolean).includes(this.$route?.name);
     },
     onDeals() {
       return !!this.$route?.query?.filter && /only_has_discount/.test(String(this.$route.query.filter)) && !this.$route?.params?.category_name;
+    },
+    onCompare() {
+      return this.$route?.name === this.r.COMPARISON_PAGE;
     },
     units() {
       return this.getBaskets().reduce((sum, b) => sum + (b?.items || []).reduce((n, it) => n + (it.count || 0), 0), 0);
@@ -365,7 +272,6 @@ export default {
       void this.shop;
       return hasChoice();
     },
-    /* "EN · USD": the language and the currency, also with one of each. */
     regionShort() {
       void this.region.currency;
       void this.region.language;
@@ -376,54 +282,22 @@ export default {
       void this.shop;
       return showLanguages() ? t("region.title", "Language & currency") : t("region.currency", "Currency");
     },
-    /* The chips say it themselves with one currency ("Prices and totals are
-       in US dollars."); with a choice, that every price follows. */
     regionNote() {
       void this.shop;
       if (currencies().length <= 1 && !showLanguages()) return "";
       return t("region.note", "Prices everywhere change at once: cards, filters, bag and checkout.");
     },
-    shopName() {
-      const n = this.shop?.title || "";
-      return n.charAt(0).toUpperCase() + n.slice(1);
-    },
+    /* The panel: the first 6 departments in the shop's order, "Show N more" past 8. */
     menuCats() {
       return this.cats.length <= 8 || this.moreOpen ? this.cats : this.cats.slice(0, 6);
     },
     menuRest() {
       return this.cats.length <= 8 ? [] : this.cats.slice(6);
     },
-    /* "25% off every piece" / "Up to 30% off", from the live deals. */
-    dealsLine() {
-      const offs = this.ly.products.map((p) => percentOff(this.shop, p)).filter((x) => x > 0);
-      if (!offs.length) return t("ly.hdr.everyPastry", "Every pastry");
-      const max = Math.max(...offs);
-      const every = offs.length === this.ly.products.length && Math.min(...offs) === max;
-      return every ? t("ly.hdr.offEvery", "{off}% off every piece", { off: max }) : t("ly.hdr.offUpTo", "Up to {off}% off", { off: max });
-    },
-    /* "Popular": the words most products share (flavours), from the live catalogue. */
-    popular() {
-      const count = new Map();
-      const catWords = new Set(this.cats.flatMap((c) => catTitle(c).toLowerCase().split(/\s+/)).concat(this.cats.flatMap((c) => catTitle(c).toLowerCase().replace(/s$/, "").split(/\s+/))));
-      for (const p of this.ly.products) {
-        const seen = new Set();
-        for (const w of String(p.title || "").split(/[^\p{L}]+/u)) {
-          const k = w.toLowerCase();
-          if (k.length < 4 || STOP.has(k) || catWords.has(k) || catWords.has(k + "s") || seen.has(k)) continue;
-          seen.add(k);
-          count.set(k, (count.get(k) || 0) + 1);
-        }
-      }
-      return [...count.entries()]
-        .filter(([, n]) => n >= 2)
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-        .slice(0, 4)
-        .map(([w]) => w.charAt(0).toUpperCase() + w.slice(1));
-    },
-    /* "Search croissants, tarts, flavours…" from the shop's own collections. */
+    /* "Search 100 toys, games and kits": the live count of the catalogue. */
     searchPlaceholder() {
-      const names = this.cats.slice(0, 2).map((c) => catTitle(c).toLowerCase());
-      return names.length ? t("ly.hdr.searchPh", "Search {examples}, flavours…", { examples: names.join(", ") }) : t("ly.hdr.searchPh0", "Search the bakery…");
+      const n = this.ly.products.length;
+      return n ? t("pl.hdr.searchPh", { one: "Search {n} toy", other: "Search {n} toys, games and kits" }, { n }) : t("pl.hdr.searchPh0", "Search toys, games and kits");
     },
     query() {
       return this.q.trim();
@@ -456,31 +330,39 @@ export default {
     dealsTo() {
       return dealsRoute();
     },
+    allTo() {
+      return { name: this.r.SHOP_PAGE };
+    },
     blogTo() {
       return journalRoute();
     },
-    aboutTo() {
-      return { name: this.r.SHOP_PROFILE_PAGE_ABOUT_US };
+    compareTo() {
+      return { name: this.r.COMPARISON_PAGE };
     },
-    contactTo() {
-      return { name: this.r.SHOP_CONTACT_US };
+    savedTo() {
+      return { name: this.r.USER_FAVORITES_PAGE };
+    },
+    faqTo() {
+      return this.$router.hasRoute("ShopFAQ") ? { name: "ShopFAQ" } : { name: this.r.SHOP_CONTACT_US };
     },
     accountTo() {
       return { name: "KalioAccountHome" };
-    },
-    orderHref() {
-      return "#selection";
     },
   },
 
   watch: {
     "layer.open"(id) {
-      if (id === "srch") this.$nextTick(() => setTimeout(() => this.$refs.q?.focus({ preventScroll: true }), 60));
       if (id === "rgp") this.$nextTick(() => this.place());
       if (id !== "menu" && id !== "langsheet") this.moreOpen = false;
     },
     query() {
       this.cursor = -1;
+    },
+    cats() {
+      this.$nextTick(() => this.measure());
+    },
+    $route() {
+      this.done();
     },
   },
 
@@ -493,8 +375,11 @@ export default {
   mounted() {
     this.onResize = () => {
       if (this.layer.open === "rgp") this.place();
+      this.measure();
     };
     window.addEventListener("resize", this.onResize, { passive: true });
+    document.fonts?.ready?.then(() => this.measure());
+    this.$nextTick(() => this.measure());
     /* Any part of the page can open the bag. */
     this.openBag = () => openLayer("drawer");
     EventBus.$on("bakini:open-cart", this.openBag);
@@ -514,7 +399,6 @@ export default {
     catTitle,
     catTo,
     catOf,
-    unitOf,
     productTo,
     openLayer,
     closeLayer,
@@ -524,24 +408,36 @@ export default {
     toggle(id, e) {
       toggleLayer(id, e?.currentTarget || null);
     },
-    /* The collection's best seller, as its thumbnail. */
-    topImg(c) {
-      const top = bySells(inCat(c.id))[0];
-      return top ? productImage(top, 128) : null;
+    onCat(c) {
+      return String(this.$route?.params?.category_name || "") === String(c.name || "");
     },
-    /* The collection's lowest price now, in the visitor's currency. */
-    fromPrice(c) {
-      void this.region.currency;
-      const list = inCat(c.id);
-      if (!list.length) return "";
-      return money(Math.min(...list.map((p) => priceView(this.shop, p).now)));
+    catImg(c) {
+      return catImage(c, 128);
     },
     thumb(p) {
       return productImage(p, 128);
     },
-    /* Under the pill, its right edge on the pill's, never within 12px of an edge. */
+    /* As many departments as fit on the row's one line; the rest stay in the panel. */
+    measure() {
+      if (!this.$refs.links) return;
+      this.fit = 999;
+      this.$nextTick(() => {
+        const box = this.$refs.links;
+        const kids = box ? [...box.children] : [];
+        if (!kids.length) return;
+        const top = kids[0].offsetTop;
+        let n = kids.length;
+        for (let i = 0; i < kids.length; i++)
+          if (kids[i].offsetTop > top + 4) {
+            n = i;
+            break;
+          }
+        this.fit = n;
+      });
+    },
+    /* Under the pill, its end edge on the pill's, never within 12px of an edge. */
     place() {
-      const btn = document.querySelector('[aria-controls="rgp"]');
+      const btn = document.querySelector('.pl-nav [aria-controls="rgp"]');
       const el = this.$refs.rgp;
       if (!btn || !el) return;
       const r = btn.getBoundingClientRect();
@@ -549,14 +445,22 @@ export default {
       const left = Math.max(12, Math.min(window.innerWidth - w - 12, r.right - w));
       this.rgpPos = { top: `${r.bottom + 8}px`, left: `${left}px` };
     },
+    onInput(e) {
+      this.q = e.target.value;
+      this.sug = true;
+    },
+    onBlur(e) {
+      if (!this.$refs.sbox?.contains(e.relatedTarget)) this.sug = false;
+    },
+    done() {
+      this.sug = false;
+      this.cursor = -1;
+    },
     move(d) {
       const n = this.hits.length;
       if (!n) return;
+      this.sug = true;
       this.cursor = (this.cursor + d + n) % n;
-    },
-    setQuery(w) {
-      this.q = w;
-      this.$nextTick(() => this.$refs.q?.focus({ preventScroll: true }));
     },
     searchTo(q) {
       return { name: this.r.SHOP_PAGE, query: { search: q } };
@@ -564,22 +468,14 @@ export default {
     submit() {
       if (this.cursor >= 0 && this.hits[this.cursor]) {
         this.$router.push(productTo(this.hits[this.cursor]));
+        this.done();
         return;
       }
       const text = this.query;
-      closeLayer(true);
+      this.done();
+      this.$refs.q?.blur();
       if (!text) return this.$emit("clear");
       this.$emit("search", { search: text, search_type: null });
-    },
-    /* "Order now": today's selection on the home. */
-    orderNow() {
-      closeLayer(true);
-      const go = () => {
-        const el = document.getElementById("selection");
-        if (el) el.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
-      };
-      if (document.getElementById("selection")) return go();
-      this.$router.push({ path: "/" }).then(() => setTimeout(go, 400)).catch(() => {});
     },
     skip() {
       const m = document.getElementById("main") || document.querySelector("main");

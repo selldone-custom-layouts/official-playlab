@@ -569,6 +569,8 @@ export default {
 <style lang="scss" src="./style/ly-sd.scss"></style>
 <style lang="scss" src="./style/ly-layout.scss"></style>
 <style src="./style/ly/variants.css"></style>
+<!-- Play Lab: the approved design's look over the base (style/ly/pl.css), last -->
+<style src="./style/ly/pl.css"></style>
 
 <style lang="scss">
 /*

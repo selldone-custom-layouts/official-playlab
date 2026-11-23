@@ -6,7 +6,7 @@
   the family tint (scripts/skin-apply.mjs refuses two tints side by side).
 -->
 <template>
-  <div class="ly ly-home">
+  <div class="ly ly-home pl-shell pl-home">
     <component :is="s.component" v-for="(s, i) in sections" :key="s.section + '-' + i" :band="s.band" :variant="s.variant" />
   </div>
 </template>
@@ -26,6 +26,15 @@ import SelectionSection from "./sections/SelectionSection.vue";
 import PhotoBand from "./sections/PhotoBand.vue";
 import MarqueeSection from "./sections/MarqueeSection.vue";
 import JournalSection from "./sections/JournalSection.vue";
+import PlStage from "../playlab/home/PlStage.vue";
+import PlDepts from "../playlab/home/PlDepts.vue";
+import PlTrack from "../playlab/home/PlTrack.vue";
+import PlChallenges from "../playlab/home/PlChallenges.vue";
+import PlWorkbench from "../playlab/home/PlWorkbench.vue";
+import PlGear from "../playlab/home/PlGear.vue";
+import PlAges from "../playlab/home/PlAges.vue";
+import PlMatchup from "../playlab/home/PlMatchup.vue";
+import PlGuides from "../playlab/home/PlGuides.vue";
 
 /* section id (sections.json) -> its component; the variant is a prop the component draws */
 const REGISTRY = {
@@ -40,6 +49,15 @@ const REGISTRY = {
   photoband: PhotoBand,
   marquee: MarqueeSection,
   journal: JournalSection,
+  "pl-stage": PlStage,
+  "pl-depts": PlDepts,
+  "pl-track": PlTrack,
+  "pl-challenges": PlChallenges,
+  "pl-workbench": PlWorkbench,
+  "pl-gear": PlGear,
+  "pl-ages": PlAges,
+  "pl-matchup": PlMatchup,
+  "pl-guides": PlGuides,
 };
 
 export default {

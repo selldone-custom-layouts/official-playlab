@@ -14,6 +14,7 @@ import { themeState } from "../theme-switcher/theme-switcher";
 import { THEME_SETTINGS } from "./ly-theme.settings";
 import { family, normalizeHex } from "./ly-family-core";
 import { SKIN } from "./skin.gen";
+import { lyFromPl, plTokens } from "./playlab/pl-tokens";
 
 export { family, contrast, actionPalette, type Family } from "./ly-family-core";
 
@@ -36,10 +37,19 @@ let vuetifyRef: any = null;
 export function paintFamily(): void {
   const root = document.documentElement;
   const dark = root.classList.contains("ly-dark");
-  const all = family(familySeed());
-  const v = dark ? all.dark : all.light;
+  const seed = familySeed();
+  const all = family(seed);
+  /* Play Lab: the design's neutrals (pl-tokens.ts) as --pl-*, and the base's neutrals on them */
+  const preset = Object.values(LY_SEEDS).some((s) => normalizeHex(s) === normalizeHex(seed));
+  const plAll = plTokens(normalizeHex(seed) || BRAND_SEED, preset);
+  const pl = dark ? plAll.dark : plAll.light;
+  const v = { ...(dark ? all.dark : all.light), ...lyFromPl(pl, dark) };
   for (const [k, val] of Object.entries(v)) {
     const name = "--ly-" + k;
+    if (root.style.getPropertyValue(name) !== val) root.style.setProperty(name, val);
+  }
+  for (const [k, val] of Object.entries(pl)) {
+    const name = "--pl-" + k;
     if (root.style.getPropertyValue(name) !== val) root.style.setProperty(name, val);
   }
   const meta = document.querySelector('meta[name="theme-color"]');
@@ -48,7 +58,7 @@ export function paintFamily(): void {
   try {
     const themes = vuetifyRef?.theme?.themes?.value;
     if (themes?.dark) {
-      const d = all.dark;
+      const d = { ...all.dark, ...lyFromPl(plAll.dark, true) };
       Object.assign(themes.dark.colors, {
         background: d.bg,
         surface: d.surface,
@@ -63,8 +73,8 @@ export function paintFamily(): void {
       });
     }
     if (themes?.light) {
-      const l = all.light;
-      Object.assign(themes.light.colors, { background: "#ffffff", surface: "#ffffff", "on-background": l.ink, "on-surface": l.ink, secondary: l.dark, "on-secondary": "#ffffff" });
+      const l = { ...all.light, ...lyFromPl(plAll.light, false) };
+      Object.assign(themes.light.colors, { background: l.bg, surface: l.surface, "on-background": l.ink, "on-surface": l.ink, secondary: l.dark, "on-secondary": "#ffffff" });
     }
   } catch {
     /* Vuetify not ready: the page's own colours are already set */

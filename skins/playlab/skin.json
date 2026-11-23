@@ -125,17 +125,40 @@
   },
   "home": [
     {
-      "section": "hero",
-      "variant": "split"
+      "section": "pl-stage",
+      "variant": "hero"
     },
     {
-      "section": "collections",
-      "variant": "cards"
+      "section": "pl-depts",
+      "variant": "strip"
     },
     {
-      "section": "journal",
-      "variant": "photo",
-      "band": true
+      "section": "pl-track",
+      "variant": "lineup"
+    },
+    {
+      "section": "pl-challenges",
+      "variant": "missions"
+    },
+    {
+      "section": "pl-workbench",
+      "variant": "feature"
+    },
+    {
+      "section": "pl-gear",
+      "variant": "row"
+    },
+    {
+      "section": "pl-ages",
+      "variant": "levels"
+    },
+    {
+      "section": "pl-matchup",
+      "variant": "compare"
+    },
+    {
+      "section": "pl-guides",
+      "variant": "list"
     }
   ],
   "photos": {
