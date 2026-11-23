@@ -1,0 +1,185 @@
+{
+  "$schema": "../../skin.schema.json",
+  "name": "playlab",
+  "package": "play-lab-toy-store",
+  "title": "Play Lab Toy Store",
+  "description": "A dark, sporty Layout for a toy shop, built like a workshop catalogue. A header with a square glyph and a condensed upper-case wordmark, a wide search, saved, account and a Bag button, over a row with Departments, the shop's first departments, Deals, Compare, Guides and the language and currency. The home: a full-width photo stage with a giant italic Barlow Condensed line, a strip of department buttons, a lineup of wide list cards, three challenge tiles from the shop's departments, a photo feature with an italic headline, a row of cards, Shop by age built from the toys' real Suggested Age, a side-by-side comparison teaser and the newest guides. A catalogue with a lead panel and its own search, a department rail, a toolbar with List and Grid views, Filters in a side sheet built from the real specification and wide list cards or a five-column grid; a product page with a gallery and thumbnails, the toy's own facts, a buy panel with an Add to bag control that turns into a counter, its specification in the shop's groups and honest reviews; compare side by side, saved toys, quick view, a bag drawer, the bag, a three-step checkout with the address sheet and map, the payment window, the order page with its messages, the account, the guides, About, Terms, Privacy, Contact, FAQ and a 404. One colour family from the chosen palette (Deep teal by default; Forest, Cobalt, Berry or any colour), dark by default with a light mode from the footer's Theme row; Barlow Condensed over DM Sans, 10 px panels and 6 px controls. English and Arabic, right to left.",
+  "summary": "Toys in a dark workshop dress: square glyph and condensed wordmark, a photo stage, department strips, wide list cards with specs, challenge tiles, shop by age from the real specification, filters in a side sheet, a buy panel and the whole bag and checkout.",
+  "tagline": "Play in motion.",
+  "kind": "Toys · single shop",
+  "tags": [
+    "toys",
+    "kids",
+    "sport",
+    "single-vendor",
+    "dark",
+    "rtl"
+  ],
+  "shop": {
+    "name": "toychi",
+    "id": 16144,
+    "xapi": "toychi-KX4iQgu0",
+    "domain": "playlab.selldone.shop",
+    "currency": "USD",
+    "country": "US",
+    "language": "en"
+  },
+  "github": {
+    "org": "selldone-custom-layouts",
+    "repo": "official-playlab",
+    "topics": [
+      "selldone",
+      "selldone-layout",
+      "storefront",
+      "vue",
+      "toys",
+      "kids"
+    ]
+  },
+  "dev": {
+    "port": 9177
+  },
+  "checks": {
+    "product": "741339",
+    "product2": "741340",
+    "category": "/cars-trains-vehicles-category",
+    "search": "wood",
+    "article": "",
+    "compare": "p741339_p741340_p741333",
+    "i18nIgnore": "Cash on delivery|Worldwide shipping"
+  },
+  "palettes": {
+    "brand": "deep-teal",
+    "mode": "dark",
+    "list": [
+      {
+        "id": "deep-teal",
+        "name": "Deep teal",
+        "seed": "#116f78"
+      },
+      {
+        "id": "forest",
+        "name": "Forest",
+        "seed": "#237151"
+      },
+      {
+        "id": "cobalt",
+        "name": "Cobalt",
+        "seed": "#365bb3"
+      },
+      {
+        "id": "berry",
+        "name": "Berry",
+        "seed": "#9c355a"
+      }
+    ],
+    "showcaseShops": [
+      {
+        "id": 15740,
+        "name": "bakio"
+      },
+      {
+        "id": 15549,
+        "name": "digini-hzgablru"
+      },
+      {
+        "id": 15645,
+        "name": "molino"
+      },
+      {
+        "id": 16144,
+        "name": "toychi"
+      }
+    ]
+  },
+  "fonts": {
+    "display": {
+      "family": "Barlow Condensed",
+      "google": "Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800",
+      "stack": "\"Barlow Condensed\", \"Noto Kufi Arabic\", \"Arial Narrow\", Impact, sans-serif"
+    },
+    "text": {
+      "family": "DM Sans",
+      "google": "DM+Sans:opsz,wght@9..40,400..800",
+      "stack": "\"DM Sans\", \"Noto Sans Arabic\", \"Segoe UI\", system-ui, sans-serif"
+    },
+    "headingWeight": 800
+  },
+  "shape": {
+    "panel": 10,
+    "inner": 6
+  },
+  "wordmark": {
+    "case": "upper",
+    "italic": false,
+    "dot": true,
+    "sub": "PLAY LAB",
+    "font": "display",
+    "weight": 800,
+    "tracking": "-.04em",
+    "size": 44
+  },
+  "basket": {
+    "one": "bag",
+    "many": "bags"
+  },
+  "home": [
+    {
+      "section": "hero",
+      "variant": "split"
+    },
+    {
+      "section": "collections",
+      "variant": "cards"
+    },
+    {
+      "section": "journal",
+      "variant": "photo",
+      "band": true
+    }
+  ],
+  "photos": {
+    "hero": {
+      "size": [
+        1500,
+        1000
+      ],
+      "art": "none",
+      "note": "a child driving a remote-controlled buggy on a dirt track; the home's photo stage (calm left side for the big words)"
+    },
+    "workbench": {
+      "size": [
+        1320,
+        990
+      ],
+      "art": "none",
+      "note": "kids assembling a colourful marble run at a workbench; the home's photo feature"
+    },
+    "feature": {
+      "size": [
+        1500,
+        1000
+      ],
+      "art": "none",
+      "note": "children playing ring toss outdoors; the guides' lead and About"
+    },
+    "collections": {
+      "size": [
+        900,
+        1200
+      ],
+      "pattern": "col-<slug of the collection title>"
+    }
+  },
+  "loading": {
+    "art": "none"
+  },
+  "splash": {
+    "art": "none"
+  },
+  "photoCredit": "The three photos are the approved Play Lab design's own lifestyle photos (Toychi Layout Mockups, shared/art).",
+  "words": {
+    "en": {},
+    "ar": {}
+  }
+}

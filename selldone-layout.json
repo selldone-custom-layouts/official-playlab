@@ -1,0 +1,29 @@
+{
+  "name": "Play Lab Toy Store",
+  "shop": "toychi",
+  "kind": "Toys · single shop",
+  "summary": "Toys in a dark workshop dress: square glyph and condensed wordmark, a photo stage, department strips, wide list cards with specs, challenge tiles, shop by age from the real specification, filters in a side sheet, a buy panel and the whole bag and checkout.",
+  "live": "https://playlab.selldone.shop",
+  "cover": "docs/screenshots/cover.jpg",
+  "screenshots": [
+    "docs/screenshots/desktop-home.jpg",
+    "docs/screenshots/desktop-category.jpg",
+    "docs/screenshots/desktop-product.jpg",
+    "docs/screenshots/desktop-cart.jpg",
+    "docs/screenshots/phone-home.jpg",
+    "docs/screenshots/phone-category.jpg",
+    "docs/screenshots/phone-product.jpg",
+    "docs/screenshots/phone-cart.jpg"
+  ],
+  "tags": [
+    "toys",
+    "kids",
+    "sport",
+    "single-vendor",
+    "dark",
+    "rtl"
+  ],
+  "package": "play-lab-toy-store",
+  "base": "selldone/storefront",
+  "status": "draft"
+}
