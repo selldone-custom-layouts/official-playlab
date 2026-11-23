@@ -164,7 +164,7 @@ html, body, html .v-application.s--shop, html .v-application .v-main { backgroun
 .pl-legal nav { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; }
 .pl-legal a { border-radius: var(--pl-inner); color: var(--pl-muted); }
 .pl-legal a:hover { color: var(--pl-accent); }
-.pl-legal .ly-gdpr, .pl-legal .ly-gdpr * { font-size: .78rem !important; color: var(--pl-muted) !important; }
+html .ly .pl-legal .ly-gdpr, html .ly .pl-legal .ly-gdpr * { font-size: .78rem !important; color: var(--pl-muted) !important; opacity: 1 !important; }
 .pl-legal .ly-social { display: inline-flex; }
 .pl-legal .ly-made { display: inline-flex; align-items: center; transform: scale(.9); transform-origin: right center; }
 
@@ -255,7 +255,7 @@ html .ly .pl-card-tools .pc-qv { position: static; inset: auto; border-radius: v
 .pl-stage { position: relative; isolation: isolate; min-height: 530px; color: var(--pl-stage-ink); background: var(--pl-stage-base); display: grid; align-items: center; container: plstage / inline-size; overflow: hidden; }
 .pl-stage-photo { position: absolute; inset: 0 0 0 24%; z-index: -2; overflow: hidden; }
 .pl-stage-photo:dir(rtl) { inset: 0 24% 0 0; }
-.pl-stage-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 55% 42%; }
+.pl-stage-photo img { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; object-position: 55% 42%; }
 .pl-stage-photo:dir(rtl) img { transform: scaleX(-1); }
 .pl-stage::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--pl-stage-base) 24%, color-mix(in srgb, var(--pl-stage-base) 95%, transparent) 34%, color-mix(in srgb, var(--pl-stage-base) 60%, transparent) 50%, transparent 75%); }
 .pl-stage:dir(rtl)::before { background: linear-gradient(270deg, var(--pl-stage-base) 24%, color-mix(in srgb, var(--pl-stage-base) 95%, transparent) 34%, color-mix(in srgb, var(--pl-stage-base) 60%, transparent) 50%, transparent 75%); }
@@ -420,7 +420,7 @@ html .ly .pl-card-tools .pc-qv { position: static; inset: auto; border-radius: v
 }
 @media (max-width: 1090px) {
   .pl-mast { min-height: 70px; gap: 11px; }
-  .pl-nav-end { display: none; }
+  .pl-nav-end > a { display: none; }
   .pl-stage { min-height: 445px; }
   .pl-footer-main { grid-template-columns: minmax(0, 1fr) minmax(0, .85fr) auto; }
 }
@@ -537,7 +537,7 @@ html .ly .pl-card-tools .pc-qv { position: static; inset: auto; border-radius: v
 .pl-main-photo { position: relative; aspect-ratio: 1.46; padding: 15px; border-radius: var(--pl-panel); }
 .pl-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 9px; }
 .pl-thumbs button { min-width: 0; border: 1px solid var(--pl-line); border-radius: var(--pl-inner); padding: 4px; aspect-ratio: 1.1; background: var(--pl-media); overflow: hidden; cursor: pointer; }
-.pl-thumbs button[aria-pressed=true] { border-color: var(--pl-ring); background: var(--pl-tint); box-shadow: inset 0 0 0 1px var(--pl-ring); }
+.pl-thumbs button[aria-pressed=true] { border-color: var(--pl-ring); box-shadow: inset 0 0 0 2px var(--pl-ring); }
 .pl-thumbs img { width: 100%; height: 100%; object-fit: contain; }
 .pl-product-side { display: grid; gap: 17px; min-width: 0; }
 .pl-product-intro { min-width: 0; }
@@ -721,3 +721,68 @@ html .ly .qlink { color: var(--pl-accent); }
 html .ly .qlink:hover { color: var(--pl-ink); }
 /* the base's line drawings are a bakery's: none in Play Lab (an empty cover keeps its plain plate) */
 html .ly :is(.art, svg.draw) { display: none !important; }
+
+/* ───────── bag, checkout, order, account, sheets: the design's panels (commerce.css) on the base's flows ───────── */
+html .ly :is(.cr, .cart-sum, .cdlv, .co-c, .co-sum, .od-c, .oc, .acc-nav, .chat, .ol-a, .prof, .addr-card, .pk-card, .ct-f, .ci-c, .faq-ct, .toc-d, .auth, .dl, .pm, .revs, .crit) {
+  background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line);
+}
+html .ly .md-card { background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly :is(.cart-sum, .co-sum) { box-shadow: inset 0 0 0 1px var(--pl-line), inset 0 4px 0 var(--pl-action); }
+html .ly :is(.co-c, .cdlv) .mc, html .ly .pm { background: var(--pl-surface); box-shadow: inset 0 0 0 1px var(--pl-line); border-radius: var(--pl-inner); }
+html .ly :is(.co-c, .cdlv) .mc:has(.rdo:checked), html .ly .pm:has(.rdo:checked) { background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-ring); }
+html .ly .mc-ic { background: var(--pl-tint) !important; color: var(--pl-accent) !important; border-radius: 50%; }
+/* the checkout's cards without the outlined numerals (the design has none) */
+html .ly .co-c { grid-template-columns: minmax(0, 1fr); padding: clamp(16px, 2.2cqw, 28px); }
+html .ly .co-c .numeral { display: none; }
+html .ly :is(.co-h, .rc-h, .od-c .co-h, .chat-h, .acc-h, .oc-h) { font: 800 clamp(1.5rem, 2.2vmin + 1rem, 1.9rem)/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; color: var(--pl-ink); }
+/* the steps: numbered circles joined by a line (the design's .steps) */
+html .ly .steps { justify-content: flex-start; flex-wrap: nowrap; gap: 0; max-inline-size: 620px; margin-top: 12px; }
+html .ly .step { flex: 1; min-width: 0; padding: 0 !important; background: none !important; box-shadow: none !important; color: var(--pl-muted); font: 700 14px/1.2 var(--pl-body); letter-spacing: 0; text-transform: none; }
+html .ly .step:last-child { flex: none; }
+html .ly .step::after { content: ""; flex: 1; min-inline-size: 14px; block-size: 2px; margin-inline: 10px; border-radius: 2px; background: var(--pl-line); }
+html .ly .step:last-child::after { display: none; }
+html .ly .step.done::after { background: var(--pl-accent); }
+html .ly .step .st-ic { width: 28px; height: 28px; box-shadow: inset 0 0 0 1.5px var(--pl-line) !important; background: var(--pl-surface) !important; color: var(--pl-muted) !important; }
+html .ly .step.done, html .ly .step.cur { color: var(--pl-ink); }
+html .ly .step.done .st-ic { background: var(--pl-accent) !important; color: var(--pl-surface) !important; box-shadow: none !important; }
+html .ly .step.cur .st-ic { color: var(--pl-accent) !important; box-shadow: inset 0 0 0 1.5px var(--pl-accent), 0 0 0 3px var(--pl-tint) !important; }
+/* bag lines: one panel per line, the photo on the design's light box */
+html .ly .cr { padding: 12px; }
+html .ly .cr .cr-pl, html .ly .cs-pl, html .ly .mini-th { border-radius: var(--pl-inner); }
+html .ly .cr .cr-n { font: 800 1.25rem/1.05 var(--pl-display); text-transform: uppercase; }
+html .ly :is(.cr-q, .lqb, .qb) { border-radius: var(--pl-inner); }
+/* receipt rows */
+html .ly .rc-s, html .ly .tot { border-color: var(--pl-line); }
+/* the account's rail and order cards */
+html .ly .acc-nav a[aria-current], html .ly .acc-nav .on { background: var(--pl-tint); color: var(--pl-ink); border-radius: var(--pl-inner); }
+/* chat bubbles */
+html .ly .msg { border-radius: var(--pl-inner); }
+html .ly .msg.me { background: var(--pl-tint); color: var(--pl-ink); }
+/* fields of the base and Selldone's forms on the design's 6px controls */
+html .ly :is(.fld input, .fld textarea, .fld select, .ff input, .ff textarea, .ff select) { border-radius: var(--pl-inner); }
+/* the bag drawer */
+html .ly #drawer.panel { border-start-start-radius: var(--pl-panel); border-end-start-radius: var(--pl-panel); box-shadow: inset 1px 0 0 var(--pl-line); }
+html .ly #drawer .pn-hd .pn-t, html .ly #drawer h2 { font: 800 1.9rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
+/* quick view */
+html .ly #qv .md-card { border-radius: var(--pl-panel); }
+/* FAQ: the questions in one panel, rows joined by lines (the design's .faq-stack) */
+html .ly .faq-l { background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); padding: clamp(14px, 2cqw, 28px); }
+html .ly .faq-l .qa { background: none; box-shadow: none; border-radius: 0; border-top: 1px solid var(--pl-line); }
+html .ly .faq-l .fq:first-child .qa:first-of-type { border-top: 0; }
+html .ly .fq-h { font: 800 1.4rem/1 var(--pl-display); text-transform: uppercase; }
+html .ly .qa summary { font-weight: 750; }
+/* article (a guide): the design's article-body */
+html .ly :is(.post-h, .art-h, .bv-h) { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0; }
+/* the bag drawer (the design's drawer): the title in condensed capitals, lines on the light photo box, a quiet summary */
+html .ly #drawer .pn-t { font: 800 1.9rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
+html .ly #drawer .dw-h { font: 800 1.3rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
+html .ly #drawer .dw-list > li { border-color: var(--pl-line); }
+html .ly #drawer .dw-n { font-weight: 750; }
+html .ly #drawer .dw-sum { background: var(--pl-wash); border-radius: var(--pl-inner); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly #drawer .qb, html .ly .cr .qb { box-shadow: inset 0 0 0 1px var(--pl-line); border-radius: var(--pl-inner); background: var(--pl-surface); }
+/* the quick view card (the design's quick-product): photo beside the words */
+html .ly #qv .qv-pl { border-radius: var(--pl-inner); }
+html .ly #qv .pc-c { font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em; color: var(--pl-accent); }
+
+/* a link keeps one shape, focused or not (shape-check: no corner that appears only on focus) */
+html .ly :is(a, summary, .ch-n, .cf-a) { border-radius: var(--pl-inner); }

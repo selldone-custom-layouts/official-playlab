@@ -354,7 +354,10 @@ export const SKIN = {
       "ly.hdr.journal": "Guides",
       "ly.ls.fromJournal": "From the play guides",
       "ly.rd.qAllergens": "Ages and safety",
-      "ly.rd.post": "Guide"
+      "ly.rd.post": "Guide",
+      "ly.co.receipt": "Order summary",
+      "ly.co.yourOrder": "Order summary",
+      "ly.rd.faqT": "Help and FAQ"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -629,7 +632,10 @@ export const SKIN = {
       "ly.hdr.journal": "الأدلة",
       "ly.ls.fromJournal": "من أدلة اللعب",
       "ly.rd.qAllergens": "الأعمار والسلامة",
-      "ly.rd.post": "دليل"
+      "ly.rd.post": "دليل",
+      "ly.co.receipt": "ملخص الطلب",
+      "ly.co.yourOrder": "ملخص الطلب",
+      "ly.rd.faqT": "المساعدة والأسئلة الشائعة"
     }
   }
 } as const;

@@ -10,11 +10,11 @@
       <img v-if="photo" :alt="t('pl.home.stageAlt', 'A child racing a toy car outdoors')" :src="photo" decoding="async" fetchpriority="high" />
     </div>
     <div class="pl-wrap pl-stage-inner">
-      <div class="pl-stage-copy">
-        <h1 id="pl-stage-h">
-          <span>{{ t("pl.home.stageH1", "Play") }}</span> <span>{{ t("pl.home.stageH2", "in motion.") }}</span>
+      <div class="pl-stage-copy" data-over-photo>
+        <h1 id="pl-stage-h" data-over-photo>
+          <span data-over-photo>{{ t("pl.home.stageH1", "Play") }}</span> <span data-over-photo>{{ t("pl.home.stageH2", "in motion.") }}</span>
         </h1>
-        <p>{{ t("pl.home.stageP", "Go from the starting line to the workbench with toys for racing, building and taking things outside.") }}</p>
+        <p data-over-photo>{{ t("pl.home.stageP", "Go from the starting line to the workbench with toys for racing, building and taking things outside.") }}</p>
         <div>
           <router-link v-if="lead" :to="catTo(lead)" class="pl-btn primary"><bdi>{{ t("pl.home.shopDept", "Shop {name}", { name: catTitle(lead) }) }}</bdi></router-link>
           <router-link :to="allTo" class="pl-btn quiet">{{ t("pl.home.allGear", "All toys") }}</router-link>

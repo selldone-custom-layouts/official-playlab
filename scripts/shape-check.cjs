@@ -26,7 +26,17 @@ const PAGES = (process.env.PAGES || "home=/,category=/croissants-category,produc
   });
 const WIDTHS = (process.env.WIDTHS || "1440,1100,390").split(",").map(Number);
 const VERBOSE = !!process.env.V;
-const SCALE = [8, 4];
+/* the skin's panel and inner radius (skins/<name>/skin.json shape) */
+const SCALE = (() => {
+  try {
+    const dir = require("path").join(__dirname, "..", "skins");
+    const name = require("fs").readdirSync(dir).find((d) => require("fs").existsSync(require("path").join(dir, d, "skin.json")));
+    const sh = JSON.parse(require("fs").readFileSync(require("path").join(dir, name, "skin.json"), "utf8")).shape;
+    return [sh.panel, sh.inner];
+  } catch {
+    return [8, 4];
+  }
+})();
 
 /* runs in the page: every edge on the scale; nothing past the window */
 function audit(SCALE) {
