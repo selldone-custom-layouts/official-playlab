@@ -35,7 +35,7 @@
         >
           <ly-icon name="heart" />
         </button>
-        <button :aria-label="t('ly.card.quick', 'Quick view: {name}', { name: product.title })" :title="t('pl.card.quickT', 'Quick view')" aria-controls="qv" class="pl-ibtn" type="button" @click="quick($event)">
+        <button :aria-label="t('ly.card.quick', 'Quick view: {name}', { name: product.title })" :title="t('pl.card.quickT', 'Quick view')" aria-controls="qv" class="pl-ibtn pc-qv" type="button" @click="quick($event)">
           <ly-icon name="grid" />
         </button>
       </div>

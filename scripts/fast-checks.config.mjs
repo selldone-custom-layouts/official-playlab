@@ -82,9 +82,9 @@ const runs = [
   { name: "contrast-signin-light", check: "contrast", theme: LIGHT, pages: pages("home=/"), open: OPEN_SIGNIN },
   { name: "contrast-ar", check: "contrast", lang: "ar", pages: pages(PAGES_MAIN) },
   { name: "contrast-ar-dark", check: "contrast", lang: "ar", theme: DARK, pages: pages(PAGES_MAIN) },
-  { name: "cart-dark", check: "cart", theme: DARK, env: { SHOP, WAIT: ".ly .ftr", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "dark"] },
-  { name: "cart-light", check: "cart", theme: LIGHT, env: { SHOP, WAIT: ".ly .ftr", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "light"] },
-  { name: "currency", check: "currency", widths: W3, env: { WIDTHS: "1440,1024,390", SHOP, MENU: ".menu-btn", MEGA: "[aria-controls=dd-shop]", CART: ".bag-btn >> visible=true", CATEGORY: CAT, DEALS } },
+  { name: "cart-dark", check: "cart", theme: DARK, env: { SHOP, WAIT: ".ly .pl-footer", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "dark"] },
+  { name: "cart-light", check: "cart", theme: LIGHT, env: { SHOP, WAIT: ".ly .pl-footer", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "light"] },
+  { name: "currency", check: "currency", widths: W3, env: { WIDTHS: "1440,1024,390", SHOP, MENU: ".menu-btn", MEGA: ".pl-dept-btn", CART: ".bag-btn >> visible=true", CATEGORY: CAT, DEALS } },
   { name: "box-dark", check: "box", theme: DARK, widths: [...W3, ...WIDE], pages: pages(BOX_PAGES, "first"), states: true },
   { name: "box-light", check: "box", theme: LIGHT, widths: [...W3, ...WIDE], pages: pages(BOX_PAGES, "first"), states: true },
   { name: "box-ar", check: "box", lang: "ar", widths: widths("1440,390"), pages: pages(BOX_PAGES, "first"), states: false },
@@ -109,7 +109,7 @@ export default {
   name: FC.title,
   base: BASE,
   /* something every page shows once the Layout has drawn */
-  wait: FC.wait,
+  wait: ".ly .pl-footer",
   /* the Layout's root (the focus audit's controls live under it: shape-check.cjs) */
   root: FC.root,
   themeKey: SK,
@@ -130,25 +130,24 @@ export default {
     shape: path.join(ROOT, "scripts/shape-check.cjs"),
     underline: path.join(ROOT, "scripts/underline-check.cjs"),
   },
-  box: { mega: "[aria-controls=dd-shop]", quick: ".pc-qv", category: CAT },
+  box: { mega: ".pl-dept-btn", quick: ".pc-qv", category: CAT },
   shape: {
     states(label, w) {
       const s = [];
       if (w < 980) s.push(["menu", ".menu-btn"]);
       else {
-        s.push(["shop-menu", "[aria-controls=dd-shop]"]);
-        s.push(["region", ".rg-pill"]);
+        s.push(["shop-menu", ".pl-dept-btn"]);
+        s.push(["region", ".pl-nav [aria-controls=rgp]"]);
       }
-      s.push(["search", "[aria-controls=srch]"]);
       if (label === "home" || label === "category") s.push(["bag", ".bag-btn"]);
       if (label === "category") {
-        if (w < 1200) s.push(["filter-sheet", ".fbtn"]);
+        s.push(["filter-sheet", ".fbtn"]);
         s.push(["quick", ".pc-qv"]);
       }
       if (label === "account") s.push(["signin", "@signin"]);
       return s;
     },
-    scopes: { menu: "#menu", "shop-menu": "#dd-shop", region: "#rgp", search: "#srch", bag: "#drawer", "filter-sheet": ".fp.panel", quick: "#qv", signin: "#loginm" },
+    scopes: { menu: "#menu", "shop-menu": "#menu", region: "#rgp", bag: "#drawer", "filter-sheet": ".pl-filters.panel", quick: "#qv", signin: "#loginm" },
     signin: () => {
       const b = [...document.querySelectorAll(".acc-nav button, .ly button")].find((x) => /sign in/i.test(x.textContent));
       if (!b) return false;

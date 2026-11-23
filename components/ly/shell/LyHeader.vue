@@ -27,7 +27,7 @@
             :aria-expanded="is('menu') ? 'true' : 'false'"
             :aria-label="t('ly.hdr.menu', 'Menu')"
             aria-controls="menu"
-            class="pl-ibtn pl-menu-btn"
+            class="pl-ibtn pl-menu-btn menu-btn"
             type="button"
             @click="toggle('menu', $event)"
           >
@@ -82,7 +82,7 @@
             :aria-expanded="is('drawer') ? 'true' : 'false'"
             :aria-label="t('pl.hdr.bagAria', { one: 'Bag, {n} item', other: 'Bag, {n} items' }, { n: units })"
             aria-controls="drawer"
-            class="pl-bag-btn"
+            class="pl-bag-btn bag-btn"
             type="button"
             @click="toggle('drawer', $event)"
           >

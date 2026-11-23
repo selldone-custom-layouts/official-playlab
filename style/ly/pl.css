@@ -190,7 +190,8 @@ html, body, html .v-application.s--shop, html .v-application .v-main { backgroun
 .pl-media img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .pl-card-tools { position: absolute; inset: 6px 6px auto auto; display: flex; gap: 4px; }
 .pl-card-tools:dir(rtl) { inset: 6px auto auto 6px; }
-.pl-card-tools .pl-ibtn { width: 34px; min-height: 34px; flex-basis: 34px; }
+.pl-card-tools .pl-ibtn { width: 34px; min-height: 34px; height: auto; flex-basis: 34px; }
+html .ly .pl-card-tools .pc-qv { position: static; inset: auto; border-radius: var(--pl-inner); background: var(--pl-surface); color: var(--pl-ink); display: inline-flex; }
 .pl-card-tools .i { width: 16px; height: 16px; }
 .pl-off { position: absolute; inset: 6px auto auto 6px; display: grid; place-items: center; min-height: 26px; padding: 2px 8px; border-radius: var(--pl-inner); background: var(--pl-action); color: var(--pl-on-action); font-size: .74rem; font-weight: 800; }
 .pl-off:dir(rtl) { inset: 6px 6px auto auto; }
