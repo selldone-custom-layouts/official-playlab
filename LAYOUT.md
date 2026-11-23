@@ -14,9 +14,32 @@
 
 ## Home
 
-1. **hero** (split): The shop's name and line on the left; the counter photo bleeding to the right edge of the frame, a framed inset across the seam with the best seller, the three most-ordered collections set large on the photo's dark corner (from Pralino).
-2. **collections** (cards): The same four as a 2 × 2 grid of cards, the photo on top inside the card (Domino).
-3. **journal** (photo, tint band): The four newest posts beside a tall photo with the big word 'Journal' (from Pralino; best last).
+The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part from the shop's live data
+(`components/ly/playlab/home/`, picks in `pl-home.ts`: departments ranked by pieces sold, the shop's order on a tie):
+
+1. **pl-stage**: the `hero` photo on the stage's near-black of the palette's hue, the giant italic line, the lead department and All toys.
+2. **pl-depts**: Departments, a button for each department with products, then All toys.
+3. **pl-track**: the lead department's two most-sold toys as wide list cards ("<department> lineup").
+4. **pl-challenges**: Pick a challenge, the next three departments with their own image and description.
+5. **pl-workbench**: the `workbench` photo beside the tinted panel ("What will it do?") with the middle department's button.
+6. **pl-gear**: four toys of the next department.
+7. **pl-ages**: Shop by age, every age the toys' own specification names (Suggested Age and the like), youngest first, in even rows.
+8. **pl-matchup**: the lineup's two toys side by side with Compare these toys.
+9. **pl-guides**: the four newest blog posts as guide cards.
+
+## What Play Lab replaces in the base
+
+| Part | Where |
+| --- | --- |
+| Colours | `components/ly/playlab/pl-tokens.ts` (the design's OKLCH steps from the palette's hue, as hex) written by `ly-family.ts` as `--pl-*`, the base's neutrals mapped onto them |
+| Look | `style/ly/pl.css` (loaded last) |
+| Header, departments panel, footer | `components/ly/shell/LyHeader.vue`, `LyFooter.vue` |
+| Card and add control | `components/ly/ui/LyCard.vue`, `LyAdd.vue`, `product/LyPdAdd.vue` |
+| Catalogue (all toys, department, search, deals, `?age=`) | `components/ly/shop/LyListing.vue` |
+| Product page | `components/ly/product/LyProductOverview.vue`, `LyProductTabs.vue`, `pages/product/StorefrontPageProduct.vue` |
+| Guides, About, 404 | `pages/blog/list/`, `pages/official/about-us/`, `pages/errors/404/` |
+| Words | `skins/playlab/skin.json` words.en / words.ar (the base's bakery words for a toy shop, Play Lab's own words in Arabic) |
+| Loading screen | `scripts/loading/config.json` → `scripts/loading/out/loading.json` (`test-loading.cjs` TOTAL 0) |
 
 ## Photos
 

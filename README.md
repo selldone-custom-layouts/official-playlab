@@ -48,9 +48,15 @@ Everything is read live from the shop: its title (drawn as the wordmark), collec
 
 | # | Section | Variant | What it shows |
 | --- | --- | --- | --- |
-| 1 | `hero` | `split` | The shop's name and line on the left; the counter photo bleeding to the right edge of the frame, a framed inset across the seam with the best seller, the three most-ordered collections set large on the photo's dark corner (from Pralino). |
-| 2 | `collections` | `cards` | The same four as a 2 × 2 grid of cards, the photo on top inside the card (Domino). |
-| 3 | `journal` | `photo` | The four newest posts beside a tall photo with the big word 'Journal' (from Pralino; best last). |
+| 1 | `pl-stage` | `hero` | The photo to the frame edges on the stage near-black of the hue, a giant italic condensed line, a sentence, the lead department and All toys (Play Lab). |
+| 2 | `pl-depts` | `strip` | Departments and a button for each department with products, then All toys, on the wash band (Play Lab). |
+| 3 | `pl-track` | `lineup` | The lead department two most-sold toys as wide list cards (Play Lab). |
+| 4 | `pl-challenges` | `missions` | Pick a challenge: three departments as wide tiles with their own image (Play Lab). |
+| 5 | `pl-workbench` | `feature` | The workbench photo beside a tinted panel with a giant italic line and the department button (Play Lab). |
+| 6 | `pl-gear` | `row` | Four toys of the next department as cards (Play Lab). |
+| 7 | `pl-ages` | `levels` | Shop by age from the toys own specification, youngest first, in even rows (Play Lab). |
+| 8 | `pl-matchup` | `compare` | The comparison teaser: the lineup two toys side by side and Compare these toys (Play Lab). |
+| 9 | `pl-guides` | `list` | The four newest posts as wide guide cards (Play Lab). |
 
 A section the shop has no data for hides itself; tint bands alternate with white.
 
