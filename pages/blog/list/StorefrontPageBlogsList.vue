@@ -1,73 +1,58 @@
 <!--
-  The journal (design/blog-b.html, pages-read.js blog,
-  nicdark's classic list): the title band ("The <shop> journal" and a
-  line), the newest post as a wide featured card ("Newest post", its date,
-  title and description, "Read the post"), then "Every post" with a search
-  field (Selldone's own search, by the address's ?search=) and the others
-  in a grid of journal cards. Whatever posts the shop has, newest first;
-  "More posts" reads the next page. A topic, tag, author or search narrows
-  the list and says so in the band. No posts: the mockup's empty card.
+  Play Lab's guides (the approved design's labBlog(), play-lab.css .lab-blog*): the breadcrumb; the lead panel
+  ("Play guides", one line, a button to the newest guide, the skin's "feature" photo); then "Browse by activity"
+  (All guides and the shop's own blog topics) beside every guide as a wide card (its date, title, its own line,
+  "Get the guide", its own cover). Whatever posts the shop has, newest first; "More guides" reads the next page.
+  A topic, tag, author or search narrows the list and says so. No posts: an honest empty card.
 -->
 <template>
-  <div class="ly ly-journal">
-    <ly-pt :crumbs="crumbs" :lead="lede" :title="heading" art="whisk" art2="cookie" cls="compact" />
-    <section :aria-label="t('ly.rd.posts', 'Posts')" class="sec-s">
-      <div class="wrap">
-        <article v-if="feature" class="bf">
-          <router-link :to="postRoute(feature)" aria-hidden="true" class="bf-ph" tabindex="-1">
-            <img v-if="feature.image" :src="image(feature)" :srcset="srcset(feature)" alt="" height="1000" sizes="(max-width: 760px) 92vw, 760px" width="1600" @error="dropSrcset" />
-            <ly-art v-else name="whisk" wrap="ly-bc-art" />
-          </router-link>
-          <div class="bf-tx">
-            <p class="eyebrow">{{ t("ly.rd.newest", "Newest post") }}</p>
-            <p v-if="feature.created_at" class="p-m">
-              <ly-icon name="cal" /><time :datetime="feature.created_at">{{ fmtDate(feature.created_at) }}</time>
-            </p>
-            <h2 class="bf-t">
-              <router-link :to="postRoute(feature)">{{ feature.title }}</router-link>
-            </h2>
-            <p v-if="feature.description" class="bf-d">{{ feature.description }}</p>
-            <router-link :to="postRoute(feature)" class="btn sm">{{ t("ly.rd.readPost", "Read the post") }}</router-link>
+  <div class="ly ly-journal pl-shell pl-blog">
+    <div class="pl-wrap">
+      <nav :aria-label="t('ly.pt.crumbs', 'Breadcrumb')" class="pl-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("ly.pt.home", "Home") }}</router-link><ly-icon cls="pl-fwd" name="chev" />
+        <router-link v-if="filtered" :to="journalRoute()">{{ t("pl.blog.title", "Play guides") }}</router-link><span v-else aria-current="page">{{ t("pl.blog.title", "Play guides") }}</span>
+        <template v-if="filtered"><ly-icon cls="pl-fwd" name="chev" /><span aria-current="page"><bdi>{{ heading }}</bdi></span></template>
+      </nav>
+
+      <header class="pl-blog-intro">
+        <div>
+          <h1><bdi>{{ filtered ? heading : t("pl.blog.title", "Play guides") }}</bdi></h1>
+          <p>{{ filtered ? lede : t("pl.blog.lead", "Choose an activity, see what you’ll need and get started.") }}</p>
+          <router-link v-if="!filtered && articles[0]" :to="postRoute(articles[0])" class="pl-btn primary">{{ t("pl.blog.start", "Start with the newest guide") }}</router-link>
+        </div>
+        <div class="pl-blog-photo">
+          <img v-if="photo" :alt="t('pl.blog.photoAlt', 'Children playing outdoors')" :src="photo" decoding="async" />
+        </div>
+      </header>
+
+      <div class="pl-blog-body">
+        <nav :aria-label="t('pl.blog.filter', 'Filter guides')" class="pl-guide-filters">
+          <h2>{{ t("pl.blog.browse", "Browse by activity") }}</h2>
+          <router-link :aria-current="!current_category ? 'page' : undefined" :to="journalRoute()">{{ t("pl.home.allGuides", "All guides") }}</router-link>
+          <router-link v-for="c in categories" :key="c.id" :aria-current="String(current_category) === String(c.id) ? 'page' : undefined" :to="journalRoute({ category: c.id })"
+            ><bdi>{{ c.title || c.name }}</bdi></router-link
+          >
+        </nav>
+        <div>
+          <div v-if="articles.length" class="pl-guide-list">
+            <pl-guide v-for="b in articles" :key="b.id" :post="b" />
           </div>
-        </article>
-
-        <div v-if="articles.length > 1 || filtered" class="bl-bar">
-          <h2 class="h3x">{{ filtered ? t("ly.rd.matching", "Matching posts") : t("ly.rd.every", "Every post") }}</h2>
-          <form class="bl-s" role="search" @submit.prevent="search">
-            <label class="sr" for="bl-q">{{ t("ly.rd.searchJournal", "Search the journal") }}</label><ly-icon name="search" /><input
-              id="bl-q"
-              v-model="q"
-              :placeholder="t('ly.rd.searchJournal', 'Search the journal')"
-              autocomplete="off"
-              type="search"
-              @input="searchSoon"
-            />
-          </form>
-        </div>
-
-        <div v-if="rest.length" class="bgrid">
-          <ly-post v-for="b in rest" :key="b.id" :post="b" />
-        </div>
-        <div v-else-if="busy && !articles.length" :aria-label="t('ly.rd.loading', 'Loading the journal')" class="bgrid" role="status">
-          <div v-for="n in 3" :key="n" class="bc ly-bc-skel"><span class="bc-ph"></span><span class="ly-sk-l"></span><span class="ly-sk-l -s"></span></div>
-        </div>
-        <ly-empty
-          v-else-if="!articles.length || filtered"
-          :text="filtered ? t('ly.rd.noMatchP', 'Try a collection name, delivery or pickup.') : t('ly.rd.noPostsP', 'The bakery has not published any posts yet.')"
-          :title="filtered ? t('ly.rd.noMatchT', 'No post matches this') : t('ly.rd.noPostsT', 'No posts yet')"
-          cls="boxed"
-          :icon="filtered ? 'search' : 'chat'"
-        >
-          <template #acts>
-            <router-link v-if="filtered" :to="journalRoute()" class="btn">{{ t("ly.rd.allPosts", "All posts") }}</router-link>
-            <router-link v-else :to="{ path: '/' }" class="btn">{{ t("ly.rd.backShop", "Back to the shop") }}</router-link>
-          </template>
-        </ly-empty>
-        <div v-if="articles.length && articles.length < total" class="ly-or-more ly-bl-more">
-          <button :aria-disabled="busy ? 'true' : undefined" class="btn quiet" type="button" @click="loadMore">{{ t("ly.rd.morePosts", "More posts") }}</button>
+          <div v-else-if="busy" :aria-label="t('ly.rd.loading', 'Loading the journal')" class="pl-guide-list" role="status">
+            <div v-for="n in 3" :key="n" class="pl-guide pl-skel" style="min-height: 150px"></div>
+          </div>
+          <section v-else class="pl-panel pl-empty">
+            <span class="pl-empty-ic"><ly-icon :name="filtered ? 'search' : 'doc'" /></span>
+            <h2>{{ filtered ? t("ly.rd.noMatchT", "No post matches this") : t("pl.blog.noneT", "No guides yet") }}</h2>
+            <p>{{ filtered ? t("pl.blog.noneMatchP", "Try another activity, or see every guide.") : t("ly.rd.noPostsP", "The shop has not published any guides yet.") }}</p>
+            <router-link v-if="filtered" :to="journalRoute()" class="pl-btn primary">{{ t("pl.home.allGuides", "All guides") }}</router-link>
+            <router-link v-else :to="{ path: '/' }" class="pl-btn primary">{{ t("ly.rd.backShop", "Back to the shop") }}</router-link>
+          </section>
+          <div v-if="articles.length && articles.length < total" class="pl-show-more">
+            <button :aria-disabled="busy ? 'true' : undefined" class="pl-btn quiet" type="button" @click="loadMore">{{ t("pl.blog.more", "More guides") }}</button>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -75,6 +60,8 @@
 import LyIcon from "@app-storefront/components/ly/LyIcon.vue";
 import LyArt from "@app-storefront/components/ly/LyArt.vue";
 import LyPost from "@app-storefront/components/ly/read/LyPost.vue";
+import PlGuide from "@app-storefront/components/ly/playlab/PlGuide.vue";
+import { slotPhoto } from "@app-storefront/components/ly/ly-photos";
 import LyPt from "@app-storefront/components/ly/ui/LyPt.vue";
 import LyEmpty from "@app-storefront/components/ly/ui/LyEmpty.vue";
 import { fmtDate } from "@app-storefront/components/ly/ly";
@@ -87,12 +74,15 @@ const FIRST = 13;
 
 export default {
   name: "StorefrontPageBlogsList",
-  components: { LyIcon, LyArt, LyPost, LyPt, LyEmpty },
+  components: { LyIcon, LyArt, LyPost, LyPt, LyEmpty, PlGuide },
   inject: ["$shop"],
 
   data: () => ({ articles: [] as any[], total: 0, busy: false, page: 1, categories: [] as any[], q: "" }),
 
   computed: {
+    photo() {
+      return slotPhoto("feature");
+    },
     current_category() {
       return this.$route.query.category || null;
     },

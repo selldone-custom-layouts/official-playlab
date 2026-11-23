@@ -344,6 +344,7 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 .pl-view-switch { display: flex; flex: none; padding: 3px; border: 1px solid var(--pl-line); background: var(--pl-surface); border-radius: var(--pl-inner); }
 .pl-view-switch button { border: 1px solid transparent; min-height: 35px; background: none; border-radius: var(--pl-inner); font: 800 .84rem/1 var(--pl-body); padding: 4px 8px; color: var(--pl-ink); cursor: pointer; }
 .pl-view-switch button:hover, .pl-view-switch button[aria-pressed=true] { border-color: var(--pl-line); background: var(--pl-tint); }
+.pl-toolbar .pl-filter-open { display: inline-flex !important; }
 .pl-filter-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--pl-inner); background: var(--pl-action); color: var(--pl-on-action); font-size: .72rem; font-weight: 800; line-height: 1; }
 .pl-sort { display: flex; align-items: center; gap: 8px; font-weight: 700; min-width: 0; }
 .pl-select { position: relative; display: block; min-inline-size: 0; }
@@ -524,4 +525,158 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 @media (prefers-reduced-motion: reduce) {
   .pl-card.fu { animation: none; }
   .pl-skel .pl-media, .pl-skel .sk-l { animation: none; }
+}
+
+/* ───────── product ───────── */
+.pl-pdp { background: var(--pl-paper); padding-bottom: 64px; container: plpdp / inline-size; }
+.pl-pd.pd { padding-block: 0 !important; margin: 0 !important; }
+.pl-product-top { display: grid; grid-template-columns: minmax(0, 1.13fr) minmax(0, .87fr); align-items: start; gap: clamp(18px, 2.4cqw, 39px); margin-block: 20px 33px; }
+.pl-gallery { min-width: 0; }
+.pl-main-photo { position: relative; aspect-ratio: 1.46; padding: 15px; border-radius: var(--pl-panel); }
+.pl-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 9px; }
+.pl-thumbs button { min-width: 0; border: 1px solid var(--pl-line); border-radius: var(--pl-inner); padding: 4px; aspect-ratio: 1.1; background: var(--pl-media); overflow: hidden; cursor: pointer; }
+.pl-thumbs button[aria-pressed=true] { border-color: var(--pl-ring); background: var(--pl-tint); box-shadow: inset 0 0 0 1px var(--pl-ring); }
+.pl-thumbs img { width: 100%; height: 100%; object-fit: contain; }
+.pl-product-side { display: grid; gap: 17px; min-width: 0; }
+.pl-product-intro { min-width: 0; }
+.pl-product-intro h1 { font: 800 clamp(2.5rem, 5.3cqw, 5.1rem)/1.06 var(--pl-display); text-transform: uppercase; overflow-wrap: anywhere; margin: 8px 0 10px; }
+.pl-rating-line { display: flex; align-items: center; gap: 5px; font-size: .78rem; color: var(--pl-muted); margin-bottom: 7px !important; }
+.pl-rating-line .i { width: 13px; height: 13px; color: var(--pl-accent); fill: currentColor; }
+.pl-rating-line strong { color: var(--pl-ink); }
+.pl-rating-line a { color: var(--pl-muted); border-radius: var(--pl-inner); }
+.pl-rating-line a:hover { color: var(--pl-accent); }
+.pl-intro-p { color: var(--pl-muted); }
+.pl-facts { display: grid; margin: 17px 0 0; border-block: 1px solid var(--pl-line); padding-block: 4px; }
+.pl-facts > div, .pl-spec-group dl > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 8px; padding: 9px 4px; overflow-wrap: anywhere; }
+.pl-facts > div + div, .pl-spec-group dl > div + div { border-top: 1px solid var(--pl-line); }
+.pl-facts dt, .pl-spec-group dt { color: var(--pl-muted); }
+.pl-facts dd { margin: 0; font-weight: 750; }
+.pl-purchase { display: grid; gap: 8px; border-top: 4px solid var(--pl-action); padding: 15px; text-align: start; }
+.pl-pd-price { font-size: 1.9rem; margin: 0 !important; }
+.pl-save { color: var(--pl-accent); font-weight: 750; font-size: .86rem; }
+.pl-stock { display: flex; align-items: center; gap: 7px; font-size: .84rem; color: var(--pl-accent); margin: 0; }
+.pl-stock .i { width: 15px; height: 15px; }
+.pl-stock.out { color: var(--pl-muted); }
+.pl-purchase-main { display: flex; gap: 7px; align-items: stretch; }
+.pl-purchase-main .pd-add { flex: 1; min-width: 0; }
+.pl-shell .pl-purchase .pl-add { min-height: 44px; font-size: .95rem; }
+.pl-shell .pl-purchase .pl-add.-off { background: var(--pl-wash); color: var(--pl-muted) !important; border-color: var(--pl-line); cursor: default; }
+.pl-purchase .pl-qb .pl-btn { min-height: 44px; }
+.pl-purchase > .pl-more { min-height: 37px; border: 0; background: none; justify-self: start; }
+.pl-small { color: var(--pl-muted); font-size: .83rem; }
+.pl-opts .opts-l { font-weight: 800; font-size: .9rem; margin-bottom: 6px; }
+.pl-opts .opts-v { color: var(--pl-muted); font-weight: 600; margin-inline-start: 8px; }
+.pl-opts .opts-g { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 6px; }
+.pl-opts .opt { display: grid; justify-items: center; gap: 4px; padding: 6px; border: 1px solid var(--pl-line); border-radius: var(--pl-inner); background: var(--pl-surface); color: var(--pl-ink); text-align: center; font-size: .8rem; cursor: pointer; }
+.pl-opts .opt[aria-checked=true] { background: var(--pl-tint); box-shadow: inset 0 0 0 2px var(--pl-ring); }
+.pl-opts .opt.-out { opacity: .6; }
+.pl-opts .opt-ph { display: grid; place-items: center; width: 100%; aspect-ratio: 1.3; border-radius: var(--pl-inner); background: var(--pl-media); overflow: hidden; }
+.pl-opts .opt-ph img { width: 100%; height: 100%; object-fit: contain; }
+.pl-opts .ly-opt-sw { width: 26px; height: 26px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(15 23 41 / 34%); }
+
+.pd-tabs.pl-wrap { padding: 0 !important; margin-block: 0 !important; }
+.pl-detail-sheet { margin-bottom: 10px; }
+.pl-detail-buttons { display: flex; flex-wrap: wrap; gap: 9px; border-bottom: 1px solid var(--pl-line); padding-bottom: 11px; margin-bottom: 18px; }
+.pl-detail-buttons button { border: 1px solid var(--pl-line); background: var(--pl-wash); border-radius: var(--pl-inner); padding: 10px 15px; min-height: 44px; font: 800 15px/1 var(--pl-body); color: var(--pl-ink); cursor: pointer; }
+.pl-detail-buttons button[aria-selected=true] { background: var(--pl-tint); border-color: var(--pl-ring); }
+.pl-spec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 17px; }
+.pl-spec-group { border: 1px solid var(--pl-line); border-radius: var(--pl-inner); padding: 12px; min-width: 0; }
+.pl-spec-group h3 { font: 800 1rem/1.2 var(--pl-body); margin-bottom: 6px; color: var(--pl-ink); }
+.pl-spec-group dl { font-size: .88rem; margin: 0; }
+.pl-spec-group dd { margin: 0; }
+.pl-no-reviews { display: grid; justify-items: start; gap: 8px; }
+.pl-nr-t { font: 800 1.5rem/1 var(--pl-display); text-transform: uppercase; }
+.pl-muted-p { color: var(--pl-muted); }
+.pl-review-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-block: 4px 8px; }
+.pl-review-chips span { background: var(--pl-wash); border-radius: var(--pl-inner); padding: 6px 10px; font-size: .84rem; }
+.pl-prose { max-width: 760px; font-size: 16px; line-height: 1.7; color: var(--pl-ink); }
+.pl-prose :is(p, ul, ol) { margin: 0 0 14px; }
+.pl-prose :is(h2, h3) { font: 800 1.6rem/1.1 var(--pl-display); text-transform: uppercase; margin: 22px 0 8px; }
+.pl-prose a { color: var(--pl-accent); text-decoration: underline; text-underline-offset: 3px; }
+.pl-more-from { padding-top: 26px; }
+
+.pl-mobile-buy { background: var(--pl-surface) !important; box-shadow: inset 0 1px 0 var(--pl-line) !important; }
+.pl-mobile-buy .bb-in { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-block: 7px; }
+.pl-mobile-buy .bb-a { width: min(58%, 210px); }
+
+@media (max-width: 620px) {
+  .pl-product-top { grid-template-columns: minmax(0, 1fr); gap: 13px; margin-block: 12px 18px; }
+  .pl-product-intro h1 { font-size: clamp(2.05rem, 9cqw, 3.5rem); }
+  .pl-main-photo { aspect-ratio: 1.31; padding: 8px; }
+  .pl-thumbs { gap: 5px; }
+  .pl-product-intro .pl-facts { display: none; }
+  .pl-spec-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}
+
+/* ───────── the base's own pages in Play Lab's dress ───────── */
+/* the page title (LyPt): the design's breadcrumb and title block, left-aligned, no band, no drawing */
+html .ly .pt { background: transparent; color: var(--pl-ink); padding: 0 0 27px; text-align: start; min-height: 0; display: block; container-type: inline-size; }
+html .ly .pt.compact, html .ly .pt.slim { padding: 0 0 18px; }
+html .ly .pt .pt-in { width: min(var(--pl-frame), calc(100% - 88px)); max-width: none; margin-inline: auto; padding: 0; align-items: flex-start; display: flex; flex-direction: column; }
+html .ly .pt .pt-in > * { max-width: none; }
+html .ly .pt .crumbs ol { justify-content: flex-start; gap: 5px; padding-top: 25px; font: 500 .82rem/1.3 var(--pl-body); letter-spacing: 0; text-transform: none; color: var(--pl-muted); }
+html .ly .pt .crumbs li:not(:last-child)::after { content: "›"; width: auto; height: auto; background: none; border-radius: 0; margin: 0 0 0 9px; opacity: 1; color: var(--pl-muted); font-size: 1rem; vertical-align: baseline; }
+html .ly .pt .crumbs a, html .ly .pt .crumbs [aria-current] { color: var(--pl-muted); padding: 4px; border-radius: var(--pl-inner); }
+html .ly .pt .crumbs a:hover { color: var(--pl-accent); }
+html .ly .pt .pt-e { margin: 18px 0 0; }
+html .ly .pt .pt-h { font: 800 clamp(2.4rem, 5cqw, 4.2rem)/1.02 var(--pl-display); letter-spacing: 0; text-transform: uppercase; color: var(--pl-ink); margin-top: 19px; overflow-wrap: anywhere; text-align: start; }
+html .ly .pt.compact .pt-h { font-size: clamp(2.2rem, 4.4cqw, 3.6rem); }
+html .ly .pt .pt-l { font-size: 1.04rem; color: var(--pl-muted); margin-top: 9px; max-width: 58ch; text-align: start; }
+html .ly .pt .pt-ph, html .ly .pt .art { display: none; }
+
+/* buttons of the base (checkout, account, sheets): plain-case words, the design's 6px corners */
+html .ly .btn { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; border-radius: var(--pl-inner); }
+html .ly .eyebrow { letter-spacing: .13em; }
+html .ly .h2, html .ly h2.h2 { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; letter-spacing: -.01em; }
+.ly :where(.ly-shop-page, .ly-pdp, .ly-listing, .ly-about, .ly-faq, .ly-contact, .ly-legal, .ly-blog, .ly-post, .ly-cart, .ly-order) { background: var(--pl-paper); }
+
+@media (max-width: 1150px) { html .ly .pt .pt-in { width: calc(100% - 58px); } }
+@media (max-width: 850px) { html .ly .pt .pt-in { width: calc(100% - 36px); } }
+@media (max-width: 620px) {
+  html .ly .pt .pt-in { width: calc(100% - 28px); }
+  html .ly .pt .crumbs ol { padding-top: 14px; }
+  html .ly .pt .pt-h { font-size: clamp(2.2rem, 10cqw, 3.4rem); margin-top: 12px; }
+  html .ly .pt { padding-bottom: 17px; }
+}
+
+/* ───────── guides (blog) ───────── */
+.pl-blog { padding-bottom: 64px; container: plblog / inline-size; background: var(--pl-paper); }
+.pl-blog-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .84fr); align-items: stretch; gap: 0; margin: 13px 0 20px; overflow: hidden; border-radius: var(--pl-panel); background: var(--pl-tint); }
+.pl-blog-intro > div:first-child { padding: clamp(18px, 3.4cqw, 48px); display: grid; gap: 12px; align-content: center; justify-items: start; }
+.pl-blog-intro h1 { font: 800 clamp(2.65rem, 6.5cqw, 6.35rem)/.89 var(--pl-display); text-transform: uppercase; word-spacing: .025em; overflow-wrap: anywhere; }
+.pl-blog-intro p { color: var(--pl-muted); }
+.pl-blog-photo { position: relative; overflow: hidden; min-height: 210px; background: var(--pl-wash); }
+.pl-blog-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 39%; }
+.pl-blog-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 15px; align-items: start; }
+.pl-guide-filters { display: grid; gap: 5px; padding: 12px; background: var(--pl-wash); border: 1px solid var(--pl-line); border-radius: var(--pl-panel); }
+.pl-guide-filters h2 { font: 800 1.41rem/1 var(--pl-display); text-transform: uppercase; margin-block: 3px; }
+.pl-guide-filters a { border: 1px solid transparent; border-radius: var(--pl-inner); padding: 8px; font-size: .89rem; font-weight: 800; color: var(--pl-ink); }
+.pl-guide-filters a[aria-current=page], .pl-guide-filters a:hover { background: var(--pl-tint); border-color: var(--pl-line); color: var(--pl-ink); }
+.pl-blog-body .pl-guide .pl-post-cover { aspect-ratio: 2.4; }
+@media (max-width: 800px) { .pl-blog-body { grid-template-columns: 161px minmax(0, 1fr); gap: 10px; } }
+@media (max-width: 620px) {
+  .pl-blog-intro, .pl-blog-body { grid-template-columns: minmax(0, 1fr); }
+  .pl-blog-intro > div:first-child { padding: 12px; gap: 7px; }
+  .pl-blog-photo { min-height: 145px; }
+  .pl-guide-filters { display: flex; flex-wrap: wrap; gap: 4px; padding: 7px; }
+  .pl-guide-filters h2 { flex-basis: 100%; }
+  .pl-guide-filters a { padding: 4px 5px; font-size: .76rem; }
+}
+
+/* ───────── read pages (About, 404, FAQ, contact, terms, privacy) ───────── */
+.pl-page { padding-bottom: 64px; background: var(--pl-paper); container: plpage / inline-size; }
+.pl-page-title { padding-block: 19px 27px; }
+.pl-page-title h1 { font: 800 clamp(2.4rem, 5cqw, 4.2rem)/1.02 var(--pl-display); text-transform: uppercase; overflow-wrap: anywhere; }
+.pl-page-title p { font-size: 1.04rem; color: var(--pl-muted); margin-top: 9px; max-width: 58ch; }
+.pl-about-split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(18px, 4cqw, 56px); align-items: center; }
+.pl-feature-picture { position: relative; overflow: hidden; aspect-ratio: 1.68; min-width: 0; border-radius: var(--pl-panel); background: var(--pl-tint); }
+.pl-feature-picture > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pl-about-copy { display: grid; gap: 12px; justify-items: start; }
+.pl-about-copy h2 { font: 800 clamp(2rem, 4cqw, 3.4rem)/1 var(--pl-display); text-transform: uppercase; }
+.pl-about-copy > p { color: var(--pl-muted); }
+.pl-empty .pl-retry { display: flex; gap: 6px; width: min(100%, 460px); margin-block: 20px 12px; }
+@media (max-width: 620px) {
+  .pl-about-split { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pl-page-title { padding-block: 14px 17px; }
+  .pl-page-title h1 { font-size: clamp(2.2rem, 10cqw, 3.4rem); }
 }

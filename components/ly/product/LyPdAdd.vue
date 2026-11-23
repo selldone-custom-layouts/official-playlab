@@ -6,17 +6,18 @@
   "Choose an option" (inactive); sold out: "Sold out".
 -->
 <template>
-  <button v-if="!q" :aria-disabled="blocked ? 'true' : undefined" :class="['btn', 'add', { '-off': blocked }]" type="button" @click.prevent.stop="more">
-    {{ shownLabel }}
+  <button v-if="!q" :aria-disabled="blocked ? 'true' : undefined" :class="['pl-btn', 'primary', 'pl-add', 'add', { '-off': blocked }]" type="button" @click.prevent.stop="more">
+    <ly-icon v-if="!blocked" name="bag" /><span>{{ shownLabel }}</span>
   </button>
-  <div v-else :aria-label="t('ly.add.inBag', '{name} in bag', { name: product.title })" class="qb" role="group">
-    <button :aria-label="t('ly.add.less', 'Remove one {name}', { name: product.title })" type="button" @click.prevent.stop="less"><ly-icon name="minus" /></button>
-    <span aria-live="polite" class="qn">{{ q }}</span>
+  <div v-else :aria-label="t('ly.add.inBag', '{name} in bag', { name: product.title })" class="pl-qb qb" role="group">
+    <button :aria-label="t('ly.add.less', 'Remove one {name}', { name: product.title })" class="pl-btn quiet" type="button" @click.prevent.stop="less"><ly-icon name="minus" /></button>
+    <span class="pl-qb-n"><strong aria-live="polite" class="qn">{{ q }}</strong><span>{{ t("pl.add.inBag", "In bag") }}</span></span>
     <button
       ref="plus"
       :aria-disabled="full ? 'true' : undefined"
       :aria-label="t('ly.add.more', 'Add one more {name}', { name: product.title })"
       :title="full ? t('ly.add.noMore', 'No more in stock') : undefined"
+      class="pl-btn primary"
       type="button"
       @click.prevent.stop="more"
     >
@@ -65,7 +66,7 @@ export default {
       return this.soldOut || this.full || this.needsChoice;
     },
     shownLabel() {
-      if (this.soldOut) return t("ly.pd.soldOut", "Sold out");
+      if (this.soldOut) return t("pl.add.out", "Out of stock");
       if (this.needsChoice) return t("ly.pd.chooseFirst", "Choose an option");
       return t("ly.add.add", "Add to bag");
     },

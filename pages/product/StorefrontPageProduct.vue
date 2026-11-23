@@ -24,9 +24,14 @@
     of product (offers, includes, files, membership, a product landing page)
     follow when the product has them.
   -->
-  <div class="ly ly-pdp s--product">
+  <div class="ly ly-pdp s--product pl-shell pl-pdp">
     <slot name="header" :center="true"></slot>
-    <ly-pt :crumbs="crumbs" :label="t('ly.pt.crumbs', 'Breadcrumb')" cls="slim" />
+    <nav :aria-label="t('ly.pt.crumbs', 'Breadcrumb')" class="pl-wrap pl-crumbs">
+      <router-link :to="{ path: '/' }">{{ t("ly.pt.home", "Home") }}</router-link><ly-icon cls="pl-fwd" name="chev" /><router-link :to="shopTo">{{ t("pl.pd.shop", "Shop") }}</router-link>
+      <template v-for="(c, i) in crumbs" :key="i"
+        ><ly-icon cls="pl-fwd" name="chev" /><router-link v-if="c.to" :to="c.to"><bdi>{{ c.label }}</bdi></router-link><span v-else aria-current="page"><bdi>{{ c.label }}</bdi></span></template
+      >
+    </nav>
 
     <ly-product-overview v-if="product" :key="product.id" can-buy show-cover @reviews="$refs.tabs?.open('rev')" />
     <section v-else aria-hidden="true" class="pd ly-pd-skel">
@@ -38,7 +43,6 @@
 
     <template v-if="product">
       <ly-product-tabs ref="tabs" :product="product" />
-      <ly-together :product="product" :variant="current_variant" />
 
       <div class="wrap ly-pd-sd">
         <s-product-offers class="s--product-section"></s-product-offers>
@@ -48,15 +52,13 @@
       </div>
       <s-product-landing></s-product-landing>
 
-      <section v-if="more.length" aria-labelledby="more-h" class="sec-s more">
-        <div class="wrap">
-          <header class="sec-hd sm">
-            <p class="eyebrow">{{ t("ly.pd.moreEyebrow", "From the same counter") }}</p>
-            <h2 id="more-h" class="h2">{{ t("ly.pd.moreH", "More {name}", { name: catTitle(cat) }) }}</h2>
-          </header>
-          <div class="grid six">
-            <ly-card v-for="p in more" :key="p.id" :product="p" no-cat />
-          </div>
+      <section v-if="more.length" aria-labelledby="more-h" class="pl-wrap pl-home-section pl-more-from">
+        <div class="pl-section-top">
+          <h2 id="more-h"><bdi>{{ t("pl.pd.moreFrom", "More from {name}", { name: catTitle(cat) }) }}</bdi></h2>
+          <router-link v-if="cat" :to="catTo(cat)" class="pl-more">{{ t("pl.pd.viewCollection", "View collection") }}<ly-icon cls="pl-fwd" name="arrow" /></router-link>
+        </div>
+        <div class="pl-grid">
+          <ly-card v-for="p in more" :key="p.id" :product="p" />
         </div>
       </section>
     </template>
@@ -65,11 +67,10 @@
 
 <script lang="ts">
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
-import LyPt from "../../components/ly/ui/LyPt.vue";
+import LyIcon from "../../components/ly/LyIcon.vue";
 import LyCard from "../../components/ly/ui/LyCard.vue";
 import LyProductOverview from "../../components/ly/product/LyProductOverview.vue";
 import LyProductTabs from "../../components/ly/product/LyProductTabs.vue";
-import LyTogether from "../../components/ly/product/LyTogether.vue";
 import { bySells, catOf, catTitle, catTo, ly, loadDm } from "../../components/ly/ly";
 import { rememberViewed } from "../../components/bakini/bakini";
 import { t } from "../../components/kalio/i18n/kalio-i18n";
@@ -92,11 +93,10 @@ export default {
   inject: ["$shop"],
   props: {},
   components: {
-    LyPt,
+    LyIcon,
     LyCard,
     LyProductOverview,
     LyProductTabs,
-    LyTogether,
     SProductLanding,
     SProductAdminButton,
     SProductOffers,
@@ -125,6 +125,9 @@ export default {
     current_variant() {
       return this.$store.getters.getCurrentSelectedVariant;
     },
+    shopTo() {
+      return { name: window.$storefront.routes.SHOP_PAGE };
+    },
     cat() {
       return this.product ? this.product.category || catOf(this.product.category_id) : null;
     },
@@ -139,8 +142,7 @@ export default {
     more() {
       if (!this.product) return [];
       const l = bySells(this.ly.products.filter((p) => p.category_id === this.product.category_id && p.id !== this.product.id));
-      const n = l.length >= 6 ? 6 : l.length >= 3 ? 3 : l.length >= 2 ? 2 : 0;
-      return l.slice(0, n);
+      return l.slice(0, 4);
     },
   },
 

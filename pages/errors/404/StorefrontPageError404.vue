@@ -1,46 +1,38 @@
 <!--
-  Page not found (design/404-b.html, pages-shop.js "404"):
-  inside the Layout, with the header and footer (router: BakiniNotFound).
-  Two faint drawings, the outlined 404, "This page is not on the counter"
-  and why, a search (Selldone's own catalogue search), "Back to the home
-  page" and "See the deals"; then "A few pastries to try instead": six
-  best sellers, one collection after another, as cards.
+  Play Lab's page not found (the approved design's routes['404']): inside the Layout, with the header and footer.
+  The breadcrumb and "Page not found", then the design's empty panel: "This page wandered off", why, a search of
+  the catalogue and "Back to <shop>"; then four toys to try instead (the shop's best sellers in stock, one
+  department after another).
 -->
 <template>
-  <div class="ly ly-404">
-    <section aria-labelledby="nf-h" class="nf">
-      <ly-art name="cake" wrap="nf-a1" /><ly-art name="whisk" wrap="nf-a2" />
-      <div class="wrap nf-in">
-        <svg aria-hidden="true" class="nf-num" focusable="false" viewBox="0 0 360 150"><text text-anchor="middle" x="180" y="128">404</text></svg>
-        <h1 id="nf-h" class="nf-h">{{ t("ly.nf.h", "This page is not on the counter") }}</h1>
-        <p class="nf-p">{{ t("ly.nf.p", "The link may be old, or the page has moved. Search for a pastry, or start again from the home page.") }}</p>
-        <form class="nf-srch" role="search" @submit.prevent="go">
-          <label class="sr" for="nfq">{{ t("ly.nf.search", "Search the bakery") }}</label><ly-icon name="search" /><input
-            id="nfq"
-            v-model="q"
-            :placeholder="placeholder"
-            autocomplete="off"
-            enterkeyhint="search"
-            type="search"
-          /><button class="btn sm" type="submit">{{ t("ly.nf.go", "Search") }}</button>
-        </form>
-        <div class="nf-acts">
-          <router-link :to="{ path: '/' }" class="btn alt">{{ t("ly.nf.home", "Back to the home page") }}</router-link>
-          <router-link :to="dealsTo" class="qlink">{{ t("ly.nf.deals", "See the deals") }}</router-link>
-        </div>
+  <div class="ly ly-404 pl-shell pl-page">
+    <div class="pl-wrap">
+      <nav :aria-label="t('ly.pt.crumbs', 'Breadcrumb')" class="pl-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("ly.pt.home", "Home") }}</router-link><ly-icon cls="pl-fwd" name="chev" /><span aria-current="page">{{ t("ly.nf.title", "Page not found") }}</span>
+      </nav>
+      <div class="pl-page-title">
+        <h1>{{ t("ly.nf.title", "Page not found") }}</h1>
       </div>
-    </section>
-    <section v-if="picks.length" aria-labelledby="nft-h" class="sec-s nf-try">
-      <div class="wrap">
-        <header class="sec-hd sm">
-          <p class="eyebrow">{{ t("ly.nf.whileHere", "While you are here") }}</p>
-          <h2 id="nft-h" class="h2">{{ t("ly.nf.tryH", "A few pastries to try instead") }}</h2>
-        </header>
-        <div class="grid six">
+      <section aria-labelledby="nf-h" class="pl-panel pl-empty">
+        <span class="pl-empty-ic"><ly-icon name="sparkle" /></span>
+        <h2 id="nf-h">{{ t("ly.nf.h", "This page wandered off") }}</h2>
+        <p>{{ t("ly.nf.p", "Explore the toy shop or go back to the homepage.") }}</p>
+        <form class="pl-retry" role="search" @submit.prevent="go">
+          <label class="sr-only" for="nfq">{{ t("ly.nf.search", "Search toys") }}</label>
+          <input id="nfq" v-model="q" :placeholder="placeholder" autocomplete="off" enterkeyhint="search" type="search" />
+          <button class="pl-btn quiet" type="submit"><ly-icon name="search" />{{ t("ly.nf.go", "Search") }}</button>
+        </form>
+        <router-link :to="{ path: '/' }" class="pl-btn primary"><bdi>{{ t("pl.nf.back", "Back to {shop}", { shop: shopName }) }}</bdi></router-link>
+      </section>
+      <section v-if="picks.length" aria-labelledby="nft-h" class="pl-home-section">
+        <div class="pl-section-top">
+          <h2 id="nft-h">{{ t("ly.nf.tryH", "A few toys to try instead") }}</h2>
+        </div>
+        <div class="pl-grid">
           <ly-card v-for="p in picks" :key="p.id" :product="p" />
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -60,12 +52,16 @@ export default defineComponent({
   computed: {
     /* Six best sellers in stock, one collection after another. */
     picks(): any[] {
-      return mixed(bySells(this.ly.products.filter((x: any) => x.quantity > 0))).slice(0, 6);
+      return mixed(bySells(this.ly.products.filter((x: any) => x.quantity > 0))).slice(0, 4);
     },
     /* "Search croissants, tarts…" from the shop's own collections. */
     placeholder(): string {
       const names = this.ly.cats.slice(0, 2).map((c: any) => catTitle(c).toLowerCase());
       return names.length ? t("ly.nf.ph", "Search {names}…", { names: names.join(", ") }) : t("ly.nf.search", "Search the bakery");
+    },
+    shopName(): string {
+      const n = (this as any).$store.getters.getShop?.title || "";
+      return n.charAt(0).toUpperCase() + n.slice(1);
     },
     dealsTo(): any {
       return dealsRoute();
