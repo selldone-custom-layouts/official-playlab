@@ -195,7 +195,14 @@
     }
   },
   "loading": {
-    "art": "none"
+    "art": "none",
+    "name": "TOYCHI",
+    "sub": "PLAY LAB",
+    "bg": "#051213",
+    "ink": "#eef9fa",
+    "muted": "#a1babd",
+    "accent": "#00ccdc",
+    "line": "#264447"
   },
   "splash": {
     "art": "none"
