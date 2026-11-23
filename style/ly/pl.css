@@ -714,3 +714,7 @@ html.ly-dark .ly .pl-theme-row .dts-in .ts-row { --ts-swatch-edge: rgba(255, 255
 html .ly :is(.qv-pl, .opt-ph, .bt-pl, .bb-pl, .apc-pl, .mini-th, .cc-pl, .cs-pl, .dt-pl, .ch-pl, .rc-th, .cr-pl, .s-th, .hc-ph, .dd-th, .pick .th, .pn-list .th, .dw-list .th, .oc-th, .ord-th) { background: var(--pl-media) !important; }
 html .ly .qv-n { font: 800 clamp(1.8rem, 3vmin, 2.4rem)/1 var(--pl-display); text-transform: uppercase; }
 html .ly :is(.rc-h, .h3x, .cdlv-hd h2, .co-h, .od-h) { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; }
+/* the base's quiet links and steps in the design's plain case */
+html .ly :is(.qlink, .srch-all, .g-more, .step, .tl-b, .seg button) { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; font-size: .86rem; }
+html .ly .qlink { color: var(--pl-accent); }
+html .ly .qlink:hover { color: var(--pl-ink); }
