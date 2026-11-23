@@ -10,7 +10,7 @@
 | Names | `manifest.json` and `selldone-layout.json` from the skin (`package` is permanent after the first upload; the `description` must be right on the FIRST upload, Selldone keeps it) |
 | Dev server | port **9177**, shop `toychi-KX4iQgu0` (`.env`); `npm run serve` (launch entry `playlab-layout`) |
 | Skin | Deep teal, Forest, Cobalt, Berry (brand `deep-teal`), Barlow Condensed over DM Sans, radius 10 / 6 px, basket word "bag" |
-| Layout id | (after the first upload) |
+| Layout id | **52** |
 
 ## Home
 
@@ -60,3 +60,4 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 
 | Version | Date | Layout | Deploy | What |
 | --- | --- | --- | --- | --- |
+| 1.0.0 | 2026-11-24 | 52 | 808 | First release of the approved Play Lab design on the base: Play Lab tokens (dark by default), header with the departments panel, footer with the Theme row as named pills, nine home sections from live data, the catalogue (lead panel, rail, List / Grid, filters sheet from the real specification, ?age=, deals with good finds under a live amount, designed no-results), card and add control, product page with detail sheet, guides, About, 404; toy words over the base's bakery words (English and Arabic). Release 01M85C8HB6ZMF1R265JK6ZKYMK, server copy verified (extracting false, error null, js and css match); 272 files. Not pinned yet. |
