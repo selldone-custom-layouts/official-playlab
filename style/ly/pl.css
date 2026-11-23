@@ -718,3 +718,5 @@ html .ly :is(.rc-h, .h3x, .cdlv-hd h2, .co-h, .od-h) { font-family: var(--pl-dis
 html .ly :is(.qlink, .srch-all, .g-more, .step, .tl-b, .seg button) { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; font-size: .86rem; }
 html .ly .qlink { color: var(--pl-accent); }
 html .ly .qlink:hover { color: var(--pl-ink); }
+/* the base's line drawings are a bakery's: none in Play Lab (an empty cover keeps its plain plate) */
+html .ly :is(.art, svg.draw) { display: none !important; }

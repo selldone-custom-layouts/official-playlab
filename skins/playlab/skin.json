@@ -335,7 +335,20 @@
       "bakini.n.rd.tOrders": "An order is a request to buy toys at the prices shown at checkout. The shop confirms each order on the order page. If a toy is no longer available, the shop contacts you before preparing the order.",
       "bakini.n.rd.within": " within {km} km of the shop",
       "bakini.n.unit.piece": "toy",
-      "ly.pd.noReviewsP": "Be the first to review the {name}. Reviews are scored on the {n} points below."
+      "ly.pd.noReviewsP": "Be the first to review the {name}. Reviews are scored on the {n} points below.",
+      "ly.rd.journal": "Play guides",
+      "ly.rd.journalOf": "{shop} play guides",
+      "ly.rd.jrTitle": "Play guides",
+      "ly.rd.backJournal": "Back to the guides",
+      "ly.rd.moreH": "More play guides",
+      "ly.rd.goneP": "The link may be old, or the guide has moved. Every other guide is on the guides page.",
+      "ly.rd.loading": "Loading the guides",
+      "ly.rd.searchJournal": "Search the guides",
+      "ly.ftr.journal": "Play guides",
+      "ly.hdr.journal": "Guides",
+      "ly.ls.fromJournal": "From the play guides",
+      "ly.rd.qAllergens": "Ages and safety",
+      "ly.rd.post": "Guide"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -597,7 +610,20 @@
       "pl.pd.tabSpec": "المواصفات",
       "pl.pd.viewBag": "في حقيبتك · اعرض الحقيبة",
       "pl.pd.viewCollection": "اعرض المجموعة",
-      "pl.pd.viewCompare": "اعرض المقارنة"
+      "pl.pd.viewCompare": "اعرض المقارنة",
+      "ly.rd.journal": "أدلة اللعب",
+      "ly.rd.journalOf": "أدلة اللعب من {shop}",
+      "ly.rd.jrTitle": "أدلة اللعب",
+      "ly.rd.backJournal": "العودة إلى الأدلة",
+      "ly.rd.moreH": "مزيد من أدلة اللعب",
+      "ly.rd.goneP": "ربما يكون الرابط قديمًا، أو نُقل الدليل. كل الأدلة الأخرى في صفحة الأدلة.",
+      "ly.rd.loading": "جارٍ تحميل الأدلة",
+      "ly.rd.searchJournal": "ابحث في الأدلة",
+      "ly.ftr.journal": "أدلة اللعب",
+      "ly.hdr.journal": "الأدلة",
+      "ly.ls.fromJournal": "من أدلة اللعب",
+      "ly.rd.qAllergens": "الأعمار والسلامة",
+      "ly.rd.post": "دليل"
     }
   }
 }
