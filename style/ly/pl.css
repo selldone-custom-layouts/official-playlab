@@ -45,22 +45,22 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 }
 .pl-btn { padding: 0 19px; max-width: 100%; text-align: center; }
 .pl-btn .i { width: 16px; height: 16px; }
-.pl-shell .pl-btn.primary, .pl-shell .pl-btn.primary:visited { background: var(--pl-action); color: var(--pl-on-action) !important; }
-.pl-shell .pl-btn.primary:hover { background: var(--pl-action-hover); color: var(--pl-on-action) !important; }
-.pl-shell .pl-btn.primary:focus-visible { box-shadow: inset 0 0 0 3px var(--pl-surface); }
-.pl-shell .pl-btn.quiet, .pl-shell .pl-ibtn { background: var(--pl-surface); border-color: var(--pl-line); color: var(--pl-ink); }
-.pl-shell .pl-btn.quiet:hover, .pl-shell .pl-ibtn:hover, .pl-shell .pl-region:hover { background: var(--pl-tint); color: var(--pl-ink); }
-.pl-shell .pl-btn:disabled, .pl-shell .pl-btn[aria-disabled=true] { opacity: .58; cursor: default; }
+.ly .pl-btn.primary, .ly .pl-btn.primary:visited { background: var(--pl-action); color: var(--pl-on-action) !important; }
+.ly .pl-btn.primary:hover { background: var(--pl-action-hover); color: var(--pl-on-action) !important; }
+.ly .pl-btn.primary:focus-visible { box-shadow: inset 0 0 0 3px var(--pl-surface); }
+.ly .pl-btn.quiet, .ly .pl-ibtn { background: var(--pl-surface); border-color: var(--pl-line); color: var(--pl-ink); }
+.ly .pl-btn.quiet:hover, .ly .pl-ibtn:hover, .ly .pl-region:hover { background: var(--pl-tint); color: var(--pl-ink); }
+.ly .pl-btn:disabled, .ly .pl-btn[aria-disabled=true] { opacity: .58; cursor: default; }
 .pl-ibtn { width: 44px; padding: 0; flex: 0 0 44px; }
-.pl-shell .pl-ibtn[aria-pressed=true] { background: var(--pl-tint); color: var(--pl-accent); box-shadow: inset 0 0 0 2px var(--pl-ring); }
-.pl-shell .pl-ibtn[aria-pressed=true] .i { fill: currentColor; }
+.ly .pl-ibtn[aria-pressed=true] { background: var(--pl-tint); color: var(--pl-accent); box-shadow: inset 0 0 0 2px var(--pl-ring); }
+.ly .pl-ibtn[aria-pressed=true] .i { fill: currentColor; }
 .pl-more { min-height: 42px; justify-content: flex-start; color: var(--pl-accent); padding: 3px 5px; font-size: .86rem; }
-.pl-shell .pl-more:hover { color: var(--pl-ink); }
+.ly .pl-more:hover { color: var(--pl-ink); }
 .pl-more .i { width: 18px; height: 18px; }
 .pl-link-btn { border: 0; background: none; color: var(--pl-accent); font: 750 .86rem/1.2 var(--pl-body); min-height: 36px; padding: 4px 8px; border-radius: var(--pl-inner); cursor: pointer; }
 .pl-link-btn:hover { background: var(--pl-tint); }
 .pl-panel { border: 1px solid var(--pl-line); border-radius: var(--pl-panel); background: var(--pl-surface); padding: clamp(16px, 2.4cqw, 32px); min-width: 0; }
-.pl-shell .money { font-variant-numeric: tabular-nums; }
+.ly .money { font-variant-numeric: tabular-nums; }
 
 /* empty states (the design's .empty: a 56px tinted icon circle, 14px, title, 8px, words, 20px, button) */
 .pl-empty { padding: 35px 18px; display: grid; justify-items: center; gap: 0; text-align: center; }
@@ -108,8 +108,8 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 
 .pl-actions { display: flex; align-items: center; gap: 8px; flex: none; }
 .pl-bag-btn { border-color: var(--pl-line); background: var(--pl-action); color: var(--pl-on-action) !important; padding-inline: 11px; font-size: .83rem; }
-.pl-shell .pl-bag-btn:hover { background: var(--pl-action-hover); }
-.pl-shell .pl-bag-btn:focus-visible { box-shadow: inset 0 0 0 3px var(--pl-surface); }
+.ly .pl-bag-btn:hover { background: var(--pl-action-hover); }
+.ly .pl-bag-btn:focus-visible { box-shadow: inset 0 0 0 3px var(--pl-surface); }
 .pl-bag-count { display: grid; place-items: center; min-width: 23px; height: 23px; border-radius: var(--pl-inner); padding-inline: 4px; background: var(--pl-surface); color: var(--pl-ink); font-size: .76rem; font-weight: 800; }
 
 .pl-nav { background: var(--pl-wash); border-top: 1px solid var(--pl-line); }
@@ -264,8 +264,8 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 .pl-stage h1 span { display: block; }
 .pl-stage p { max-width: 34ch; color: var(--pl-stage-ink); font-size: 1.06rem; }
 .pl-stage-copy > div { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
-.pl-shell .pl-stage .pl-btn.quiet { background: transparent; border-color: var(--pl-stage-line); color: var(--pl-stage-ink); }
-.pl-shell .pl-stage .pl-btn.quiet:hover { background: var(--pl-stage-hover); color: var(--pl-stage-ink); }
+.ly .pl-stage .pl-btn.quiet { background: transparent; border-color: var(--pl-stage-line); color: var(--pl-stage-ink); }
+.ly .pl-stage .pl-btn.quiet:hover { background: var(--pl-stage-hover); color: var(--pl-stage-ink); }
 .pl-stage :is(a, button):focus-visible { box-shadow: inset 0 0 0 3px var(--pl-stage-ink) !important; }
 
 .pl-quick-departments, .pl-levels { background: var(--pl-wash); border-block: 1px solid var(--pl-line); }
@@ -559,8 +559,8 @@ html, body, .v-application.s--shop, .v-main { background: var(--pl-paper); }
 .pl-stock.out { color: var(--pl-muted); }
 .pl-purchase-main { display: flex; gap: 7px; align-items: stretch; }
 .pl-purchase-main .pd-add { flex: 1; min-width: 0; }
-.pl-shell .pl-purchase .pl-add { min-height: 44px; font-size: .95rem; }
-.pl-shell .pl-purchase .pl-add.-off { background: var(--pl-wash); color: var(--pl-muted) !important; border-color: var(--pl-line); cursor: default; }
+.ly .pl-purchase .pl-add { min-height: 44px; font-size: .95rem; }
+.ly .pl-purchase .pl-add.-off { background: var(--pl-wash); color: var(--pl-muted) !important; border-color: var(--pl-line); cursor: default; }
 .pl-purchase .pl-qb .pl-btn { min-height: 44px; }
 .pl-purchase > .pl-more { min-height: 37px; border: 0; background: none; justify-self: start; }
 .pl-small { color: var(--pl-muted); font-size: .83rem; }
@@ -680,3 +680,36 @@ html .ly .h2, html .ly h2.h2 { font-family: var(--pl-display); font-weight: 800;
   .pl-page-title { padding-block: 14px 17px; }
   .pl-page-title h1 { font-size: clamp(2.2rem, 10cqw, 3.4rem); }
 }
+
+/* ───────── the Theme row (the kit's ThemeSwitcherRow in the design's dress: named pills, a quiet mode switch) ───────── */
+.ly .pl-theme-row .dts-in .ts-row { --ts-swatch-edge: rgba(15, 23, 41, .34); --ts-ring: var(--pl-ring); gap: 12px; }
+html.ly-dark .ly .pl-theme-row .dts-in .ts-row { --ts-swatch-edge: rgba(255, 255, 255, .42); }
+.ly .pl-theme-row .dts-in .ts-row__label { font: 800 15px/1 var(--pl-body); letter-spacing: 0; text-transform: none; color: var(--pl-ink); }
+.ly .pl-theme-row .dts-in .ts-row__palettes { gap: 6px; }
+.ly .pl-theme-row .ts-row .ts-swatch { display: inline-flex; align-items: center; width: auto; height: 37px; padding-inline: 32px 11px; border-radius: var(--pl-inner); background: var(--pl-surface) !important; box-shadow: inset 0 0 0 1px var(--pl-line); color: var(--pl-ink); font: 750 .78rem/1 var(--pl-body); white-space: nowrap; }
+.ly .pl-theme-row .ts-row .ts-swatch::before { inset: auto; inset-inline-start: 11px; top: 50%; width: 14px; height: 14px; transform: translateY(-50%); }
+.ly .pl-theme-row .ts-row .ts-swatch::after { content: attr(aria-label); }
+.ly .pl-theme-row .ts-row .ts-swatch.-custom::after { content: attr(title); }
+.ly .pl-theme-row .ts-row .ts-swatch:hover { background: var(--pl-tint) !important; }
+.ly .pl-theme-row .ts-row .ts-swatch.-on { box-shadow: inset 0 0 0 2px var(--pl-ring) !important; }
+.ly .pl-theme-row .ts-row .ts-swatch:focus-visible, .ly .pl-theme-row .ts-row .ts-swatch.-custom:has(.ts-pal__input:focus-visible) { box-shadow: inset 0 0 0 2px var(--pl-ink) !important; }
+.ly .pl-theme-row .dts-in .ts-row__name { font-size: 0; min-width: 0; color: var(--pl-muted); }
+.ly .pl-theme-row .dts-in .ts-row__name .ts-pal__note { font-size: .75rem; }
+.ly .pl-theme-row .dts-in .ts-mode { margin-inline-start: auto; padding: 3px; border-radius: var(--pl-inner); background: var(--pl-surface); box-shadow: inset 0 0 0 1px var(--pl-line); }
+.ly .pl-theme-row .dts-in .ts-mode .ts-mode__btn { height: 37px; border-radius: var(--pl-inner); font: 750 14px/1 var(--pl-body); letter-spacing: 0; text-transform: none; color: var(--pl-ink) !important; }
+.ly .pl-theme-row .dts-in .ts-mode .ts-mode__btn:hover { color: var(--pl-accent) !important; }
+.ly .pl-theme-row .dts-in .ts-mode .ts-mode__btn.-on { background: var(--pl-tint) !important; color: var(--pl-ink) !important; box-shadow: inset 0 0 0 1px var(--pl-ring); }
+.ly .pl-theme-row .dts-in .ts-mode .ts-mode__btn:focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); }
+@media (max-width: 620px) {
+  .ly .pl-theme-row .dts-in .ts-row__label { flex-basis: 100%; }
+  .ly .pl-theme-row .ts-row .ts-swatch { width: 40px; height: 40px; padding: 0; justify-content: center; font-size: 0; }
+  .ly .pl-theme-row .ts-row .ts-swatch::before { inset-inline-start: 50%; width: 18px; height: 18px; transform: translate(-50%, -50%); }
+  .ly .pl-theme-row .ts-row .ts-swatch:dir(rtl)::before { transform: translate(50%, -50%); }
+  .ly .pl-theme-row .ts-row .ts-swatch::after { content: none; }
+  .ly .pl-theme-row .dts-in .ts-mode { margin-inline-start: 0; }
+}
+
+/* ───────── product photos of the base's parts on the design's light photo box (--pl-media), in both modes ───────── */
+html .ly :is(.qv-pl, .opt-ph, .bt-pl, .bb-pl, .apc-pl, .mini-th, .cc-pl, .cs-pl, .dt-pl, .ch-pl, .rc-th, .cr-pl, .s-th, .hc-ph, .dd-th, .pick .th, .pn-list .th, .dw-list .th, .oc-th, .ord-th) { background: var(--pl-media) !important; }
+html .ly .qv-n { font: 800 clamp(1.8rem, 3vmin, 2.4rem)/1 var(--pl-display); text-transform: uppercase; }
+html .ly :is(.rc-h, .h3x, .cdlv-hd h2, .co-h, .od-h) { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; }
