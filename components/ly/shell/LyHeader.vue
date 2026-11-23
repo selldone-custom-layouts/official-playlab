@@ -294,10 +294,9 @@ export default {
     menuRest() {
       return this.cats.length <= 8 ? [] : this.cats.slice(6);
     },
-    /* "Search 100 toys, games and kits": the live count of the catalogue. */
+    /* No product count in the shop's own words (the owner's rule). */
     searchPlaceholder() {
-      const n = this.ly.products.length;
-      return n ? t("pl.hdr.searchPh", { one: "Search {n} toy", other: "Search {n} toys, games and kits" }, { n }) : t("pl.hdr.searchPh0", "Search toys, games and kits");
+      return t("pl.hdr.searchPh0", "Search toys, games and kits");
     },
     query() {
       return this.q.trim();
