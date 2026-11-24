@@ -62,9 +62,11 @@ A guide's address opened fresh (`/blog/<slug>-<blog id>`) draws Play Lab's artic
 ## Checks
 
 <!-- CHECKS:START -->
-**1.0.5 on the live domain (playlab.selldone.shop, 24 Nov 2026), through new-shop-kits/pw-lock.sh:** fast-checks, 221 jobs at 1440, 1024 and 390 px (and 1920–3840 where the check asks), dark and light, Deep teal, Forest, Cobalt, Berry and the custom colours, English and forced Arabic — ring 0, card-edge 0, corner 0, circle 0, contrast 0 (424 states), cart 0, currency 0 (USD, AED, DKK, SAR), box 0, i18n 0, text-col 0, shape 0, underline 0, variant 0: **TOTAL 0** (1.0.0 started at 22 610).
+**1.0.7 on the live domain (playlab.selldone.shop, 24 Nov 2026), through new-shop-kits/pw-lock.sh:** fast-checks, 221 jobs at 1440, 1024 and 390 px (and 1920–3840 where the check asks), dark and light, Deep teal, Forest, Cobalt, Berry and the custom colours, English and forced Arabic — ring 0, card-edge 0, corner 0, circle 0, contrast 0 (424 states), cart 0, currency 0 (USD, AED, DKK, SAR), box 0, i18n 0, text-col 0, shape 0, underline 0, variant 0: **TOTAL 0** (1.0.0 started at 22 610).
 
-**Guest checkout walk** (`scripts/checkout-walk.mjs`, 1440 and 390, guest checkout and cash on delivery on): add from a card, the bag drawer, the checkout, the delivery sheet (before an address it says why no way shows), the address sheet with the map (pin placed, address filled and saved), the courier way, Place order → Selldone's payment window (total matches the button) → its ✕, the bag emptied. **WALK OK**; no order placed.
+**Guest checkout walk** (`scripts/checkout-walk.mjs`, 1440 and 390, guest checkout and cash on delivery on): add from a card, the bag drawer, the three-step checkout, the delivery sheet (before an address it says why no way shows), the address sheet with the map (pin placed, address filled and saved), the courier way, Place order → Selldone's payment window (total matches the button) → its ✕, the bag emptied. **WALK OK**; no order placed. (One run on 1.0.6 saw the drawer empty right after an add, a live-service hiccup; the same walk passed before and after.)
+
+**A guide opened directly** with a normal Chrome's client hints: route `ShopBlogPageSlug`, Play Lab's article and footer drawn (see "A guide opened directly").
 
 **Every release:** the production-bundle check (release step 5b) OK; 275 files; server verify extracting false, error null, shop.js and shop.css match. Not machine-checked: the order page and its messages (no order exists; drawn locally from a made-up order answered inside the test browser only).
 <!-- CHECKS:END -->
