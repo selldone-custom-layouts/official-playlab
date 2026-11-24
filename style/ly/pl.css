@@ -761,7 +761,7 @@ html .ly .msg.me { background: var(--pl-tint); color: var(--pl-ink); }
 html .ly :is(.fld input, .fld textarea, .fld select, .ff input, .ff textarea, .ff select) { border-radius: var(--pl-inner); }
 /* the bag drawer */
 html .ly #drawer.panel { border-start-start-radius: var(--pl-panel); border-end-start-radius: var(--pl-panel); box-shadow: inset 1px 0 0 var(--pl-line); }
-html .ly #drawer .pn-hd .pn-t, html .ly #drawer h2 { font: 800 1.9rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
+html .ly #drawer .pn-hd .pn-t, html .ly #drawer h2 { font: 700 1.8rem/1.06 var(--pl-display); text-transform: none; letter-spacing: 0; }
 /* quick view */
 html .ly #qv .md-card { border-radius: var(--pl-panel); }
 /* FAQ: the questions in one panel, rows joined by lines (the design's .faq-stack) */
@@ -773,7 +773,7 @@ html .ly .qa summary { font-weight: 750; }
 /* article (a guide): the design's article-body */
 html .ly :is(.post-h, .art-h, .bv-h) { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0; }
 /* the bag drawer (the design's drawer): the title in condensed capitals, lines on the light photo box, a quiet summary */
-html .ly #drawer .pn-t { font: 800 1.9rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
+html .ly #drawer .pn-t { font: 700 1.8rem/1.06 var(--pl-display); text-transform: none; letter-spacing: 0; }
 html .ly #drawer .dw-h { font: 800 1.3rem/1 var(--pl-display); text-transform: uppercase; letter-spacing: 0; }
 html .ly #drawer .dw-list > li { border-color: var(--pl-line); }
 html .ly #drawer .dw-n { font-weight: 750; }
@@ -869,3 +869,29 @@ html .ly .pl-saved-more { display: flex; justify-content: center; }
 .ly .lg-wm.pl-shell .ly-wm .wm-name { font-size: 2.4rem; }
 /* Selldone's buttons inside the base's flows in plain case (share the order, the order's tools) */
 html .ly :is(.ly-od-share, .ly-od-tools, .ly-od-sd) .v-btn { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; }
+/* terms (the design's terms.html): the sections in one panel, headings in the condensed face, no outlined numerals */
+html .ly .lg2 .terms { padding: clamp(16px, 2.4cqw, 32px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); gap: 0; }
+html .ly .lg2 .tsec { grid-template-columns: minmax(0, 1fr); padding: 16px 0; border-color: var(--pl-line); }
+html .ly .lg2 .tsec:first-child { border-top: 0; padding-top: 0; }
+html .ly .lg2 .tsec .numeral { display: none; }
+html .ly .tsec-h { font-size: 1.8rem; line-height: 1.06; margin-bottom: 6px; }
+@media (max-width: 620px) { html .ly .tsec-h { font-size: 1.45rem; } }
+/* contact (the design's contact.html): the shop's panel beside the message panel */
+html .ly .pl-ct-g { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+html .ly .pl-ct-shop { display: grid; gap: 12px; align-content: start; padding: clamp(16px, 2.4cqw, 32px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); min-width: 0; }
+html .ly .pl-ct-shop .co-p { color: var(--pl-muted); }
+html .ly .pl-ct-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+html .ly .pl-ct-facts { display: grid; margin: 4px 0 0; }
+html .ly .pl-ct-facts > div { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 4px 14px; padding: 11px 0; border-top: 1px solid var(--pl-line); }
+html .ly .pl-ct-facts dt { display: flex; align-items: center; gap: 8px; font-weight: 800; color: var(--pl-ink); }
+html .ly .pl-ct-facts dt .i { width: 17px; height: 17px; color: var(--pl-accent); }
+html .ly .pl-ct-facts dd { margin: 0; color: var(--pl-muted); overflow-wrap: anywhere; }
+html .ly .pl-ct-facts dd a { color: var(--pl-ink); }
+html .ly .pl-ct-facts dd a:hover { color: var(--pl-accent); }
+html .ly .pl-ct-facts .days { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 4px; margin-top: 6px; padding: 0; list-style: none; }
+html .ly .pl-ct-facts .ci-s { display: block; margin-top: 4px; font-size: .86rem; }
+html .ly .pl-ct .ct-map { margin-top: 4px; }
+html .ly .pl-ct .ct-mbox { height: 220px; min-height: 0; border-radius: var(--pl-inner); overflow: hidden; }
+html .ly .pl-ct .ct-f { align-content: start; }
+@media (max-width: 850px) { html .ly .pl-ct-g { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 620px) { html .ly .pl-ct-facts > div { grid-template-columns: minmax(0, 1fr); } }

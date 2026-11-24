@@ -95,7 +95,7 @@
               </li>
             </ul>
 
-            <div v-if="transportation_list.length && has_delivery && !isService" class="cdlv">
+            <div v-if="nx_ways_in_order.length && has_delivery && !isService" class="cdlv">
               <div class="cdlv-hd">
                 <h2 class="h3x">{{ t("ly.co.reaches", "How it reaches you") }}</h2>
                 <button :aria-expanded="delivery_sheet ? 'true' : 'false'" aria-controls="dlvm" class="qlink" type="button" @click="openLayer('dlvm', $event.currentTarget)">

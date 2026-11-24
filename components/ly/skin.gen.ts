@@ -380,7 +380,11 @@ export const SKIN = {
       "ly.rd.fMessagePh": "A question about an order, a toy’s age, a larger order for a group…",
       "ly.home.heroEyebrow": "What we sell",
       "pl.acc.bookSignT": "Sign in to see your address book",
-      "pl.acc.bookSignP": "Your saved addresses stay with your account. Checkout asks for the address each time when you shop as a guest."
+      "pl.acc.bookSignP": "Your saved addresses stay with your account. Checkout asks for the address each time when you shop as a guest.",
+      "pl.ct.orderHelp": "For questions about an order, open the order and use its message panel.",
+      "pl.ct.findOrders": "Find your orders",
+      "pl.ct.sendH": "Send us a message",
+      "pl.ct.send": "Send message"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -685,7 +689,11 @@ export const SKIN = {
       "ly.rd.fMessagePh": "سؤال عن طلب، أو عن عمر لعبة، أو طلب أكبر لمجموعة…",
       "ly.home.heroEyebrow": "ما نبيعه",
       "pl.acc.bookSignT": "سجّل الدخول لترى دفتر عناوينك",
-      "pl.acc.bookSignP": "تبقى عناوينك المحفوظة مع حسابك. عند التسوق كضيف يطلب الدفع العنوان في كل مرة."
+      "pl.acc.bookSignP": "تبقى عناوينك المحفوظة مع حسابك. عند التسوق كضيف يطلب الدفع العنوان في كل مرة.",
+      "pl.ct.orderHelp": "لأسئلة عن طلب، افتح الطلب واستخدم لوحة الرسائل فيه.",
+      "pl.ct.findOrders": "اعثر على طلباتك",
+      "pl.ct.sendH": "أرسل إلينا رسالة",
+      "pl.ct.send": "أرسل الرسالة"
     }
   }
 } as const;

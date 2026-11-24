@@ -294,7 +294,8 @@ export default {
     nx_ways_in_order(this: any): any[] {
       const list = this.transportation_list || [];
       const pickup = ShopTransportations.Pickup.code;
-      return [...list.filter((w: any) => w.type !== pickup), ...list.filter((w: any) => w.type === pickup)];
+      /* pickup without a pickup point cannot be chosen (the checkout hides it too) */
+      return [...list.filter((w: any) => w.type !== pickup), ...list.filter((w: any) => w.type === pickup && w.pickups?.length)];
     },
     shopTo(): any {
       return catalogueRoute({});

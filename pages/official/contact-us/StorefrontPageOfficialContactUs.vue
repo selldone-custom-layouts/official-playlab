@@ -1,106 +1,93 @@
 <!--
-  Contact (design/contact-b.html, pages-read.js contact):
-  the title band ("Contact <shop>"); three cards on the band colour — Visit
-  (the address and the pickup counter's words), Call or write (the phone
-  large, the email), Hours (the open line and the open days as pills);
-  then "Send <shop> a message": the counter on a real map (the shop's own
-  location; LyMap) with its address under it, beside the form (name,
-  email, message, Send, "Or call …"), sent with Selldone's own contact
-  call; missing fields are named under each field before sending. Last,
-  "Before you write" with links to the answers. Only what the shop has:
-  no phone, no card line; no location, the map's calm colour and the pin.
-  When the shop has written its own "Contact us" page, its text shows above
-  the form.
+  Contact (Play Lab: the design's contact.html): the title band ("Contact <shop>"), then two panels. The shop's
+  panel: its name, where an order's questions go ("Find your orders"), and only what the shop has — Visit (the
+  address and the pickup words), Call or write, Hours (the open line and the open days) and, with a location, a
+  real map (LyMap). Beside it "Send us a message" (name, email, message, "Send message", "Or call …"), sent with
+  Selldone's own contact call; missing fields are named under each field before sending. When the shop has
+  written its own "Contact us" page, its text shows above the form. Last, "Before you write" with links to the
+  answers.
 -->
 <template>
   <div class="ly ly-contact">
     <ly-pt :crumbs="[{ label: t('ly.rd.contact', 'Contact') }]" :lead="lede" :title="t('ly.rd.contactT', 'Contact {shop}', { shop: name })" art="cupcake" art2="cookie" />
 
-    <section :aria-label="t('ly.rd.waysAria', 'Ways to reach {shop}', { shop: name })" class="ct-info">
-      <div class="wrap ci">
-        <article v-if="f.address" class="ci-c">
-          <ly-art cls="ci-ic" name="cake" />
-          <h2 class="ci-t">{{ t("ly.rd.visit", "Visit") }}</h2>
-          <p>
-            <bdi>{{ street }}</bdi><br /><bdi>{{ cityLine }}</bdi>
-          </p>
-          <p v-if="f.pickupNote" class="ci-s">{{ f.pickupNote }}</p>
-        </article>
-        <article v-if="f.phone || f.email" class="ci-c">
-          <ly-art cls="ci-ic" name="cupcake" />
-          <h2 class="ci-t">{{ f.phone && f.email ? t("ly.rd.callWrite", "Call or write") : f.phone ? t("ly.rd.call", "Call") : t("ly.rd.write", "Write") }}</h2>
-          <p v-if="f.phone">
-            <a :href="tel" class="ci-big" dir="ltr">{{ f.phone }}</a>
-          </p>
-          <p v-if="f.email">
-            <a :href="'mailto:' + f.email">{{ f.email }}</a>
-          </p>
-        </article>
-        <article v-if="open || f.days.length" class="ci-c">
-          <ly-art cls="ci-ic" name="croissant" />
-          <h2 class="ci-t">{{ t("ly.rd.hours", "Hours") }}</h2>
-          <p v-if="open">{{ open }}</p>
-          <ul v-if="f.days.length" :aria-label="t('ly.rd.openDays', 'Open days')" class="days">
-            <li v-for="d in f.days" :key="d">{{ dayShort(d) }}</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="ct-h" class="sec-s ct-main">
-      <div class="wrap">
-        <header class="sec-hd">
-          <p class="eyebrow">{{ t("ly.rd.writeTo", "Write to the bakery") }}</p>
-          <h2 id="ct-h" class="h2">{{ t("ly.rd.sendH", "Send {shop} a message", { shop: name }) }}</h2>
-        </header>
-        <div class="ct-g">
-          <div v-if="street || f.location" class="ct-map">
-            <div class="ct-mbox"><ly-map :line="street" :location="f.location" :title="name" /></div>
-            <p v-if="street" class="ct-cap">
-              <ly-icon name="pin" /><span
-                ><b><bdi>{{ street }}</bdi></b
-                ><template v-if="capNote">{{ " · " + capNote }}</template></span
-              >
-            </p>
+    <section aria-labelledby="ct-h" class="sec-s ct-main pl-ct">
+      <div class="wrap pl-ct-g">
+        <!-- the shop's panel (the design's contact.html, left): its name, where an order's questions go, and only what it has -->
+        <aside :aria-label="t('ly.rd.waysAria', 'Ways to reach {shop}', { shop: name })" class="pl-ct-shop">
+          <h2 class="co-h"><bdi>{{ name }}</bdi></h2>
+          <p class="co-p">{{ t("pl.ct.orderHelp", "For questions about an order, open the order and use its message panel.") }}</p>
+          <div class="pl-ct-acts">
+            <router-link :to="ordersTo" class="pl-btn primary">{{ t("pl.ct.findOrders", "Find your orders") }}</router-link>
           </div>
-          <form class="ct-f" novalidate @submit.prevent="send">
-            <div v-if="own" class="art-body ly-own" v-html="ownHtml"></div>
-            <template v-if="!sent">
-              <div class="g2">
-                <div :class="['fld', { bad: !!errs.name }]">
-                  <label class="fl" for="ct-n">{{ t("ly.rd.fName", "Name") }}</label>
-                  <input id="ct-n" v-model.trim="form.name" autocomplete="name" class="inp" name="name" />
-                  <span class="err">{{ errs.name }}</span>
-                </div>
-                <div :class="['fld', { bad: !!errs.email }]">
-                  <label class="fl" for="ct-e">{{ t("ly.rd.fEmail", "Email") }}</label>
-                  <input id="ct-e" v-model.trim="form.email" autocomplete="email" class="inp" name="email" type="email" />
-                  <span class="err">{{ errs.email }}</span>
-                </div>
+          <dl v-if="f.address || f.phone || f.email || open || f.days.length" class="pl-ct-facts">
+            <div v-if="f.address">
+              <dt><ly-icon name="pin" />{{ t("ly.rd.visit", "Visit") }}</dt>
+              <dd>
+                <bdi>{{ street }}</bdi><br /><bdi>{{ cityLine }}</bdi>
+                <span v-if="f.pickupNote" class="ci-s">{{ f.pickupNote }}</span>
+              </dd>
+            </div>
+            <div v-if="f.phone || f.email">
+              <dt><ly-icon name="message" />{{ f.phone && f.email ? t("ly.rd.callWrite", "Call or write") : f.phone ? t("ly.rd.call", "Call") : t("ly.rd.write", "Write") }}</dt>
+              <dd>
+                <a v-if="f.phone" :href="tel" dir="ltr">{{ f.phone }}</a><br v-if="f.phone && f.email" /><a v-if="f.email" :href="'mailto:' + f.email">{{ f.email }}</a>
+              </dd>
+            </div>
+            <div v-if="open || f.days.length">
+              <dt><ly-icon name="clock" />{{ t("ly.rd.hours", "Hours") }}</dt>
+              <dd>
+                <span v-if="open">{{ open }}</span>
+                <ul v-if="f.days.length" :aria-label="t('ly.rd.openDays', 'Open days')" class="days">
+                  <li v-for="d in f.days" :key="d">{{ dayShort(d) }}</li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+          <div v-if="f.location" class="ct-map">
+            <div class="ct-mbox"><ly-map :line="street" :location="f.location" :title="name" /></div>
+          </div>
+        </aside>
+
+        <!-- the message (the design's contact.html, right), sent with Selldone's own contact call -->
+        <form class="ct-f" novalidate @submit.prevent="send">
+          <h2 id="ct-h" class="co-h">{{ t("pl.ct.sendH", "Send us a message") }}</h2>
+          <div v-if="own" class="art-body ly-own" v-html="ownHtml"></div>
+          <template v-if="!sent">
+            <div class="g2">
+              <div :class="['fld', { bad: !!errs.name }]">
+                <label class="fl" for="ct-n">{{ t("ly.rd.fName", "Name") }}</label>
+                <input id="ct-n" v-model.trim="form.name" autocomplete="name" class="inp" name="name" />
+                <span class="err">{{ errs.name }}</span>
               </div>
-              <div :class="['fld', { bad: !!errs.message }]">
-                <label class="fl" for="ct-m">{{ t("ly.rd.fMessage", "Message") }}</label>
-                <textarea id="ct-m" v-model="form.message" :placeholder="t('ly.rd.fMessagePh', 'A question about an order, an allergen, a larger order for a group…')" class="inp" name="message" rows="6"></textarea>
-                <span class="err">{{ errs.message }}</span>
-              </div>
-              <p v-if="failed" class="ly-fail" role="alert"><ly-icon name="info" />{{ failed }}</p>
-              <div class="ct-a">
-                <button :aria-disabled="busy ? 'true' : undefined" class="btn" type="submit">{{ t("ly.rd.send", "Send") }}<ly-icon cls="flip-rtl" name="send" /></button>
-                <p v-if="f.phone" class="ct-n">
-                  {{ t("ly.rd.orCall", "Or call") }} <a :href="tel" dir="ltr">{{ f.phone }}</a>
-                </p>
-              </div>
-            </template>
-            <div v-else class="ct-ok" role="status">
-              <span class="em-ic sm"><ly-icon name="check" /></span>
-              <div>
-                <b>{{ t("ly.rd.sentT", "Message sent") }}</b>
-                <p>{{ t("ly.rd.sentP", "The bakery replies at the email you gave.") }}</p>
-                <button class="qlink" type="button" @click="sent = false">{{ t("ly.rd.another", "Send another message") }}</button>
+              <div :class="['fld', { bad: !!errs.email }]">
+                <label class="fl" for="ct-e">{{ t("ly.rd.fEmail", "Email") }}</label>
+                <input id="ct-e" v-model.trim="form.email" autocomplete="email" class="inp" name="email" type="email" />
+                <span class="err">{{ errs.email }}</span>
               </div>
             </div>
-          </form>
-        </div>
+            <div :class="['fld', { bad: !!errs.message }]">
+              <label class="fl" for="ct-m">{{ t("ly.rd.fMessage", "Message") }}</label>
+              <textarea id="ct-m" v-model="form.message" :placeholder="t('ly.rd.fMessagePh', 'A question about an order, an allergen, a larger order for a group…')" class="inp" name="message" rows="6"></textarea>
+              <span class="err">{{ errs.message }}</span>
+            </div>
+            <p v-if="failed" class="ly-fail" role="alert"><ly-icon name="info" />{{ failed }}</p>
+            <div class="ct-a">
+              <button :aria-disabled="busy ? 'true' : undefined" class="btn" type="submit">{{ t("pl.ct.send", "Send message") }}<ly-icon cls="flip-rtl" name="send" /></button>
+              <p v-if="f.phone" class="ct-n">
+                {{ t("ly.rd.orCall", "Or call") }} <a :href="tel" dir="ltr">{{ f.phone }}</a>
+              </p>
+            </div>
+          </template>
+          <div v-else class="ct-ok" role="status">
+            <span class="em-ic sm"><ly-icon name="check" /></span>
+            <div>
+              <b>{{ t("ly.rd.sentT", "Message sent") }}</b>
+              <p>{{ t("ly.rd.sentP", "The bakery replies at the email you gave.") }}</p>
+              <button class="qlink" type="button" @click="sent = false">{{ t("ly.rd.another", "Send another message") }}</button>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
 
@@ -184,6 +171,9 @@ export default {
       out.push(f.gateway?.cod ? t("ly.rd.qCod", "Cash on delivery") : t("ly.rd.qPay", "Payment"));
       out.push(t("ly.rd.qAllergens", "Allergens"));
       return out;
+    },
+    ordersTo() {
+      return { name: window.$storefront.routes.HISTORY_ORDERS_PHYSICAL };
     },
     faqTo() {
       return this.$router.hasRoute("ShopFAQ") ? { name: "ShopFAQ" } : { name: window.$storefront.routes.SHOP_CONTACT_US };

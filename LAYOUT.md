@@ -38,6 +38,9 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 | Catalogue (all toys, department, search, deals, `?age=`) | `components/ly/shop/LyListing.vue` |
 | Product page | `components/ly/product/LyProductOverview.vue`, `LyProductTabs.vue`, `pages/product/StorefrontPageProduct.vue` |
 | Guides, About, 404 | `pages/blog/list/`, `pages/official/about-us/`, `pages/errors/404/` |
+| Sign-in page and sheet | `pages/login/StorefrontPageLogin.vue` (a Play Lab panel that opens the sheet), `components/kalio/shell/KalioSignIn.vue` (Play Lab's logo) |
+| Saved toys, address book | `pages/user/wishlist/StorefrontPageUserWishlist.vue` (Play Lab cards; a guest is asked to sign in), `pages/user/addresses/StorefrontUserAddresses.vue` (no request for a guest) |
+| Bag drawer, bag, checkout, order, account, compare, read pages | the base's pages in the design's panels, frame and plain-case headings (`style/ly/pl.css`); the checkout says why no delivery way shows before an address (`pages/basket/cart/StorefrontPageBasketCart.vue`) |
 | Words | `skins/playlab/skin.json` words.en / words.ar (the base's bakery words for a toy shop, Play Lab's own words in Arabic) |
 | Loading screen | `scripts/loading/config.json` → `scripts/loading/out/loading.json` (`test-loading.cjs` TOTAL 0) |
 
