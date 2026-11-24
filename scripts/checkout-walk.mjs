@@ -126,8 +126,8 @@ for (const W of WIDTHS) {
     );
     console.log(`  delivery ways (${list.length}):`);
     list.forEach((w, i) => console.log(`    ${i + 1}. ${w}`));
-    if (!list.length) bad(W, "the Delivery card shows no way");
-    const wayInfo = [];
+    if (!list.length) console.log("  (no way before an address: a courier with a range shows once the address is in)");
+    let wayInfo = [];
     for (let i = 0; i < list.length; i++) {
       const card = ways().nth(i);
       await card.scrollIntoViewIfNeeded();
@@ -178,9 +178,10 @@ for (const W of WIDTHS) {
     }
 
     // ── a way that needs an address, then the address sheet
-    const home = wayInfo.find((w) => !w.pickup);
+    /* a courier with a range (distance) is in the bill only once an address is in: with no way listed yet, go to the address sheet anyway */
+    const home = wayInfo.find((w) => !w.pickup) || (wayInfo.length ? null : (await page.locator("#co-address .addr-add, #co-address .addr-card .qlink").count()) ? { i: -1, name: "(the address first)" } : null);
     if (home) {
-      await ways().nth(home.i).click();
+      if (home.i >= 0) await ways().nth(home.i).click();
       await sleep(3000);
       const firstChip = page.locator("#co-delivery .wins .wchip:not([disabled])").first();
       if (await firstChip.count()) {
@@ -227,6 +228,13 @@ for (const W of WIDTHS) {
       const set = await page.evaluate(() => (document.querySelector("#co-address .addr-card")?.textContent || "(no address card)").replace(/\s+/g, " ").trim());
       console.log(`  address saved: ${set}`);
       await shot("07-address-set", true);
+      if (!wayInfo.length) {
+        await sleep(4000);
+        const after = await page.evaluate(() => [...document.querySelectorAll("#co-delivery .mcs label.mc")].map((b) => ({ name: b.querySelector(".mc-t")?.textContent?.trim() || "", pickup: /pickup/i.test(b.textContent) })));
+        console.log("  ways once the address is in (" + after.length + "): " + after.map((w) => w.name).join(", "));
+        if (!after.length) bad(W, "the Delivery card shows no way even with an address");
+        wayInfo = after.map((w, i) => ({ ...w, i }));
+      }
     } else bad(W, "no way that needs an address");
 
     // ── each way: Place order → the payment window → its ✕

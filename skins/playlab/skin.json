@@ -46,7 +46,7 @@
     "search": "wood",
     "article": "",
     "compare": "p741339_p741340_p741333",
-    "i18nIgnore": "Cash on delivery|Worldwide shipping"
+    "i18nIgnore": "Cash on delivery|cash on delivery|Worldwide shipping"
   },
   "palettes": {
     "brand": "deep-teal",

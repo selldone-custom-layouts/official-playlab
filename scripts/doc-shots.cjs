@@ -17,7 +17,7 @@ const CAT = SK.checks.category;
 const THEME_KEY = SK.name + "-theme";
 const BRAND = SK.palettes.brand;
 /* a slow phone: wait for the product's own Add button before the shot (WAIT_BUY) */
-const waitBuy = (pg) /* WAIT_BUY */ => pg.locator("button.btn.add, .qb").filter({ visible: true }).first().waitFor({ timeout: 30000 }).catch(() => {});
+const waitBuy = (pg) /* WAIT_BUY */ => pg.locator("button.add, .qb").filter({ visible: true }).first().waitFor({ timeout: 30000 }).catch(() => {});
 let PLATE = "#f3f3f1";
 fs.mkdirSync(OUT, { recursive: true });
 const push = (pg, to) =>
@@ -98,7 +98,7 @@ async function shoot(phone, mode, jobs, after) {
               /* a product with sizes: the first size in stock, then Add to bag */
               const size = pg.locator(".av-g:not(.g-color) .av-o:not(.-out)").filter({ visible: true }).first();
               if (await size.count()) { await size.click(); await pg.waitForTimeout(800); }
-              const add = pg.locator(".pd-buy button.btn.add, button.btn.add").filter({ visible: true }).first();
+              const add = pg.locator(".pl-purchase button.add, button.add").filter({ visible: true }).first();
               if (await add.count()) {
                 await add.click();
                 await pg.waitForTimeout(2000);
@@ -134,7 +134,7 @@ async function shoot(phone, mode, jobs, after) {
         await push(pg, "/");
         await settle(pg);
         await pg.evaluate(() => {
-          const r = document.querySelector(".ftr .ts-row, .dts-row");
+          const r = document.querySelector(".pl-footer .ts-row, .dts-row");
           if (r) window.scrollTo(0, r.getBoundingClientRect().top + scrollY - 520);
         });
         await pg.waitForTimeout(800);
