@@ -566,9 +566,7 @@ const routes: IVueRoute[] = [
             path: "addresses",
             name: StorefrontRoutesName.USER_ADDRESSES_PAGE,
             component: StorefrontUserAddresses,
-            meta: {
-              requiresAuth: true,
-            },
+            // Play Lab: a guest sees the page ask to sign in (the page loads nothing without an account), not the home
           },
 
           // ▶ ▶ ⬬⬬⬬⬬⬬⬬⬬⬬ User order returns ⬬⬬⬬⬬⬬⬬⬬⬬
@@ -586,9 +584,7 @@ const routes: IVueRoute[] = [
             path: "favorites",
             name: StorefrontRoutesName.USER_FAVORITES_PAGE,
             component: StorefrontPageUserWishlist,
-            meta: {
-              requiresAuth: true,
-            },
+            // Play Lab: a guest sees the page ask to sign in (the page loads nothing without an account), not the home
           },
 
           // ▶ ▶ ⬬⬬⬬⬬⬬⬬⬬⬬ User Comments ⬬⬬⬬⬬⬬⬬⬬⬬

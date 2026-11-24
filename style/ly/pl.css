@@ -868,7 +868,7 @@ html .ly .pl-saved-more { display: flex; justify-content: center; }
 .ly .lg-wm.pl-shell { display: flex; justify-content: center; font-size: 15px; }
 .ly .lg-wm.pl-shell .ly-wm .wm-name { font-size: 2.4rem; }
 /* Selldone's buttons inside the base's flows in plain case (share the order, the order's tools) */
-html .ly :is(.ly-od-share, .ly-od-tools, .ly-od-sd) .v-btn { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; }
+html .ly :is(.ly-od-share, .ly-od-tools, .ly-od-sd) .v-btn, html .ly .v-btn.ly-od-share, html .ly .ly-od-tools .v-btn__content { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; }
 /* terms (the design's terms.html): the sections in one panel, headings in the condensed face, no outlined numerals */
 html .ly .lg2 .terms { padding: clamp(16px, 2.4cqw, 32px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); gap: 0; }
 html .ly .lg2 .tsec { grid-template-columns: minmax(0, 1fr); padding: 16px 0; border-color: var(--pl-line); }
@@ -908,3 +908,6 @@ html .ly .auth :focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); }
 /* compare: the sticky label cells on the panel's own colour (no square box on the rounded panel) */
 html .ly .cmp-body .cmp-row > .cl.lab { background: var(--pl-surface); box-shadow: 14px 0 0 var(--pl-surface); }
 html .ly .cmp-body .cmp-row > .cl.lab:dir(rtl) { box-shadow: -14px 0 0 var(--pl-surface); }
+/* the order's share button beside "Invoice": the same plain-case quiet link (the base set capitals with !important) */
+html .ly .ly-od-share .v-btn { font: 750 .86rem/1.2 var(--pl-body) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--pl-accent) !important; }
+html .ly .ly-od-share .v-btn:hover { color: var(--pl-ink) !important; }
