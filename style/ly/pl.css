@@ -867,3 +867,5 @@ html .ly .pl-saved-more { display: flex; justify-content: center; }
 /* the sign-in sheet opens with Play Lab's logo (glyph, name, sub), centred */
 .ly .lg-wm.pl-shell { display: flex; justify-content: center; font-size: 15px; }
 .ly .lg-wm.pl-shell .ly-wm .wm-name { font-size: 2.4rem; }
+/* Selldone's buttons inside the base's flows in plain case (share the order, the order's tools) */
+html .ly :is(.ly-od-share, .ly-od-tools, .ly-od-sd) .v-btn { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; }

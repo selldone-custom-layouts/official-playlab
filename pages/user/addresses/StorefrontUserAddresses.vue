@@ -26,9 +26,12 @@
   <div class="acc-p ly-abook">
     <div class="ab-hd">
       <h2 class="h3x">{{ t("ly.acc.book", "Address book") }}</h2>
-      <button class="btn sm soft" type="button" @click="showAdd"><ly-icon name="plus" />{{ t("ly.acc.addAddress", "Add an address") }}</button>
+      <button v-if="USER()" class="btn sm soft" type="button" @click="showAdd"><ly-icon name="plus" />{{ t("ly.acc.addAddress", "Add an address") }}</button>
     </div>
-    <div v-if="busy && !loaded" :aria-label="t('ly.acc.loadingBook', 'Loading your addresses')" class="ly-od-load" role="status"><span class="ly-od-sk -row"></span></div>
+    <ly-empty v-if="!USER()" :text="t('pl.acc.bookSignP', 'Your saved addresses stay with your account. Checkout asks for the address each time when you shop as a guest.')" :title="t('pl.acc.bookSignT', 'Sign in to see your address book')" cls="boxed" icon="pin">
+      <template #acts><button class="btn" type="button" @click="signIn">{{ t("ly.acc.signIn", "Sign in") }}</button></template>
+    </ly-empty>
+    <div v-else-if="busy && !loaded" :aria-label="t('ly.acc.loadingBook', 'Loading your addresses')" class="ly-od-load" role="status"><span class="ly-od-sk -row"></span></div>
     <ul v-else class="abl">
       <li v-for="address in addresses" :key="address.id" class="ab">
         <span class="mc-ic"><ly-icon :name="iconOf(address)" /></span>
@@ -87,6 +90,7 @@
 
 <script lang="ts">
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 
 import { MapHelper } from "@selldone/core-js/helper";
 import { ShopOptionsHelper } from "@selldone/core-js/helper/shop/ShopOptionsHelper";
@@ -129,13 +133,22 @@ export default {
     },
   },
 
+  watch: {
+    "$store.getters.getUser"(u) {
+      if (u && !this.loaded) this.fetchAddressBook();
+    },
+  },
+
   created() {
     this.setPageTitle(t("account.pageTitle.addresses", "My address book")); // Set Page Title!
-    this.fetchAddressBook();
+    if (this.USER()) this.fetchAddressBook(); // a guest has no address book (the page asks to sign in)
   },
 
   methods: {
     t,
+    signIn() {
+      EventBus.$emit("need-login", true);
+    },
     /* The row's icon from the address's own name. */
     iconOf(address) {
       const title = (address.title || "").toLowerCase();

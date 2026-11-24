@@ -375,7 +375,12 @@ export const SKIN = {
       "pl.saved.loading": "Loading your saved toys",
       "pl.saved.emptyT": "No saved toys yet",
       "pl.saved.emptyP": "Tap the heart on any toy to keep it here for later.",
-      "pl.saved.more": "Show more"
+      "pl.saved.more": "Show more",
+      "ly.od.stBaking": "Preparing",
+      "ly.rd.fMessagePh": "A question about an order, a toy’s age, a larger order for a group…",
+      "ly.home.heroEyebrow": "What we sell",
+      "pl.acc.bookSignT": "Sign in to see your address book",
+      "pl.acc.bookSignP": "Your saved addresses stay with your account. Checkout asks for the address each time when you shop as a guest."
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -675,7 +680,12 @@ export const SKIN = {
       "pl.saved.count.zero": "لا ألعاب محفوظة",
       "pl.saved.count.two": "لعبتان محفوظتان",
       "pl.saved.count.few": "{n} ألعاب محفوظة",
-      "pl.saved.count.many": "{n} لعبة محفوظة"
+      "pl.saved.count.many": "{n} لعبة محفوظة",
+      "ly.od.stBaking": "قيد التجهيز",
+      "ly.rd.fMessagePh": "سؤال عن طلب، أو عن عمر لعبة، أو طلب أكبر لمجموعة…",
+      "ly.home.heroEyebrow": "ما نبيعه",
+      "pl.acc.bookSignT": "سجّل الدخول لترى دفتر عناوينك",
+      "pl.acc.bookSignP": "تبقى عناوينك المحفوظة مع حسابك. عند التسوق كضيف يطلب الدفع العنوان في كل مرة."
     }
   }
 } as const;

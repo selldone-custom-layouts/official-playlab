@@ -131,7 +131,7 @@ export default {
       if (name === ACCOUNT_HOME) return null;
       if (this.$route.matched.some((m) => m.name === r.ORDERS_PAGE)) return t("ly.acc.orders", "Orders");
       if (name === r.USER_FAVORITES_PAGE) return t("account.section.saved", "Saved"); // a guest too (the page asks to sign in)
-      const item = [...this.mainItems, ...this.moreItems].find((x) => x.route.name === name);
+      const item = [...this.mainItems, ...this.moreItems].find((x) => x.route.name === name) || sections().find((x) => x.route.name === name); // a guest on a page of an account
       return item ? item.word : null;
     },
     heading() {
