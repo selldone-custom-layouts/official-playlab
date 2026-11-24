@@ -76,7 +76,7 @@ html, body, html .v-application.s--shop, html .v-application .v-main { backgroun
 .pl-mast { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; min-height: 77px; gap: 24px; }
 .pl-mast-start { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .pl-menu-btn { display: none !important; }
-.pl-shell .pl-header .ly-wm, .pl-shell .pl-footer-brand .ly-wm { display: flex; flex-direction: row; justify-self: start; padding: 0; line-height: 1; align-items: center; gap: 8px; width: max-content; max-width: 100%; white-space: nowrap; color: var(--pl-ink); border-radius: var(--pl-inner); }
+.pl-shell .pl-header .ly-wm, .pl-shell .pl-footer-brand .ly-wm, .pl-login.pl-shell .ly-wm, .lg-wm.pl-shell .ly-wm { display: flex; flex-direction: row; justify-self: start; padding: 0; line-height: 1; align-items: center; gap: 8px; width: max-content; max-width: 100%; white-space: nowrap; color: var(--pl-ink); border-radius: var(--pl-inner); }
 .pl-shell .pl-glyph { display: grid; place-items: center; width: 39px; height: 39px; border-radius: var(--pl-inner); background: var(--pl-action); color: var(--pl-on-action); flex: none; }
 .pl-shell .pl-glyph .i { width: 18px; height: 18px; }
 .pl-shell .ly-wm .wm-name { font: 800 2.8rem/.95 var(--pl-display); letter-spacing: -.04em; text-transform: uppercase; color: var(--pl-ink); }
@@ -835,3 +835,35 @@ html .ly .cmp-gh { font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em; t
 html .ly .cmp-body .cmp-row { border-color: var(--pl-line); }
 /* quick view: the toy's name in the condensed face, plain case (the design's quick-product h2) */
 html .ly .qv-n { font: 700 1.8rem/1.04 var(--pl-display); text-transform: none; letter-spacing: 0; }
+/* a guide's and the legal pages' section headings: the condensed face in plain case (the design's article-body h2, panel h2) */
+html .ly .art-body :is(h2, h3), html .ly .terms :is(h2, h3), html .ly .tsec-h { font-weight: 700; text-transform: none; letter-spacing: 0; }
+/* the checkout steps carry their number until done (the design's .steps: counter, then a tick) */
+html .ly .steps { counter-reset: plstep; }
+html .ly .steps .step { counter-increment: plstep; }
+html .ly .steps .step:not(.done) .st-ic .i { display: none; }
+html .ly .steps .step:not(.done) .st-ic::before { content: counter(plstep); font: 800 .8rem/1 var(--pl-body); }
+/* the order's progress: a line with dots, the current one ringed (the design's .timeline) */
+html .ly .tl4.tl4 .t { gap: 8px; }
+html .ly .tl4.tl4 .t-ic { width: 14px; height: 14px; background: var(--pl-surface); box-shadow: inset 0 0 0 2px var(--pl-line); }
+html .ly .tl4.tl4 .t-ic .i { display: none; }
+html .ly .tl4.tl4 .t.done .t-ic, html .ly .tl4.tl4 .t.cur .t-ic { background: var(--pl-accent); box-shadow: none; }
+html .ly .tl4.tl4 .t.cur .t-ic { box-shadow: 0 0 0 4px var(--pl-tint); }
+html .ly .tl4.tl4 .t + .t::before { top: 6px; inset-inline-end: calc(50% + 7px); width: calc(100% - 14px); background: var(--pl-line); }
+html .ly .tl4.tl4 .t.done + .t::before { background: var(--pl-accent); }
+html .ly .tl4.tl4 .t-l { font: 700 .84rem/1.2 var(--pl-body); }
+/* the checkout's Delivery card and sheet before a way reaches the address: why, and the way to the address */
+html .ly .pl-noway { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: center; gap: 4px 12px; margin-top: 12px; padding: 12px; border-radius: var(--pl-inner); background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .pl-noway .mc-ic { width: 40px; height: 40px; display: grid; place-items: center; grid-row: span 2; }
+html .ly .pl-noway p { color: var(--pl-ink); font-size: .92rem; }
+html .ly .pl-noway .qlink { justify-self: start; display: inline-flex; align-items: center; gap: 6px; }
+/* the discount code's button in plain case (Selldone's field under the summary) */
+html .ly .ly-code .v-btn { text-transform: none; letter-spacing: 0; font-family: var(--pl-body); font-weight: 750; }
+/* saved toys (the design's wishlist.html): the heading over Play Lab's cards, "Show more" under them */
+html .ly .pl-saved { display: grid; gap: 14px; min-width: 0; }
+html .ly .pl-saved-hd { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+html .ly .pl-saved-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+html .ly .pl-saved-more { display: flex; justify-content: center; }
+@media (max-width: 620px) { html .ly .pl-saved-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } }
+/* the sign-in sheet opens with Play Lab's logo (glyph, name, sub), centred */
+.ly .lg-wm.pl-shell { display: flex; justify-content: center; font-size: 15px; }
+.ly .lg-wm.pl-shell .ly-wm .wm-name { font-size: 2.4rem; }

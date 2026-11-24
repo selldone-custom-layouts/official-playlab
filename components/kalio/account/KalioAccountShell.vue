@@ -130,6 +130,7 @@ export default {
       const name = this.$route.name;
       if (name === ACCOUNT_HOME) return null;
       if (this.$route.matched.some((m) => m.name === r.ORDERS_PAGE)) return t("ly.acc.orders", "Orders");
+      if (name === r.USER_FAVORITES_PAGE) return t("account.section.saved", "Saved"); // a guest too (the page asks to sign in)
       const item = [...this.mainItems, ...this.moreItems].find((x) => x.route.name === name);
       return item ? item.word : null;
     },
@@ -158,6 +159,7 @@ export default {
     },
     /** What is happening to the orders, in a sentence. */
     summary() {
+      if (this.$route.name === window.$storefront.routes.USER_FAVORITES_PAGE) return t("pl.saved.lead", "Come back to the toys you’re thinking about.");
       if (this.pending) return t("account.summary.opening", "One moment, opening your account…");
       if (!account.loaded) return this.user ? t("account.summary.default", "Your orders, money and addresses in one place.") : t("account.summary.guest", "The orders placed on this device.");
       const tones = account.orders.map((o) => standing(o).tone);

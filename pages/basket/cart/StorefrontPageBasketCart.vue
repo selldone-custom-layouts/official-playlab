@@ -263,6 +263,11 @@
                   :start-package-index="bill?.connect_shipping_options?.length + bill?.vendor_shipping_options?.length"
                   @set-basket-config="setBasketConfig"
                 ></s-order-shipping-stores-options>
+                <div v-if="!show_when" class="pl-noway">
+                  <span class="mc-ic"><ly-icon name="pin" /></span>
+                  <p>{{ nx_has_address ? t("pl.co.noWayHere", "No delivery way reaches this address yet. Try another address, or contact the shop.") : t("pl.co.wayAfterAddress", "The ways that reach you show once your delivery address is in.") }}</p>
+                  <button v-if="!nx_has_address" class="qlink" type="button" @click="openAddress()">{{ t("pl.co.addAddress", "Add your address") }}<ly-icon name="arrow" /></button>
+                </div>
               </div>
             </section>
 
@@ -480,6 +485,11 @@
             @set-basket-config="setBasketConfig"
           ></s-order-shipping-stores-options>
         </ly-ship-sheet>
+        <div v-if="!show_when" class="pl-noway">
+          <span class="mc-ic"><ly-icon name="pin" /></span>
+          <p>{{ nx_has_address ? t("pl.co.noWayHere", "No delivery way reaches this address yet. Try another address, or contact the shop.") : t("pl.co.wayAfterAddress", "The ways that reach you show once your delivery address is in.") }}</p>
+          <button v-if="!nx_has_address" class="qlink" type="button" @click="delivery_sheet = false; openAddress()">{{ t("pl.co.addAddress", "Add your address") }}<ly-icon name="arrow" /></button>
+        </div>
       </template>
       <template #foot>
         <button class="btn" type="button" @click="delivery_sheet = false">{{ t("ly.co.done", "Done") }}</button>

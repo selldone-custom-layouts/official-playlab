@@ -353,7 +353,23 @@
       "ly.co.yourOrder": "Order summary",
       "ly.rd.faqT": "Help and FAQ",
       "bakini.n.rd.gAllergens": "Ages and safety",
-      "bakini.n.rd.fq10": "Where can I see what is in the box?"
+      "bakini.n.rd.fq10": "Where can I see what is in the box?",
+      "ly.bag.totalCod": "Total · pay on delivery",
+      "pl.co.noWayHere": "No delivery way reaches this address yet. Try another address, or contact the shop.",
+      "pl.co.wayAfterAddress": "The ways that reach you show once your delivery address is in.",
+      "pl.co.addAddress": "Add your address",
+      "account.section.saved": "Saved toys",
+      "account.pageTitle.saved": "Saved toys",
+      "pl.saved.lead": "Come back to the toys you’re thinking about.",
+      "pl.saved.count.one": "{n} saved toy",
+      "pl.saved.count.other": "{n} saved toys",
+      "pl.saved.signT": "Sign in to see your saved toys",
+      "pl.saved.signP": "Tap the heart on a toy to keep it here. Saved toys stay with your account.",
+      "pl.saved.explore": "Explore toys",
+      "pl.saved.loading": "Loading your saved toys",
+      "pl.saved.emptyT": "No saved toys yet",
+      "pl.saved.emptyP": "Tap the heart on any toy to keep it here for later.",
+      "pl.saved.more": "Show more"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -633,7 +649,27 @@
       "ly.co.yourOrder": "ملخص الطلب",
       "ly.rd.faqT": "المساعدة والأسئلة الشائعة",
       "bakini.n.rd.gAllergens": "الأعمار والسلامة",
-      "bakini.n.rd.fq10": "أين أرى محتويات العلبة؟"
+      "bakini.n.rd.fq10": "أين أرى محتويات العلبة؟",
+      "ly.bag.totalCod": "الإجمالي · الدفع عند الاستلام",
+      "pl.co.noWayHere": "لا توجد طريقة توصيل تصل إلى هذا العنوان بعد. جرّب عنوانًا آخر، أو تواصل مع المتجر.",
+      "pl.co.wayAfterAddress": "تظهر طرق التوصيل المتاحة لك بعد إضافة عنوان التوصيل.",
+      "pl.co.addAddress": "أضف عنوانك",
+      "account.section.saved": "الألعاب المحفوظة",
+      "account.pageTitle.saved": "الألعاب المحفوظة",
+      "pl.saved.lead": "عُد إلى الألعاب التي تفكر فيها.",
+      "pl.saved.count.one": "لعبة محفوظة واحدة",
+      "pl.saved.count.other": "{n} لعبة محفوظة",
+      "pl.saved.signT": "سجّل الدخول لترى ألعابك المحفوظة",
+      "pl.saved.signP": "اضغط على القلب في أي لعبة لتحفظها هنا. تبقى الألعاب المحفوظة مع حسابك.",
+      "pl.saved.explore": "اكتشف الألعاب",
+      "pl.saved.loading": "جارٍ تحميل ألعابك المحفوظة",
+      "pl.saved.emptyT": "لا توجد ألعاب محفوظة بعد",
+      "pl.saved.emptyP": "اضغط على القلب في أي لعبة لتحفظها هنا لوقت لاحق.",
+      "pl.saved.more": "عرض المزيد",
+      "pl.saved.count.zero": "لا ألعاب محفوظة",
+      "pl.saved.count.two": "لعبتان محفوظتان",
+      "pl.saved.count.few": "{n} ألعاب محفوظة",
+      "pl.saved.count.many": "{n} لعبة محفوظة"
     }
   }
 }

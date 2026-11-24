@@ -9,7 +9,7 @@
     <ly-pt :crumbs="[{ label: t('ly.lg.title', 'Sign in') }]" :title="t('ly.lg.title', 'Sign in')" cls="compact" />
     <section :aria-label="t('ly.lg.title', 'Sign in')" class="sec-s">
       <div class="wrap">
-        <div :aria-busy="busy_user ? 'true' : undefined" class="pl-login">
+        <div :aria-busy="busy_user ? 'true' : undefined" class="pl-login pl-shell">
           <ly-logo :to="null" />
           <p>{{ t("ly.lg.why", "Sign in to see your orders and saved addresses.") }}</p>
           <div class="pl-login-acts">

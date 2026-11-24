@@ -30,7 +30,7 @@
           </div>
           <div class="md-body">
             <div :data-step="step === 'code' ? 2 : 1" class="lg">
-              <div aria-hidden="true" class="lg-wm ly-wm"><span class="wm-name">{{ shopWord }}</span><span v-if="shopCity" class="wm-sub">{{ shopCity }}</span></div>
+              <div aria-hidden="true" class="lg-wm pl-shell"><ly-logo :to="null" /></div>
 
               <template v-if="step !== 'done'">
                 <p class="lg-p">{{ t("ly.lg.why", "Sign in to see your orders and saved addresses.") }}</p>
@@ -119,6 +119,7 @@
 <script>
 import { throttle } from "lodash-es";
 import SShopLogin from "@selldone/components-vue/storefront/login/SShopLogin.vue";
+import LyLogo from "../../ly/LyLogo.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import LyIcon from "../../ly/LyIcon.vue";
 import { guestCheckout, shopFacts } from "../../ly/ly";
@@ -136,7 +137,7 @@ const SOCIAL = [
 
 export default {
   name: "KalioSignIn",
-  components: { SShopLogin, LyIcon },
+  components: { SShopLogin, LyIcon, LyLogo },
   inject: ["$shop"],
 
   data: () => ({

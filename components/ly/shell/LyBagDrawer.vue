@@ -68,7 +68,7 @@
             >
           </p>
           <p class="tot">
-            <span>{{ gateway ? t("ly.bag.totalWith", "Total · {way}", { way: gateway.toLowerCase() }) : t("ly.bag.total", "Total") }}</span
+            <span>{{ gatewayCod ? t("ly.bag.totalCod", "Total · pay on delivery") : gateway ? t("ly.bag.totalWith", "Total · {way}", { way: gateway.toLowerCase() }) : t("ly.bag.total", "Total") }}</span
             ><span class="money">{{ money(sum.total, sum.currency) }}</span>
           </p>
         </div>
@@ -125,6 +125,11 @@ export default {
     },
     gateway() {
       return shopFacts(this.shop).gateway?.name || "";
+    },
+    /* cash on delivery is said in the Layout's own words (the gateway's name is the shop's, in one language) */
+    gatewayCod() {
+      const gws = shopFacts(this.shop).gateways;
+      return gws.length > 0 && gws.every((g) => g.cod || g.type === "cod" || /^cod(_|$)/i.test(g.code || ""));
     },
     basket() {
       return this.getBaskets().find((b) => b?.type === "PHYSICAL") || this.getBaskets().find((b) => b?.items?.length) || null;

@@ -1,190 +1,118 @@
 <!--
-  - Copyright (c) 2023. Selldone® Business OS™
-  -
-  - Author: M.Pajuhaan
-  - Web: https://selldone.com
-  - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  -
-  - All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
-  - From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
-  - Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
-  - Our journey is not just about reaching a destination, but about creating a masterpiece.
-  - Tread carefully, for you're treading on dreams.
-  -->
-
+  Saved toys (the design's wishlist.html), inside the account: the toys the visitor saved with a card's heart,
+  as Play Lab's own cards (LyCard: photo, age, name, price, Add to bag), eight at a time with "Show more".
+  Saving belongs to a signed-in account (Selldone's wishlist): a guest is asked to sign in, and an account
+  with nothing saved is sent to the toys. The list is Selldone's (products, only_in_wishlist).
+-->
 <template>
-  <v-container fluid>
-    <div class="widget-box -x-large min-height-60vh">
-      <u-widget-header :title="$t('user_favorites.title')" icon="favorite">
-      </u-widget-header>
-      <!-- ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ User favorites  ⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬⬬ -->
-
-      <u-loading-progress v-if="busy_fetch"></u-loading-progress>
-
-      <v-data-iterator
-        v-model:options="options"
-        v-model:page="page"
-        :items="products"
-        :items-length="totalItems"
-        :items-per-page="itemsPerPage"
-        :search="search"
-        :sort-by="sortBy"
-        class="bg-transparent"
-        density="compact"
-        hide-default-footer
-        no-data-text=""
-      >
-        <template v-slot:no-results></template>
-
-        <template v-slot:header>
-          <s-data-iterator-toolbar
-            v-model:items-per-page="itemsPerPage"
-            v-model:search="search"
-            v-model:sort-key="sortBy[0].key"
-            v-model:sort-order="sortBy[0].order"
-            :sort-keys="keys"
-          ></s-data-iterator-toolbar>
-        </template>
-
-        <template v-slot:default>
-          <v-row class="m-2" no-gutters>
-            <v-col
-              v-for="product in products"
-              :key="product.id"
-              class="p-2"
-              cols="12"
-              lg="3"
-              md="4"
-              sm="6"
-            >
-              <s-shop-product-card
-                :product="product"
-                :quick-buy="false"
-                :to="{
-                  name: window.$storefront.routes.PRODUCT_PAGE,
-                  params: {
-                    shop_name: $shop.name,
-                    product_id: product.id,
-                  },
-                }"
-                rounded
-              />
-            </v-col>
-          </v-row>
-        </template>
-
-        <template v-slot:bottom>
-          <div class="text-center pt-2 mt-3">
-            <v-pagination v-model="page" :length="pageCount" rounded />
-          </div>
-        </template>
-      </v-data-iterator>
+  <div class="pl-saved">
+    <div class="pl-saved-hd">
+      <h2 class="co-h">{{ t("account.section.saved", "Saved") }}</h2>
+      <p v-if="user && total" class="co-p">{{ t("pl.saved.count", { one: "{n} saved toy", other: "{n} saved toys" }, { n: total }) }}</p>
     </div>
-  </v-container>
+
+    <ly-empty
+      v-if="!user"
+      :text="t('pl.saved.signP', 'Tap the heart on a toy to keep it here. Saved toys stay with your account.')"
+      :title="t('pl.saved.signT', 'Sign in to see your saved toys')"
+      cls="boxed"
+      icon="heart"
+    >
+      <template #acts>
+        <button class="btn" type="button" @click="signIn">{{ t("ly.acc.signIn", "Sign in") }}</button>
+        <router-link :to="shopTo" class="btn quiet">{{ t("pl.saved.explore", "Explore toys") }}</router-link>
+      </template>
+    </ly-empty>
+
+    <div v-else-if="!loaded" :aria-label="t('pl.saved.loading', 'Loading your saved toys')" class="pl-grid pl-saved-grid" role="status">
+      <div v-for="i in 4" :key="i" aria-hidden="true" class="pl-card pl-skel"><div class="pl-media"></div><div class="pl-card-data"><span class="sk-l"></span><span class="sk-l s"></span></div></div>
+    </div>
+
+    <ly-empty
+      v-else-if="!products.length"
+      :text="t('pl.saved.emptyP', 'Tap the heart on any toy to keep it here for later.')"
+      :title="t('pl.saved.emptyT', 'No saved toys yet')"
+      cls="boxed"
+      icon="heart"
+    >
+      <template #acts>
+        <router-link :to="shopTo" class="btn">{{ t("pl.saved.explore", "Explore toys") }}</router-link>
+      </template>
+    </ly-empty>
+
+    <template v-else>
+      <div :class="['pl-grid', 'pl-saved-grid', { dim: busy }]">
+        <ly-card v-for="p in products" :key="p.id" :product="p" />
+      </div>
+      <div v-if="products.length < total" class="pl-saved-more">
+        <button :aria-disabled="busy ? 'true' : undefined" class="pl-btn quiet" type="button" @click="busy || fetch(products.length)">{{ t("pl.saved.more", "Show more") }}</button>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">
 import { t } from "../../../components/kalio/i18n/kalio-i18n";
-import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
+import LyCard from "../../../components/ly/ui/LyCard.vue";
+import LyEmpty from "../../../components/ly/ui/LyEmpty.vue";
+import { catalogueRoute } from "../../../components/kalio/kalio-catalog";
 
-import SShopProductCard from "@selldone/components-vue/storefront/product/card/SShopProductCard.vue";
-import SDataIteratorToolbar from "@selldone/components-vue/ui/toolbar/SDataIteratorToolbar.vue";
-import { throttle } from "lodash-es";
+const PAGE = 8;
 
 export default {
   name: "StorefrontPageUserWishlist",
-  components: { SDataIteratorToolbar, SShopProductCard },
+  components: { LyCard, LyEmpty },
   inject: ["$shop"],
   data: () => ({
-    products: [],
-
-    busy_add: false,
-
-    search: "",
-    filter: {},
-    sortBy: [{ key: null, order: "desc" }],
-
-    busy_fetch: false,
-    // Pagination:
-    page: 1,
-    itemsPerPage: 8,
-    totalItems: 0,
-    options: {},
+    products: [] as any[],
+    total: 0,
+    busy: false,
+    loaded: false,
   }),
   computed: {
-    pageCount() {
-      return Math.ceil(this.totalItems / this.itemsPerPage);
+    user() {
+      return this.USER();
     },
-
-    keys() {
-      return [
-        { label: this.$t("global.sort.product_type"), value: "type" },
-        { label: this.$t("global.sort.title"), value: "title" },
-        { label: this.$t("global.sort.discount"), value: "discount" },
-        { label: this.$t("global.sort.rate"), value: "rate" },
-        { label: this.$t("global.sort.rate_count"), value: "rate_count" },
-        { label: this.$t("global.sort.category"), value: "category_id" },
-      ];
+    shopTo() {
+      return catalogueRoute({});
     },
   },
-
   watch: {
-    // Pagination:
-    options: {
-      handler() {
-        const { sortBy, sortDesc, page } = this.options;
-        this.fetchData(page, sortBy[0]?.key, sortBy[0]?.order === "desc");
-      },
-      deep: true,
+    user(u) {
+      if (u && !this.loaded) this.fetch(0);
     },
-
-    search: throttle(function () {
-      //   console.log("search", newVal);
-      const { sortBy, sortDesc } = this.options;
-      this.fetchData(1, sortBy[0]?.key, sortBy[0]?.order === "desc");
-    }, window.SERACH_THROTTLE),
   },
-
   created() {
-    this.setPageTitle(t("account.pageTitle.saved", "Saved")); // Set Page Title!
+    this.setPageTitle(t("account.section.saved", "Saved"));
+    if (this.user) this.fetch(0);
   },
-
   methods: {
-    fetchData(page, sortBy, sortDesc = true) {
-      this.busy_fetch = true;
-
-      const handleSuccessResponse = ({ products, total }) => {
-        this.products = products;
-
-        this.totalItems = total;
+    t,
+    signIn() {
+      EventBus.$emit("need-login", true);
+    },
+    fetch(offset: number) {
+      if (!this.user) return;
+      this.busy = true;
+      const take = ({ products, total }: any) => {
+        const list = Array.isArray(products) ? products : [];
+        this.products = offset ? [...this.products, ...list.filter((p: any) => !this.products.some((x: any) => x.id === p.id))] : list;
+        this.total = Number(total) || this.products.length;
       };
-
       window.$storefront.products
         .optimize(60)
-        .list("*", (page - 1) * this.itemsPerPage, this.itemsPerPage, {
-          sortBy: sortBy,
-          sortDesc: sortDesc,
-          search: this.search,
-
-          dir: "*",
-          only_in_wishlist: true, /// OLD: only_stared
-          products_only: true,
-
-          with_total: true,
+        .list("*", offset, PAGE, { dir: "*", only_in_wishlist: true, products_only: true, with_total: true })
+        .cache(take)
+        .then(take)
+        .catch(() => {
+          if (!offset) this.products = [];
         })
-        .cache(handleSuccessResponse)
-        .then(handleSuccessResponse)
-
-        .catch((error) => {
-          NotificationService.showLaravelError(error);
-        })
-
         .then(() => {
-          this.busy_fetch = false;
+          this.busy = false;
+          this.loaded = true;
         });
     },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

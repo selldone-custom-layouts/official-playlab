@@ -166,7 +166,9 @@ for (const W of WIDTHS) {
     const cmp = page.locator("#co-delivery [aria-controls=dlvm]");
     if (await cmp.count()) {
       await cmp.click();
-      await page.waitForSelector("#dlvm .dls .dl", { state: "visible", timeout: 15000 }).catch(() => bad(W, "the delivery sheet shows no way"));
+      /* no way before an address: the sheet says why instead (Play Lab's .pl-noway) */
+      if (list.length) await page.waitForSelector("#dlvm .dls .dl", { state: "visible", timeout: 15000 }).catch(() => bad(W, "the delivery sheet shows no way"));
+      else await page.waitForSelector("#dlvm .pl-noway", { state: "visible", timeout: 15000 }).catch(() => bad(W, "the delivery sheet shows no way and does not say why"));
       await sleep(1500);
       const rows = await page.evaluate(() => [...document.querySelectorAll("#dlvm .dls .dl .dl-t b")].map((b) => b.textContent.replace(/\s+/g, " ").trim()));
       console.log(`  delivery sheet: ${rows.length} row(s): ${rows.join(" / ")}`);
