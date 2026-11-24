@@ -104,12 +104,12 @@ export default {
     mainItems() {
       const r = window.$storefront.routes;
       const items = [];
-      if (this.user) items.push({ key: "home", word: t("ly.acc.overview", "Overview"), icon: "home", route: { name: ACCOUNT_HOME } });
+      /* Play Lab: the design's rail for everyone — Overview, Orders, Addresses, Saved toys (a guest's pages ask to sign in) */
+      items.push({ key: "home", word: t("ly.acc.overview", "Overview"), icon: "home", route: { name: ACCOUNT_HOME } });
       items.push({ key: "orders", word: t("ly.acc.orders", "Orders"), icon: "box", route: { name: r.HISTORY_ORDERS_PHYSICAL } });
-      if (this.user) {
-        items.push({ key: "addresses", word: t("ly.acc.addresses", "Addresses"), icon: "pin", route: { name: r.USER_ADDRESSES_PAGE } });
-        items.push({ key: "profile", word: t("ly.acc.profile", "Profile"), icon: "user", route: { name: r.USER_PROFILE_PAGE } });
-      }
+      items.push({ key: "addresses", word: t("ly.acc.addresses", "Addresses"), icon: "pin", route: { name: r.USER_ADDRESSES_PAGE } });
+      items.push({ key: "saved", word: t("account.section.saved", "Saved"), icon: "heart", route: { name: r.USER_FAVORITES_PAGE } });
+      if (this.user) items.push({ key: "profile", word: t("ly.acc.profile", "Profile"), icon: "user", route: { name: r.USER_PROFILE_PAGE } });
       return items;
     },
     /* Selldone's other sections, kept reachable under the menu. */
@@ -117,7 +117,6 @@ export default {
       if (!this.user) return [];
       const r = window.$storefront.routes;
       return [
-        { key: "saved", word: t("ly.acc.saved", "Saved"), icon: "heart", route: { name: r.USER_FAVORITES_PAGE } },
         { key: "wallet", word: t("ly.acc.wallet", "Wallet"), icon: "cash", route: { name: r.USER_WALLETS_PAGE } },
         { key: "gift", word: t("ly.acc.gift", "Gift cards"), icon: "gift", route: { name: r.USER_GIFTCARDS_PAGE } },
         { key: "returns", word: t("ly.acc.returns", "Returns"), icon: "back", route: { name: r.USER_RETURN_REQUESTS } },
@@ -141,7 +140,7 @@ export default {
       return this.section;
     },
     crumbs() {
-      const home = this.user ? { name: ACCOUNT_HOME } : { name: window.$storefront.routes.HISTORY_ORDERS_PHYSICAL };
+      const home = { name: ACCOUNT_HOME };
       if (!this.section) return [{ label: t("ly.acc.account", "Account") }];
       return [{ label: t("ly.acc.account", "Account"), to: home }, { label: this.section }];
     },
@@ -160,6 +159,7 @@ export default {
     /** What is happening to the orders, in a sentence. */
     summary() {
       if (this.$route.name === window.$storefront.routes.USER_FAVORITES_PAGE) return t("pl.saved.lead", "Come back to the toys you’re thinking about.");
+      if (!this.user && !this.pending && this.$route.name === ACCOUNT_HOME) return t("pl.acc.lead", "Orders, addresses and saved toys.");
       if (this.$route.name === window.$storefront.routes.USER_ADDRESSES_PAGE) return t("pl.acc.bookLead", "The addresses you deliver to, kept with your account.");
       if (this.pending) return t("account.summary.opening", "One moment, opening your account…");
       if (!account.loaded) return this.user ? t("account.summary.default", "Your orders, money and addresses in one place.") : t("account.summary.guest", "The orders placed on this device.");

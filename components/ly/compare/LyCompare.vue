@@ -28,15 +28,31 @@
             <button aria-controls="cmp-pick" class="btn" type="button" @click="openPick($event)">{{ t("ly.cmp.addOne", "Add a pastry") }}</button>
           </template>
         </ly-empty>
-        <template v-else>
-          <div class="cmp-bar">
+        <div v-else class="pl-cmp">
+          <!-- the design's side panel: how many, only the differences, share, clear, similar toys -->
+          <aside :aria-label="t('pl.cmp.tools', 'Comparison tools')" class="pl-cmp-side">
+            <p class="pl-cmp-count"><b>{{ items.length }}</b><span>{{ t("pl.cmp.ofMax", "of {max} toys", { max: MAX_N }) }}</span></p>
             <div class="cmp-sw">
               <button :aria-checked="diffOnly ? 'true' : 'false'" :disabled="items.length < 2" aria-labelledby="ly-diff-l" class="switch" role="switch" type="button" @click="diffOnly = !diffOnly"><span></span></button
-              ><span id="ly-diff-l">{{ t("ly.cmp.onlyDiff", "Only differences") }}</span>
+              ><span id="ly-diff-l">{{ t("pl.cmp.onlyDiff", "Only show differences") }}</span>
             </div>
-            <button class="btn quiet sm" type="button" @click="copyLink('top')"><ly-icon :name="copied === 'top' ? 'check' : 'link'" />{{ copied === "top" ? t("ly.cmp.copied", "Link copied") : t("ly.cmp.copy", "Copy link") }}</button>
-          </div>
-
+            <div class="pl-cmp-acts">
+              <button class="qlink" type="button" @click="copyLink('top')"><ly-icon :name="copied === 'top' ? 'check' : 'share'" />{{ copied === "top" ? t("ly.cmp.copied", "Link copied") : t("pl.cmp.share", "Share") }}</button>
+              <button class="qlink" type="button" @click="clear"><ly-icon name="close" />{{ t("pl.cmp.clear", "Clear all") }}</button>
+            </div>
+            <template v-if="similar.length && items.length < MAX_N">
+              <h2 class="eyebrow pl-cmp-sh">{{ t("pl.cmp.similar", "Similar toys") }}</h2>
+              <ul class="pl-cmp-sim">
+                <li v-for="p in similar" :key="p.id">
+                  <button :aria-label="t('pl.cmp.addNamed', 'Add {name} to the comparison', { name: p.title })" class="pl-cmp-pick" type="button" @click="add(p)">
+                    <span class="th"><img :src="thumb(p)" alt="" loading="lazy" /></span><span class="pk-tx"><span class="pk-n">{{ p.title }}</span><span class="pk-p money">{{ fmt(priceView(shop, p).now) }}</span></span
+                    ><span aria-hidden="true" class="pk-plus"><ly-icon name="plus" /></span>
+                  </button>
+                </li>
+              </ul>
+            </template>
+          </aside>
+          <div class="pl-cmp-main">
           <div :class="['cmp', { 'only-diff': diffOnly }]">
             <div ref="heads" class="cmp-heads" @scroll="syncTo($event, 'body')">
               <div :style="{ '--ly-n': cols }" class="cmp-row hd">
@@ -119,14 +135,8 @@
             </div>
           </div>
 
-          <div class="cmp-share">
-            <span class="il-ic"><ly-icon name="share" /></span>
-            <p>
-              <b>{{ t("ly.cmp.share", "Share this comparison") }}</b><span class="mono">{{ linkShown }}</span>
-            </p>
-            <button class="btn sm" type="button" @click="copyLink('card')">{{ copied === "card" ? t("ly.cmp.copied", "Link copied") : t("ly.cmp.copy", "Copy link") }}</button>
           </div>
-        </template>
+        </div>
       </div>
     </section>
 
@@ -186,6 +196,13 @@ export default {
     catsLine() {
       const names = [...new Set(this.items.map((it) => catTitle(it.product.category || catOf(it.product.category_id))).filter(Boolean))];
       return list(names);
+    },
+    /* "Similar toys": the first pick's department, best sellers first, not yet compared */
+    similar() {
+      const first = this.items[0]?.product?.category_id;
+      const pool = this.ly.products.filter((p) => !this.ids.includes(p.id) && p.quantity > 0);
+      const same = pool.filter((p) => p.category_id === first);
+      return [...same, ...pool.filter((p) => p.category_id !== first)].sort((a, b) => (b.category_id === first) - (a.category_id === first) || (b.sells || 0) - (a.sells || 0)).slice(0, 3);
     },
     anyPros() {
       return this.items.some((it) => prosOf(it.product).length);

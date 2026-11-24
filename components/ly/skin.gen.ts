@@ -385,7 +385,19 @@ export const SKIN = {
       "pl.ct.findOrders": "Find your orders",
       "pl.ct.sendH": "Send us a message",
       "pl.ct.send": "Send message",
-      "pl.acc.bookLead": "The addresses you deliver to, kept with your account."
+      "pl.acc.bookLead": "The addresses you deliver to, kept with your account.",
+      "pl.cmp.tools": "Comparison tools",
+      "pl.cmp.ofMax": "of {max} toys",
+      "pl.cmp.onlyDiff": "Only show differences",
+      "pl.cmp.share": "Share",
+      "pl.cmp.clear": "Clear all",
+      "pl.cmp.similar": "Similar toys",
+      "pl.cmp.addNamed": "Add {name} to the comparison",
+      "pl.acc.signInH": "Sign in to your account",
+      "pl.acc.signInP": "See your orders, saved addresses and saved toys in one place. Checkout works without an account.",
+      "pl.acc.yourOrders": "Your orders",
+      "pl.acc.bookShort": "Kept with your account",
+      "pl.acc.lead": "Orders, addresses and saved toys."
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -695,7 +707,19 @@ export const SKIN = {
       "pl.ct.findOrders": "اعثر على طلباتك",
       "pl.ct.sendH": "أرسل إلينا رسالة",
       "pl.ct.send": "أرسل الرسالة",
-      "pl.acc.bookLead": "العناوين التي تُوصَل إليها طلباتك، محفوظة مع حسابك."
+      "pl.acc.bookLead": "العناوين التي تُوصَل إليها طلباتك، محفوظة مع حسابك.",
+      "pl.cmp.tools": "أدوات المقارنة",
+      "pl.cmp.ofMax": "من {max} ألعاب",
+      "pl.cmp.onlyDiff": "اعرض الفروق فقط",
+      "pl.cmp.share": "مشاركة",
+      "pl.cmp.clear": "امسح الكل",
+      "pl.cmp.similar": "ألعاب مشابهة",
+      "pl.cmp.addNamed": "أضف {name} إلى المقارنة",
+      "pl.acc.signInH": "سجّل الدخول إلى حسابك",
+      "pl.acc.signInP": "شاهد طلباتك وعناوينك المحفوظة وألعابك المحفوظة في مكان واحد. يعمل الدفع من دون حساب.",
+      "pl.acc.yourOrders": "طلباتك",
+      "pl.acc.bookShort": "محفوظة مع حسابك",
+      "pl.acc.lead": "الطلبات والعناوين والألعاب المحفوظة."
     }
   }
 } as const;

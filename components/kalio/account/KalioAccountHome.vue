@@ -8,7 +8,19 @@
   mockup's empty card. Nothing shows as an empty box.
 -->
 <template>
-  <div class="acc-p ly-ahome">
+  <!-- Play Lab: a guest's overview (the design's account.html): sign in, then the ways to the orders and the address book -->
+  <div v-if="guest" class="acc-p ly-ahome pl-aguest">
+    <section aria-labelledby="pl-ag-h" class="pl-ag-panel">
+      <h2 id="pl-ag-h" class="co-h">{{ t("pl.acc.signInH", "Sign in to your account") }}</h2>
+      <p class="co-p">{{ t("pl.acc.signInP", "See your orders, saved addresses and saved toys in one place. Checkout works without an account.") }}</p>
+      <div class="pl-ag-acts"><button class="pl-btn primary" type="button" @click="signIn">{{ t("ly.acc.signIn", "Sign in") }}</button></div>
+    </section>
+    <div class="pl-ag-links">
+      <router-link :to="ordersRoute" class="pl-ag-link"><span class="il-ic"><ly-icon name="box" /></span><span><b>{{ t("pl.acc.yourOrders", "Your orders") }}</b><small>{{ t("account.summary.guest", "The orders placed on this device.") }}</small></span><ly-icon cls="flip-rtl" name="chev" /></router-link>
+      <router-link :to="sectionRoute('USER_ADDRESSES_PAGE')" class="pl-ag-link"><span class="il-ic"><ly-icon name="pin" /></span><span><b>{{ t("ly.acc.book", "Address book") }}</b><small>{{ t("pl.acc.bookShort", "Kept with your account") }}</small></span><ly-icon cls="flip-rtl" name="chev" /></router-link>
+    </div>
+  </div>
+  <div v-else class="acc-p ly-ahome">
     <h2 class="h3x">{{ t("ly.acc.hello", "Hello, {name}", { name: firstName }) }}</h2>
     <p class="co-p">{{ t("ly.acc.helloP", "Your orders, addresses and details in one place.") }}</p>
 
@@ -81,6 +93,7 @@
 
 <script>
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 import { reorder } from "../kalio-basket";
 import { t } from "../i18n/kalio-i18n";
@@ -116,6 +129,7 @@ export default {
 
   data() {
     return {
+      guest: false,
       account,
       states: STATES,
       sellers: new Map(),
@@ -251,6 +265,15 @@ export default {
   },
 
   watch: {
+    /* a guest signs in here: the overview of the account */
+    "$store.getters.getUser"(u) {
+      if (!u || !this.guest) return;
+      this.guest = false;
+      loadOrders(this);
+      loadAddresses();
+      loadWallets(this);
+      loadGiftcards(this);
+    },
     latest: {
       handler(order) {
         if (order) loadDetail(this, order.id);
@@ -267,9 +290,10 @@ export default {
     // orders kept on this device.
     userKnown(this).then(() => {
       if (!this.USER()) {
-        this.$router.replace(this.ordersRoute);
+        this.guest = true; // Play Lab: the design's guest overview, not a redirect to the orders
         return;
       }
+      this.guest = false;
       loadOrders(this);
       loadAddresses();
       loadWallets(this);
@@ -280,6 +304,9 @@ export default {
   methods: {
     t,
     longDate,
+    signIn() {
+      EventBus.$emit("need-login", true);
+    },
     /* done · cur · next; the last step reached is done. */
     stateOf(i) {
       const at = this.stepAt;

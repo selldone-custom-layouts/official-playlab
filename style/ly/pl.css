@@ -913,3 +913,66 @@ html .ly .ly-od-share .v-btn { font: 750 .86rem/1.2 var(--pl-body) !important; l
 html .ly .ly-od-share .v-btn:hover { color: var(--pl-ink) !important; }
 /* "Before you write" (the base's dark band on contact): its heading keeps the band's light ink in both modes */
 html .ly .cf .h3x { color: var(--ly-dark-ink); }
+/* FAQ (the design's faq.html): the questions in one stack, a topic as an eyebrow, a chevron that turns */
+html .ly .pl-faq { max-width: 850px; padding: clamp(16px, 2.4cqw, 32px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .pl-fq + .pl-fq { margin-top: 14px; }
+html .ly .pl-fq-h { display: block; margin: 0 0 11px; font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em; text-transform: uppercase; color: var(--pl-accent); }
+html .ly .pl-qa { padding-block: 8px; border-top: 1px solid var(--pl-line); }
+html .ly .pl-qa > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 10px; border-radius: var(--pl-inner); font-weight: 800; color: var(--pl-ink); cursor: pointer; list-style: none; }
+html .ly .pl-qa > summary::-webkit-details-marker { display: none; }
+html .ly .pl-qa > summary::after { content: ""; flex: none; inline-size: 9px; block-size: 9px; margin-inline-end: 4px; border-right: 2px solid var(--pl-accent); border-bottom: 2px solid var(--pl-accent); transform: translateY(-2px) rotate(45deg); transition: transform .18s; }
+html .ly .pl-qa[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
+html .ly .pl-qa > summary:hover { background: var(--pl-wash); }
+html .ly .pl-qa > summary:focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); outline: 0; }
+html .ly .pl-qa > p, html .ly .pl-qa > .ly-qa-a { padding: 0 10px 9px; color: var(--pl-muted); }
+html .ly .pl-faq-more { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 12px; padding: 14px 10px 2px; border-top: 1px solid var(--pl-line); }
+html .ly .pl-faq-more .qlink { display: inline-flex; align-items: center; gap: 6px; }
+html .ly.ly-faq { padding-bottom: 64px; background: var(--pl-paper); container-type: inline-size; }
+/* compare (the design's compare.html): a side panel (how many, only the differences, share, clear, similar toys)
+   beside the table in one panel, the heads inside it */
+html .ly .pl-cmp { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 16px; align-items: start; }
+html .ly .pl-cmp-side { position: sticky; top: calc(var(--ly-hdr-h, 0px) + 12px); display: grid; gap: 12px; align-content: start; padding: 14px; background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); min-width: 0; }
+html .ly .pl-cmp-count { display: grid; gap: 0; line-height: 1; }
+html .ly .pl-cmp-count b { font: 800 2.6rem/1 var(--pl-display); color: var(--pl-ink); }
+html .ly .pl-cmp-count span { font-size: .84rem; font-weight: 700; color: var(--pl-muted); }
+html .ly .pl-cmp-side .cmp-sw { display: flex; align-items: center; gap: 10px; font-size: .86rem; font-weight: 750; }
+html .ly .pl-cmp-acts { display: grid; gap: 4px; justify-items: start; }
+html .ly .pl-cmp-acts .qlink { display: inline-flex; align-items: center; gap: 6px; padding: 6px 0; }
+html .ly .pl-cmp-sh { margin: 6px 0 0; padding-top: 12px; border-top: 1px solid var(--pl-line); font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em; text-transform: uppercase; color: var(--pl-accent); }
+html .ly .pl-cmp-sim { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+html .ly .pl-cmp-pick { display: grid; grid-template-columns: 42px minmax(0, 1fr) 26px; align-items: center; gap: 8px; inline-size: 100%; padding: 4px; padding-inline-end: 6px; border: 0; border-radius: var(--pl-inner); background: var(--pl-surface); box-shadow: inset 0 0 0 1px var(--pl-line); color: var(--pl-ink); text-align: start; cursor: pointer; }
+html .ly .pl-cmp-pick:hover { background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-ring); }
+html .ly .pl-cmp-pick:focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); outline: 0; }
+html .ly .pl-cmp-pick .th { display: block; block-size: 38px; padding: 2px; border-radius: calc(var(--pl-inner) - 2px); background: var(--pl-media); overflow: hidden; }
+html .ly .pl-cmp-pick .th img { width: 100%; height: 100%; object-fit: contain; }
+html .ly .pl-cmp-pick .pk-tx { display: grid; min-width: 0; }
+html .ly .pl-cmp-pick .pk-n { font-size: .8rem; font-weight: 800; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html .ly .pl-cmp-pick .pk-p { font-size: .76rem; color: var(--pl-muted); }
+html .ly .pl-cmp-pick .pk-plus { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--pl-tint); color: var(--pl-accent); }
+html .ly .pl-cmp-pick .pk-plus .i { width: 14px; height: 14px; }
+html .ly .pl-cmp-main { min-width: 0; }
+html .ly .pl-cmp-main .cmp { padding: 2px 14px 12px; background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .pl-cmp-main .cmp-heads { padding-inline: 0; background: var(--pl-surface); }
+html .ly .pl-cmp-main .cmp-body { padding: 0; margin: 0; background: none; box-shadow: none; border-radius: 0; }
+html .ly .pl-cmp-main .cmp-row > .cl.lab { background: var(--pl-surface); box-shadow: 14px 0 0 var(--pl-surface); }
+html .ly .pl-cmp-main .cmp-row > .cl.lab:dir(rtl) { box-shadow: -14px 0 0 var(--pl-surface); }
+@media (max-width: 850px) {
+  html .ly .pl-cmp { grid-template-columns: minmax(0, 1fr); }
+  html .ly .pl-cmp-side { position: static; grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+  html .ly .pl-cmp-side > :is(.pl-cmp-acts, .pl-cmp-sh, .pl-cmp-sim) { grid-column: 1 / -1; }
+  html .ly .pl-cmp-acts { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+}
+/* the account's overview for a guest (the design's account.html): sign in, then the ways to the orders and the address book */
+html .ly .pl-aguest { display: grid; gap: 12px; }
+html .ly .pl-ag-panel { display: grid; gap: 10px; justify-items: start; padding: clamp(16px, 2.4cqw, 28px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .pl-ag-panel .co-p { color: var(--pl-muted); max-width: 60ch; }
+html .ly .pl-ag-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+html .ly .pl-ag-link { display: grid; grid-template-columns: 38px minmax(0, 1fr) 18px; align-items: center; gap: 12px; padding: 12px 14px; background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); color: var(--pl-ink); }
+html .ly .pl-ag-link:hover { background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-ring); }
+html .ly .pl-ag-link:focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); outline: 0; }
+html .ly .pl-ag-link .il-ic { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--pl-tint); color: var(--pl-accent); }
+html .ly .pl-ag-link > span:nth-child(2) { display: grid; gap: 2px; min-width: 0; }
+html .ly .pl-ag-link b { font-weight: 800; }
+html .ly .pl-ag-link small { color: var(--pl-muted); font-size: .82rem; }
+html .ly .pl-ag-link > .i { width: 16px; height: 16px; color: var(--pl-accent); }
+@media (max-width: 620px) { html .ly .pl-ag-links { grid-template-columns: minmax(0, 1fr); } }
