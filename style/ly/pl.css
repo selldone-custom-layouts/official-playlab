@@ -798,3 +798,40 @@ html .ly .ap-t { font: 800 clamp(1.6rem, 3vmin + 1rem, 2.4rem)/1 var(--pl-displa
 html .ly .apc { background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
 html .ly .apc-n { font: 800 1.15rem/1.05 var(--pl-display); text-transform: uppercase; }
 html .ly .apc-pl { background: var(--pl-media) !important; border-radius: var(--pl-inner); }
+
+/* ───────── the base's flows on the design's frame and panel words ───────── */
+/* every page of the base sits on the design's frame, its left edge under the title's (the design's .wrap) */
+html .ly .wrap { width: min(var(--pl-frame), calc(100% - 88px)); max-width: none; padding-inline: 0; }
+@media (max-width: 1150px) { html .ly .wrap { width: calc(100% - 58px); } }
+@media (max-width: 850px) { html .ly .wrap { width: calc(100% - 36px); } }
+@media (max-width: 620px) { html .ly .wrap { width: calc(100% - 28px); } }
+/* a panel's heading: the condensed face in plain case (the design's .panel h2 and .dialog-header h2) */
+html .ly :is(.co-h, .rc-h, .h3x, .cdlv-hd h2, .od-h, .chat-h, .acc-h, .oc-h, .chat-hd b, #drawer .pn-t, #drawer h2, .pn-hd .pn-t, .md-hd h2, .sh-h) {
+  font: 700 1.8rem/1.06 var(--pl-display); text-transform: none; letter-spacing: 0; color: var(--pl-ink);
+}
+html .ly #drawer .dw-h { font: 700 1.3rem/1.06 var(--pl-display); text-transform: none; }
+@media (max-width: 620px) { html .ly :is(.co-h, .rc-h, .h3x, .cdlv-hd h2, .od-h, .chat-h, .acc-h, .oc-h, .chat-hd b, #drawer .pn-t, #drawer h2, .pn-hd .pn-t, .md-hd h2, .sh-h) { font-size: 1.45rem; } }
+/* the bag's lines in one panel, rows joined by a line (the design's .bag-line + .bag-line) */
+html .ly .crl { gap: 0; padding: 4px clamp(14px, 2cqw, 22px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .crl > .cr { background: none; box-shadow: none; border-radius: 0; padding: 12px 0; }
+html .ly .crl > .cr + .cr { border-top: 1px solid var(--pl-line); }
+html .ly .cr .cr-n { font: 800 1.05rem/1.2 var(--pl-body); text-transform: none; letter-spacing: 0; }
+/* the sign-in page (the design's login.html): one panel with the wordmark, why and the buttons */
+html .ly .pl-login { display: grid; justify-items: start; gap: 14px; max-width: 560px; padding: clamp(16px, 3cqw, 32px); background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly .pl-login > p { color: var(--pl-muted); }
+html .ly .pl-login-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+html .ly.ly-login { padding-bottom: 64px; background: var(--pl-paper); container-type: inline-size; }
+/* the sign-in sheet, the address sheet and the payment window: the design's dialog words (plain-case buttons, the eyebrow) */
+.ly-signin .md-t, .k-sheet.k-addr .k-sheet__head h2, .s--storefront-master-payment-dialog .body-title { font: 700 1.8rem/1.06 var(--ly-serif) !important; text-transform: none; letter-spacing: 0 !important; }
+.k-sheet.k-addr .k-sheet__go { font: 750 .94rem/1 var(--ly-sans) !important; letter-spacing: 0 !important; text-transform: none; text-indent: 0; text-box: normal; min-height: 46px; padding: 0 20px !important; }
+.k-sheet.k-addr .k-addr__eyebrow, .s--storefront-master-payment-dialog .v-card-text > div > .text-start:first-child > small { font: 800 .73rem/1.4 var(--ly-sans) !important; letter-spacing: .13em !important; }
+.k-sheet.k-addr .k-sheet__ghost { font: 750 .94rem/1 var(--ly-sans) !important; letter-spacing: 0 !important; text-transform: none; }
+.s--storefront-master-payment-dialog .u--price { font-weight: 800 !important; }
+/* compare: the rows in one panel (the design's .compare-scroll), each group named by an eyebrow (the design's group row) */
+html .ly .cmp-body { background: var(--pl-surface); border-radius: var(--pl-panel); box-shadow: inset 0 0 0 1px var(--pl-line); padding: 2px 14px 12px; margin-top: 10px; }
+html .ly .cmp-heads { padding-inline: 14px; background: var(--pl-paper); }
+html .ly .cmp-g { margin-top: 16px; }
+html .ly .cmp-gh { font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em; text-transform: uppercase; color: var(--pl-accent); margin: 0 0 4px; }
+html .ly .cmp-body .cmp-row { border-color: var(--pl-line); }
+/* quick view: the toy's name in the condensed face, plain case (the design's quick-product h2) */
+html .ly .qv-n { font: 700 1.8rem/1.04 var(--pl-display); text-transform: none; letter-spacing: 0; }

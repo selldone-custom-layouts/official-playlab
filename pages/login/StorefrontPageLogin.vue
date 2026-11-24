@@ -1,57 +1,68 @@
 <!--
-  - Copyright (c) 2023. Selldone® Business OS™
-  -
-  - Author: M.Pajuhaan
-  - Web: https://selldone.com
-  - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  -
-  - All rights reserved. In the weave of time, where traditions and innovations intermingle, this content was crafted.
-  - From the essence of thought, through the corridors of creativity, each word, and sentiment has been molded.
-  - Not just to exist, but to inspire. Like an artist's stroke or a sculptor's chisel, every nuance is deliberate.
-  - Our journey is not just about reaching a destination, but about creating a masterpiece.
-  - Tread carefully, for you're treading on dreams.
-  -->
-
+  The sign-in page (/welcome; the design's login.html): the page title, then one panel with the shop's
+  wordmark, why to sign in and "Sign in", which opens the Layout's sign-in sheet (KalioSignIn: the shop's
+  own ways in, the email code; Selldone does the signing in). The sheet opens by itself on arrival.
+  A signed-in visitor goes on to the profile, as Selldone's page did.
+-->
 <template>
-<div>
-
-  <v-card class="mx-auto my-5" variant="outlined" rounded="xl" max-width="640" :loading="busy_user || user" :class="{disabled:busy_user || user}">
-    <s-shop-login></s-shop-login>
-  </v-card>
-</div>
+  <div class="ly ly-login">
+    <ly-pt :crumbs="[{ label: t('ly.lg.title', 'Sign in') }]" :title="t('ly.lg.title', 'Sign in')" cls="compact" />
+    <section :aria-label="t('ly.lg.title', 'Sign in')" class="sec-s">
+      <div class="wrap">
+        <div :aria-busy="busy_user ? 'true' : undefined" class="pl-login">
+          <ly-logo :to="null" />
+          <p>{{ t("ly.lg.why", "Sign in to see your orders and saved addresses.") }}</p>
+          <div class="pl-login-acts">
+            <button :aria-disabled="busy_user || user ? 'true' : undefined" class="pl-btn primary" type="button" @click="open">{{ t("ly.lg.title", "Sign in") }}</button>
+            <router-link :to="{ path: '/' }" class="pl-btn quiet">{{ t("ly.lg.backShop", "Back to the shop") }}</router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
-import LandingRender from "@selldone/page-builder/LandingRender.vue";
-import SShopLogin from "@selldone/components-vue/storefront/login/SShopLogin.vue";
-import {StorefrontRoutesName} from "@selldone/core-js/enums/route/StorefrontRoutesName.ts";
+import { StorefrontRoutesName } from "@selldone/core-js/enums/route/StorefrontRoutesName.ts";
+import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
+import LyPt from "../../components/ly/ui/LyPt.vue";
+import LyLogo from "../../components/ly/LyLogo.vue";
+import { t } from "../../components/kalio/i18n/kalio-i18n";
 
 export default {
   name: "StorefrontPageLogin",
-  components: {SShopLogin, LandingRender },
+  components: { LyPt, LyLogo },
 
   computed: {
-user(){
-  return this.USER()
-},
+    user() {
+      return this.USER();
+    },
     busy_user() {
       return this.$store.getters.getBusyUser;
     },
-
   },
   watch: {
-    user(user){
-      if(user){
-        this.$router.push({name: StorefrontRoutesName.USER_PROFILE_PAGE});
-      }
-    }
+    user(user) {
+      if (user) this.$router.push({ name: StorefrontRoutesName.USER_PROFILE_PAGE });
+    },
+    busy_user(busy) {
+      if (!busy && !this.user && !this.opened) this.open();
+    },
   },
+  data: () => ({ opened: false }),
   created() {
-    if(this.user){
-      this.$router.push({name: StorefrontRoutesName.USER_PROFILE_PAGE});
-    }
+    if (this.user) this.$router.push({ name: StorefrontRoutesName.USER_PROFILE_PAGE });
+  },
+  mounted() {
+    if (!this.user && !this.busy_user) this.open();
+  },
+  methods: {
+    t,
+    open() {
+      if (this.user || this.busy_user) return;
+      this.opened = true;
+      EventBus.$emit("need-login", true);
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
