@@ -112,7 +112,7 @@ let failed = 0;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const push = (to) => page.evaluate((p) => window.$global_router.push(p).catch(() => {}), to);
 async function check(name) {
-  await page.waitForSelector(".ly .ftr", { timeout: 60000 }).catch(() => {});
+  await page.waitForSelector(".ly .pl-footer", { timeout: 60000 }).catch(() => {});
   await sleep(3500);
   const st = await page.evaluate(() => ({ ly: document.querySelectorAll(".ly").length, text: (document.querySelector("#app")?.innerText || "").trim().length, path: location.pathname + location.search }));
   const bad = !st.ly || st.text < 50 || errors.length;

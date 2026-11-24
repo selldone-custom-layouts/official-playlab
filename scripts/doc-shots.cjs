@@ -43,7 +43,7 @@ async function settle(pg, ms = 3000) {
 }
 async function emptyBag(pg) {
   await pg.goto(base + "/basket/PHYSICAL", { waitUntil: "domcontentloaded", timeout: 180000 });
-  await pg.waitForSelector(".ly .ftr", { timeout: 180000 });
+  await pg.waitForSelector(".ly .pl-footer", { timeout: 180000 });
   await pg.waitForTimeout(4000);
   /* a line's "−" (the first button of its .qb) takes one out; at 1 it takes the line out */
   const minus = () => pg.locator(".qb > button:first-child").filter({ visible: true }).first();
@@ -68,7 +68,7 @@ async function shoot(phone, mode, jobs, after) {
   }, { key: THEME_KEY, palette: BRAND, mode });
   const pg = await ctx.newPage();
   await pg.goto(base + "/", { waitUntil: "domcontentloaded", timeout: 180000 });
-  await pg.waitForSelector(".ly .ftr", { timeout: 180000 });
+  await pg.waitForSelector(".ly .pl-footer", { timeout: 180000 });
   for (const [name, fn] of jobs) {
     await fn(pg);
     const file = path.join(OUT, name + ".jpg");
