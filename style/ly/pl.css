@@ -897,3 +897,14 @@ html .ly .pl-ct .ct-f { align-content: start; }
 @media (max-width: 620px) { html .ly .pl-ct-facts > div { grid-template-columns: minmax(0, 1fr); } }
 /* a bag line on a phone: the line's total takes the width it needs (the lines share one panel, no padding to spill into) */
 @media (max-width: 760px) { html .ly .crl > .cr { grid-template-columns: 72px minmax(0, 1fr) auto; } }
+/* the guide's shop box (the base's dark band) as a Play Lab panel: its words in the panel's colours, in both modes */
+html .ly .auth { color: var(--pl-ink); }
+html .ly .auth b { color: var(--pl-ink); }
+html .ly .auth p { color: var(--pl-muted); }
+html .ly .auth .qlink { color: var(--pl-accent); }
+html .ly .auth .qlink:hover { color: var(--pl-ink); }
+html .ly .auth .mark { background: var(--pl-tint); }
+html .ly .auth :focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); }
+/* compare: the sticky label cells on the panel's own colour (no square box on the rounded panel) */
+html .ly .cmp-body .cmp-row > .cl.lab { background: var(--pl-surface); box-shadow: 14px 0 0 var(--pl-surface); }
+html .ly .cmp-body .cmp-row > .cl.lab:dir(rtl) { box-shadow: -14px 0 0 var(--pl-surface); }
