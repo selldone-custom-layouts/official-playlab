@@ -56,7 +56,11 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 ## Checks
 
 <!-- CHECKS:START -->
-(none yet)
+**1.0.5 on the live domain (playlab.selldone.shop, 24 Nov 2026), through new-shop-kits/pw-lock.sh:** fast-checks, 221 jobs at 1440, 1024 and 390 px (and 1920–3840 where the check asks), dark and light, Deep teal, Forest, Cobalt, Berry and the custom colours, English and forced Arabic — ring 0, card-edge 0, corner 0, circle 0, contrast 0 (424 states), cart 0, currency 0 (USD, AED, DKK, SAR), box 0, i18n 0, text-col 0, shape 0, underline 0, variant 0: **TOTAL 0** (1.0.0 started at 22 610).
+
+**Guest checkout walk** (`scripts/checkout-walk.mjs`, 1440 and 390, guest checkout and cash on delivery on): add from a card, the bag drawer, the checkout, the delivery sheet (before an address it says why no way shows), the address sheet with the map (pin placed, address filled and saved), the courier way, Place order → Selldone's payment window (total matches the button) → its ✕, the bag emptied. **WALK OK**; no order placed.
+
+**Every release:** the production-bundle check (release step 5b) OK; 275 files; server verify extracting false, error null, shop.js and shop.css match. Not machine-checked: the order page and its messages (no order exists; drawn locally from a made-up order answered inside the test browser only).
 <!-- CHECKS:END -->
 
 ## Releases
@@ -67,3 +71,5 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 | 1.0.1 | 2026-11-24 | 52 | 811 | The design's panels on the bag, checkout steps, order, account and sheets; FAQ in one panel and in toy words; contact without an empty map box; fixes from the first live checks (GDPR link contrast, photos on the light box, region pill at tablet width, one link shape when focused, the stage photo under its words). |
 | 1.0.2 | 2026-11-24 | 52 | 813 | One shape language (round wordmark dot, photo feature and guides lead in separate rounded boxes, no square tabs band); guides without an empty cover; Shop this post as a panel. |
 | 1.0.3 | 2026-11-24 | 52 | 815 | Every base page on the design's frame with plain-case panel headings; bag lines and compare rows in one panel; numbered checkout steps and the dotted order timeline; the checkout says why no delivery way shows before an address; contact as the design's two panels; terms in one panel; saved toys as Play Lab cards; a sign-in page and sheet with Play Lab's logo; the address book asks a guest to sign in; plain-case buttons in the address sheet and the payment window; the last bakery words rewritten. |
+| 1.0.4 | 2026-11-24 | 52 | 816 | Saved toys and the address book open for a guest and ask to sign in (no redirect to the home); the guide's shop box in the panel's colours in light mode; compare label cells on the panel colour; the order's share button in plain case. |
+| 1.0.5 | 2026-11-24 | 52 | 817 | Contact's Before you write heading keeps the band's ink in light mode (panel headings no longer carry an id's weight); the address book's own lead. |
