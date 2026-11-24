@@ -57,7 +57,7 @@
           <h2 id="more-h"><bdi>{{ t("pl.pd.moreFrom", "More from {name}", { name: catTitle(cat) }) }}</bdi></h2>
           <router-link v-if="cat" :to="catTo(cat)" class="pl-more">{{ t("pl.pd.viewCollection", "View collection") }}<ly-icon cls="pl-fwd" name="arrow" /></router-link>
         </div>
-        <div class="pl-grid">
+        <div v-pl-fit="{ max: 4 }" class="pl-grid">
           <ly-card v-for="p in more" :key="p.id" :product="p" />
         </div>
       </section>
@@ -69,6 +69,7 @@
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 import LyIcon from "../../components/ly/LyIcon.vue";
 import LyCard from "../../components/ly/ui/LyCard.vue";
+import { vPlFit } from "../../components/ly/playlab/pl-fit";
 import LyProductOverview from "../../components/ly/product/LyProductOverview.vue";
 import LyProductTabs from "../../components/ly/product/LyProductTabs.vue";
 import { bySells, catOf, catTitle, catTo, ly, loadDm } from "../../components/ly/ly";
@@ -92,6 +93,7 @@ export default {
 
   inject: ["$shop"],
   props: {},
+  directives: { plFit: vPlFit },
   components: {
     LyIcon,
     LyCard,

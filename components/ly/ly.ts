@@ -185,6 +185,8 @@ export interface DeliveryWay {
   days: string[];
   pickups: any[];
   pickup: boolean;
+  /** a reach of 1000 km or more: no "local" radius to speak of (Toychi's truck: 99999 km) */
+  far: boolean;
 }
 
 const COURIER = ["Motorbike", "Bicycle", "Car", "Truck", "Drone", "Walking", "Scooter"];
@@ -196,8 +198,12 @@ export function wayTitle(tr: any, shop: any): string {
   const name = raw.charAt(0).toUpperCase() + raw.slice(1);
   if (tr?.type === "Pickup") {
     const p = (tr.pickups || [])[0];
+    /* Play Lab: a point already named for pickup ("Toychi Pickup · Bryant Park") is its own title */
+    if (p?.name && /pick ?up/i.test(p.name)) return p.name;
     return p?.name ? t("bakini.n.way.pickupAt", "Pickup at {place}", { place: p.name }) : t("bakini.n.way.pickup", "Pickup");
   }
+  /* Play Lab: a truck is named apart from the courier (a shop may run both) */
+  if (tr?.type === "Truck") return t("pl.way.truck", "Truck delivery");
   if (COURIER.includes(tr?.type)) return t("bakini.n.way.courier", "{shop} courier", { shop: name });
   if (tr?.type === "Global") return t("bakini.n.way.worldwide", "Worldwide shipping");
   if (tr?.type === "Post") return t("bakini.n.way.post", "By post");
@@ -224,6 +230,7 @@ export function deliveryWays(shop: any): DeliveryWay[] {
         days: Array.isArray(x.days) ? x.days : [],
         pickups: Array.isArray(x.pickups) ? x.pickups : [],
         pickup: x.type === "Pickup",
+        far: (Number(x.distance) || 0) >= 1000,
       };
     });
 }
@@ -288,7 +295,8 @@ export function shopFacts(shop: any): ShopFacts {
     hours: ready ? hoursFrom(note) || hoursFrom(info.hours || "") : "",
     location: info.location?.lat ? info.location : point?.location?.lat ? point.location : null,
     ways,
-    courier: ways.find((w) => COURIER.includes(w.type)) || null,
+    /* the local courier first (a far-reaching truck is not "the courier") */
+    courier: ways.find((w) => COURIER.includes(w.type) && !w.far) || ways.find((w) => COURIER.includes(w.type)) || null,
     shipping: ways.find((w) => w.type === "Global" || w.type === "Post") || null,
     pickup,
     pickupPoint: point,

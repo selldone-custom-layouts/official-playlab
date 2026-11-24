@@ -41,7 +41,7 @@
     </ly-empty>
 
     <template v-else>
-      <div :class="['pl-grid', 'pl-saved-grid', { dim: busy }]">
+      <div v-pl-fit="{ max: 5 }" :class="['pl-grid', 'pl-saved-grid', { dim: busy }]">
         <ly-card v-for="p in products" :key="p.id" :product="p" />
       </div>
       <div v-if="products.length < total" class="pl-saved-more">
@@ -55,6 +55,7 @@
 import { t } from "../../../components/kalio/i18n/kalio-i18n";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import LyCard from "../../../components/ly/ui/LyCard.vue";
+import { vPlFit } from "../../../components/ly/playlab/pl-fit";
 import LyEmpty from "../../../components/ly/ui/LyEmpty.vue";
 import { catalogueRoute } from "../../../components/kalio/kalio-catalog";
 
@@ -63,6 +64,7 @@ const PAGE = 8;
 export default {
   name: "StorefrontPageUserWishlist",
   components: { LyCard, LyEmpty },
+  directives: { plFit: vPlFit },
   inject: ["$shop"],
   data: () => ({
     products: [] as any[],

@@ -28,7 +28,7 @@
         <div class="pl-section-top">
           <h2 id="nft-h">{{ t("ly.nf.tryH", "A few toys to try instead") }}</h2>
         </div>
-        <div class="pl-grid">
+        <div v-pl-fit="{ max: 4 }" class="pl-grid">
           <ly-card v-for="p in picks" :key="p.id" :product="p" />
         </div>
       </section>
@@ -41,6 +41,7 @@ import { defineComponent } from "vue";
 import LyIcon from "../../../components/ly/LyIcon.vue";
 import LyArt from "../../../components/ly/LyArt.vue";
 import LyCard from "../../../components/ly/ui/LyCard.vue";
+import { vPlFit } from "../../../components/ly/playlab/pl-fit";
 import { bySells, catTitle, ly, loadDm, mixed } from "../../../components/ly/ly";
 import { catalogueRoute, dealsRoute } from "../../../components/kalio/kalio-catalog";
 import { t } from "../../../components/kalio/i18n/kalio-i18n";
@@ -48,6 +49,7 @@ import { t } from "../../../components/kalio/i18n/kalio-i18n";
 export default defineComponent({
   name: "StorefrontPageError404",
   components: { LyIcon, LyArt, LyCard },
+  directives: { plFit: vPlFit },
   data: () => ({ q: "", ly }),
   computed: {
     /* Six best sellers in stock, one collection after another. */

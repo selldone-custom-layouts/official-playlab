@@ -392,7 +392,13 @@
       "pl.acc.yourOrders": "Your orders",
       "pl.acc.bookShort": "Kept with your account",
       "pl.acc.lead": "Orders, addresses and saved toys.",
-      "bakini.n.rd.gDelivery": "Delivery"
+      "bakini.n.rd.gDelivery": "Delivery",
+      "pl.way.truck": "Truck delivery",
+      "pl.way.door": "Delivered to your door.",
+      "pl.way.doorShort": "Delivered to your door",
+      "ly.bag.deliveryOf": "{way}",
+      "pl.co.moreAfterAddress": "Delivery to your door shows once your address is in.",
+      "pl.co.moreAtCheckout": "Delivery to your door is offered at checkout, once your address is in."
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -715,7 +721,13 @@
       "pl.acc.yourOrders": "طلباتك",
       "pl.acc.bookShort": "محفوظة مع حسابك",
       "pl.acc.lead": "الطلبات والعناوين والألعاب المحفوظة.",
-      "bakini.n.rd.gDelivery": "التوصيل"
+      "bakini.n.rd.gDelivery": "التوصيل",
+      "pl.way.truck": "التوصيل بالشاحنة",
+      "pl.way.door": "يصل إلى باب منزلك.",
+      "pl.way.doorShort": "يصل إلى باب منزلك",
+      "ly.bag.deliveryOf": "{way}",
+      "pl.co.moreAfterAddress": "يظهر التوصيل إلى بابك بعد إضافة عنوانك.",
+      "pl.co.moreAtCheckout": "يُعرض التوصيل إلى بابك عند الدفع بعد إضافة عنوانك."
     }
   }
 }

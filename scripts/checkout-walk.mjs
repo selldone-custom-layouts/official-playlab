@@ -14,8 +14,10 @@
  * call is blocked here as a second guard (it would be logged as BLOCKED).
  *
  * Usage: node --use-system-ca scripts/checkout-walk.mjs [base] [out-folder]
- *   base default the skin's live domain (skins/<name>/skin.json shop.domain) · out default .shots/walk · WIDTHS=1440,390 · MODE=light|dark
+ *   base default the skin's live domain (skins/<name>/skin.json shop.domain) · out default .shots/walk · WIDTHS=1440,820,390 · MODE=light|dark
  *   PW=<path to playwright's index.js> (default: the "playwright" package)
+ *   ONLY_WAY=<regex>: place the order only with the ways whose name matches (e.g. Truck, Pickup)
+ *   ADDRESS_QUERY=<words>: find the address with the sheet's search (e.g. "Hollywood Boulevard, Los Angeles") instead of the pin
  * Prints every step, then "WALK OK" or "WALK PROBLEMS n".
  */
 import { createRequire as __cr } from "node:module";
@@ -26,7 +28,7 @@ import { pathToFileURL } from "node:url";
 
 const BASE = (process.argv[2] || __shopUrl()).replace(/\/$/, "");
 const OUT = path.resolve(process.argv[3] || ".shots/walk");
-const WIDTHS = (process.env.WIDTHS || "1440,390").split(",").map(Number);
+const WIDTHS = (process.env.WIDTHS || "1440,820,390").split(",").map(Number); // 820: the tablet
 const MODE = process.env.MODE || "light";
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -198,7 +200,22 @@ for (const W of WIDTHS) {
       const hasMap = await page.evaluate(() => !!document.querySelector(".k-addr__map"));
       console.log(`  address sheet open, map ${hasMap ? "on" : "off"} (the shop's option)`);
       await shot(`05-address-map-${hasMap ? "on" : "off"}`);
-      if (hasMap) {
+      /* ADDRESS_QUERY: an address found through the sheet's own search (e.g. far from the shop), else the pin where the map opens */
+      const query = process.env.ADDRESS_QUERY || "";
+      if (query && (await page.locator(".k-addr__search input").count())) {
+        await page.locator(".k-addr__search input").first().fill(query);
+        await sleep(3500);
+        const first = page.locator(".k-addr__results button").first();
+        if (await first.count()) {
+          await first.click();
+          await sleep(5000);
+          console.log(`  searched "${query}"; address under the pin: ${await page.evaluate(() => document.querySelector(".k-addr__found b")?.textContent?.trim())}`);
+        } else bad(W, `the address search found nothing for "${query}"`);
+        if (await page.evaluate(() => !!document.querySelector(".k-addr__grid.-step-map"))) {
+          await page.locator(".k-sheet__foot .k-sheet__go").click();
+          await sleep(1500);
+        }
+      } else if (hasMap) {
         await page.locator(".k-addr__pin svg").click().catch(() => {});
         await sleep(5000);
         const found = await page.evaluate(() => document.querySelector(".k-addr__found b")?.textContent?.trim());
@@ -239,8 +256,11 @@ for (const W of WIDTHS) {
       }
     } else bad(W, "no way that needs an address");
 
-    // ── each way: Place order → the payment window → its ✕
-    for (const w of wayInfo) {
+    // ── each way (ONLY_WAY: the ways whose name matches) : Place order → the payment window → its ✕
+    const only = process.env.ONLY_WAY ? new RegExp(process.env.ONLY_WAY, "i") : null;
+    const chosen = wayInfo.filter((w) => !only || only.test(w.name));
+    if (only && !chosen.length) bad(W, `no way matches ${only} (ways: ${wayInfo.map((w) => w.name).join(", ")})`);
+    for (const w of chosen) {
       await ways().nth(w.i).scrollIntoViewIfNeeded();
       await ways().nth(w.i).click();
       await sleep(3500);

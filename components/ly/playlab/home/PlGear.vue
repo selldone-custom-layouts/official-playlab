@@ -8,7 +8,7 @@
       <h2 id="pl-gear-h"><bdi>{{ catTitle(gear) }}</bdi></h2>
       <router-link :to="catTo(gear)" class="pl-more">{{ t("pl.home.seeAll", "See all") }}<ly-icon cls="pl-fwd" name="arrow" /></router-link>
     </div>
-    <div class="pl-grid pl-grid-4">
+    <div v-pl-fit="{ max: 4 }" class="pl-grid pl-grid-4">
       <ly-card v-for="p in list" :key="p.id" :product="p" />
     </div>
   </section>
@@ -17,11 +17,13 @@
 <script>
 import plHome from "./pl-home";
 import LyCard from "../../ui/LyCard.vue";
+import { vPlFit } from "../pl-fit";
 import LyIcon from "../../LyIcon.vue";
 
 export default {
   name: "PlGear",
   components: { LyCard, LyIcon },
+  directives: { plFit: vPlFit },
   mixins: [plHome],
   computed: {
     list() {

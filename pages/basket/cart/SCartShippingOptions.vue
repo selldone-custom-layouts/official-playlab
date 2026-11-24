@@ -496,7 +496,11 @@ export default defineComponent({
     /* ── the Layout ── */
     /* A pickup point's card title: the pickup way's own title, else "Pickup at <place>". */
     pickupTitle(pickup) {
-      return this.pickup_transportation?.title || t("bakini.way.pickupAt", "Pickup at {place}", { place: pickup.title || pickup.name || pickup.address });
+      if (this.pickup_transportation?.title) return this.pickup_transportation.title;
+      const place = pickup.title || pickup.name || pickup.address;
+      /* Play Lab: a point already named for pickup ("Toychi Pickup · Bryant Park") is its own title */
+      if (place && /pick ?up/i.test(place)) return place;
+      return t("bakini.way.pickupAt", "Pickup at {place}", { place });
     },
     wayTitleOf(item) {
       return item?.title || wayTitle(item, this.$shop);

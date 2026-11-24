@@ -18,7 +18,7 @@
  */
 import { ShopTransportations } from "@selldone/core-js/enums/logistic/ShopTransportations";
 import { ETA } from "@selldone/core-js/enums/logistic/ETA.ts";
-import { catImage, catOf, catTitle, catTo, closeLayer, hueOf, layer, loadDm, ly, bySells, openLayer, shopFacts, unitOf, productTo, wayTitle } from "../ly";
+import { catImage, catOf, catTitle, catTo, closeLayer, deliveryWays, hueOf, layer, loadDm, ly, bySells, openLayer, shopFacts, unitOf, productTo, wayTitle } from "../ly";
 import { catalogueRoute } from "../../kalio/kalio-catalog";
 import { shownCount, stepTo } from "../../kalio/kalio-basket";
 import { productImage } from "../../kalio/kalio-catalog";
@@ -37,6 +37,7 @@ export function shopWay(shop: any, way: any): any {
 export function wayIcon(type: string): string {
   if (type === ShopTransportations.Pickup.code) return "store";
   if (["Global", "Post", "Airplane", "Ship"].includes(type)) return "plane";
+  if (type === "Truck") return "truck";
   return "bike";
 }
 
@@ -300,6 +301,12 @@ export default {
       if (way.type === ShopTransportations.Pickup.code) return true;
       return !(Number(way.const) > 0) && !(Number(way.distance_rate) > 0) && !(Number(way.weight_rate) > 0);
     },
+    /* Play Lab: before an address only pickup can show; say that a way to the door comes with the address */
+    pl_more_after_address(this: any): boolean {
+      if (this.nx_has_address || !this.has_delivery || this.isService) return false;
+      if (!deliveryWays(this.$shop).some((w: any) => !w.pickup)) return false;
+      return !(this.transportation_list || []).some((x: any) => x.type !== ShopTransportations.Pickup.code);
+    },
     /* The bag's delivery ways in the checkout's order: the ways, then pickup. */
     nx_ways_in_order(this: any): any[] {
       const list = this.transportation_list || [];
@@ -341,7 +348,12 @@ export default {
     },
     /* A way's own line on its card (its reach, or the counter's note). */
     dmWayNote(this: any, way: any): string {
-      if (way?.type === ShopTransportations.Pickup.code) return way.pickups?.[0]?.message || "";
+      if (way?.type === ShopTransportations.Pickup.code) {
+        /* Play Lab: where the point is (its street and city), else its own note */
+        const pt = way.pickups?.[0] || shopWay(this.$shop, way)?.pickups?.[0];
+        const where = pt ? [pt.address, pt.city].filter(Boolean).join(", ") : "";
+        return where || pt?.message || "";
+      }
       return wayReach(this.$shop, way);
     },
     dmList(items: string[]): string {

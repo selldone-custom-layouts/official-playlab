@@ -986,3 +986,27 @@ html .ly #drawer .dw-empty .em-ic { display: grid; place-items: center; width: 5
 html .ly #drawer .dw-empty .em-ic .i { width: 24px; height: 24px; }
 html .ly #drawer .dw-empty h3 { font: 700 1.6rem/1.06 var(--pl-display); text-transform: none; color: var(--pl-ink); }
 html .ly #drawer .dw-empty p { color: var(--pl-muted); }
+
+/* ───────── tablet ───────── */
+/* a fitted card grid (v-pl-fit, components/ly/playlab/pl-fit.ts): its columns from its width and its number of cards,
+   so no row ends with one card alone */
+.pl-grid.pl-grid[data-cols]:not(.pl-list-grid) { grid-template-columns: repeat(var(--pl-fit), minmax(0, 1fr)); }
+/* List view and the lineup: two wide cards a row on a computer, one below 960px, the photo at a steady size so the
+   heart and compare buttons stay in its corner */
+.pl-grid.pl-list-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 960px) {
+  .pl-grid.pl-list-grid { grid-template-columns: minmax(0, 1fr); }
+  .pl-grid.pl-list-grid .pl-card.pl-wide { grid-template-columns: minmax(0, 270px) minmax(0, 1fr); gap: 16px; }
+}
+@media (max-width: 620px) {
+  .pl-grid.pl-list-grid .pl-card.pl-wide { grid-template-columns: minmax(0, .76fr) minmax(0, 1fr); gap: 9px; }
+}
+/* no sideways panning of the page (an off-canvas sheet or a wide child never shows a page scroll bar), and the native
+   scroll bars in the family's colours (a light bar on the dark page was the owner's "stray white bar" at tablet width) */
+html, body { overflow-x: clip; }
+html.ly-dark { scrollbar-color: var(--pl-line) transparent; }
+html:not(.ly-dark) { scrollbar-color: color-mix(in srgb, var(--pl-muted) 55%, transparent) transparent; }
+/* the checkout's Delivery card when only pickup shows before an address: the way to the door comes with the address */
+html .ly .pl-more-ways { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 10px; padding: 10px 12px; border-radius: var(--pl-inner); background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-line); color: var(--pl-ink); font-size: .9rem; }
+html .ly .pl-more-ways > .i { width: 18px; height: 18px; color: var(--pl-accent); }
+html .ly .pl-more-ways .qlink { display: inline-flex; align-items: center; gap: 6px; margin-inline-start: auto; }

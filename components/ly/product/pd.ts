@@ -78,7 +78,10 @@ export function deliveryLines(shop: any): DeliveryLine[] {
         icon: "store",
         title: `${t("ly.pd.pickup", "Pickup")} · ${priceWord(w.fee, w.free)}`,
         line: (() => {
-          const l = [[street, f.city].filter(Boolean).join(", "), open].filter(Boolean).join(". ");
+          /* Play Lab: the pickup point's own name, street and city (not the shop's city) */
+          const pt = w.pickups[0] || f.pickupPoint;
+          const where = pt ? [pt.name, [pt.address, pt.city].filter(Boolean).join(", ")].filter(Boolean).join(" — ") : [street, f.city].filter(Boolean).join(", ");
+          const l = [where, open].filter(Boolean).join(". ");
           return l ? l + "." : f.pickupNote;
         })(),
       });
@@ -90,10 +93,10 @@ export function deliveryLines(shop: any): DeliveryLine[] {
         line: w.freeOver ? t("ly.pd.freeOver", "Free on orders over {amount}.", { amount: money(w.freeOver, true) }) : "",
       });
     } else {
-      const near = w.distance ? t("ly.pd.within", "Local delivery within {km} km of the bakery.", { km: w.distance }) : t("ly.pd.local", "Local delivery.");
+      const near = w.far ? t("pl.way.door", "Delivered to your door.") : w.distance ? t("ly.pd.within", "Local delivery within {km} km of the bakery.", { km: w.distance }) : t("ly.pd.local", "Local delivery.");
       out.push({
         key: "way-" + w.id,
-        icon: "bike",
+        icon: w.type === "Truck" ? "truck" : "bike",
         title: `${w.title} · ${priceWord(w.fee, w.free)}`,
         line: [near, w.windows.length ? w.windows.join(", ") + "." : ""].filter(Boolean).join(" "),
       });

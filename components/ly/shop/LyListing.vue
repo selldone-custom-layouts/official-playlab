@@ -74,7 +74,7 @@
             <h2>{{ t("pl.ls.under", "Good finds under {amount}", { amount: money(under.cap, true) }) }}</h2>
             <router-link :to="allTo" class="pl-more">{{ t("pl.ls.seeAll", "See all toys") }}<ly-icon cls="pl-fwd" name="arrow" /></router-link>
           </div>
-          <div class="pl-grid">
+          <div v-pl-fit="{ max: 4 }" class="pl-grid">
             <ly-card v-for="p in under.list" :key="p.id" :product="p" />
           </div>
         </section>
@@ -125,7 +125,7 @@
         <div v-if="!ready" :class="['pl-grid', { 'pl-list-grid': view === 'list' }]">
           <div v-for="i in 6" :key="i" aria-hidden="true" class="pl-card pl-skel"><div class="pl-media"></div><div class="pl-card-data"><span class="sk-l"></span><span class="sk-l s"></span></div></div>
         </div>
-        <div v-else-if="shown.length" ref="grid" :class="['pl-grid', { 'pl-list-grid': view === 'list', dim: busy }]" :data-n="shown.length">
+        <div v-else-if="shown.length" ref="grid" v-pl-fit="view === 'list' ? null : { max: 5 }" :class="['pl-grid', { 'pl-list-grid': view === 'list', dim: busy }]" :data-n="shown.length">
           <ly-card
             v-for="(p, i) in shown.slice(0, limit)"
             :key="p.id + ':' + drawn"
@@ -220,6 +220,7 @@
 <script>
 import LyIcon from "../LyIcon.vue";
 import LyCard from "../ui/LyCard.vue";
+import { vPlFit } from "../playlab/pl-fit";
 import { catOf, catTitle, catTo, closeLayer, ly, fmtDate, inCat, layer, loadDm, money, priceView, productTo, specGroups, specValue, toggleLayer } from "../ly";
 import { AGE_KEY, ageMonths } from "../playlab/pl";
 import { journalPage, postRoute } from "../../kalio/pages/kalio-journal";
@@ -236,6 +237,7 @@ const CAPS = [10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 250, 300, 500, 750,
 export default {
   name: "LyListing",
   components: { LyIcon, LyCard },
+  directives: { plFit: vPlFit },
   props: {
     categoryName: { type: String, default: null },
     search: { type: String, default: "" },

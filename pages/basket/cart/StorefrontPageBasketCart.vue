@@ -111,6 +111,7 @@
                   <span v-if="dmWayNote(way)" class="mc-n">{{ dmWayNote(way) }}</span>
                 </label>
               </div>
+              <p v-if="pl_more_after_address" class="pl-more-ways"><ly-icon name="truck" /><span>{{ t("pl.co.moreAtCheckout", "Delivery to your door is offered at checkout, once your address is in.") }}</span></p>
               <p class="cdlv-n"><ly-icon name="info" />{{ t("ly.co.windowLater", "The time window is chosen at checkout.") }}</p>
             </div>
           </div>
@@ -263,6 +264,10 @@
                   :start-package-index="bill?.connect_shipping_options?.length + bill?.vendor_shipping_options?.length"
                   @set-basket-config="setBasketConfig"
                 ></s-order-shipping-stores-options>
+                <p v-if="show_when && pl_more_after_address" class="pl-more-ways">
+                  <ly-icon name="truck" /><span>{{ t("pl.co.moreAfterAddress", "Delivery to your door shows once your address is in.") }}</span
+                  ><button class="qlink" type="button" @click="openAddress()">{{ t("pl.co.addAddress", "Add your address") }}<ly-icon name="arrow" /></button>
+                </p>
                 <div v-if="!show_when" class="pl-noway">
                   <span class="mc-ic"><ly-icon name="pin" /></span>
                   <p>{{ nx_has_address ? t("pl.co.noWayHere", "No delivery way reaches this address yet. Try another address, or contact the shop.") : t("pl.co.wayAfterAddress", "The ways that reach you show once your delivery address is in.") }}</p>

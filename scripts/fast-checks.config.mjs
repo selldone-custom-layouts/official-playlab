@@ -32,7 +32,7 @@ const BASE = (process.env.BASE || FC.live).replace(/\/$/, "");
 const SK = FC.storage.theme;
 const SHOP = FC.shop;
 const BRAND = FC.brand;
-const W3 = widths("1440,1024,390");
+const W3 = widths("1440,1024,820,390"); // 820: the tablet (the owner, 24 Nov 2026)
 const WIDE = widths("1920,2560,2880,3840");
 const DARK = theme(BRAND, "dark");
 const LIGHT = theme(BRAND, "light");
@@ -84,7 +84,7 @@ const runs = [
   { name: "contrast-ar-dark", check: "contrast", lang: "ar", theme: DARK, pages: pages(PAGES_MAIN) },
   { name: "cart-dark", check: "cart", theme: DARK, env: { SHOP, WAIT: ".ly .pl-footer", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "dark"] },
   { name: "cart-light", check: "cart", theme: LIGHT, env: { SHOP, WAIT: ".ly .pl-footer", CART: ".bag-btn", STORAGE_KEY: SK }, argv: [BASE, BRAND, "light"] },
-  { name: "currency", check: "currency", widths: W3, env: { WIDTHS: "1440,1024,390", SHOP, MENU: ".menu-btn", MEGA: ".pl-dept-btn", CART: ".bag-btn >> visible=true", CATEGORY: CAT, DEALS } },
+  { name: "currency", check: "currency", widths: W3, env: { WIDTHS: "1440,1024,820,390", SHOP, MENU: ".menu-btn", MEGA: ".pl-dept-btn", CART: ".bag-btn >> visible=true", CATEGORY: CAT, DEALS } },
   { name: "box-dark", check: "box", theme: DARK, widths: [...W3, ...WIDE], pages: pages(BOX_PAGES, "first"), states: true },
   { name: "box-light", check: "box", theme: LIGHT, widths: [...W3, ...WIDE], pages: pages(BOX_PAGES, "first"), states: true },
   { name: "box-ar", check: "box", lang: "ar", widths: widths("1440,390"), pages: pages(BOX_PAGES, "first"), states: false },

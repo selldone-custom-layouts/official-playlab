@@ -373,7 +373,7 @@ export default {
     wayNote(w) {
       if (w.pickup) return this.facts.pickupNote || (w.windows.length ? list(w.windows.map(windowWord)) : "");
       if (w.type === "Global" || w.type === "Post") return w.freeOver ? t("ly.home.shipsFree", "Ships anywhere; free on orders over {amount}", { amount: money(w.freeOver, true) }) : t("ly.home.ships", "Ships anywhere");
-      const near = w.distance ? t("ly.home.courierWithinShort", "Local delivery within {km} km of the bakery", { km: w.distance }) : t("ly.home.courierLocalShort", "Local delivery");
+      const near = w.far ? t("pl.way.doorShort", "Delivered to your door") : w.distance ? t("ly.home.courierWithinShort", "Local delivery within {km} km of the bakery", { km: w.distance }) : t("ly.home.courierLocalShort", "Local delivery");
       return w.windows.length ? `${near} · ${list(w.windows.map(windowWord))}` : near;
     },
     selMeta(p) {
