@@ -943,7 +943,7 @@ html .ly .pl-cmp-sim { display: grid; gap: 6px; margin: 0; padding: 0; list-styl
 html .ly .pl-cmp-pick { display: grid; grid-template-columns: 42px minmax(0, 1fr) 26px; align-items: center; gap: 8px; inline-size: 100%; padding: 4px; padding-inline-end: 6px; border: 0; border-radius: var(--pl-inner); background: var(--pl-surface); box-shadow: inset 0 0 0 1px var(--pl-line); color: var(--pl-ink); text-align: start; cursor: pointer; }
 html .ly .pl-cmp-pick:hover { background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-ring); }
 html .ly .pl-cmp-pick:focus-visible { box-shadow: inset 0 0 0 2px var(--pl-ring); outline: 0; }
-html .ly .pl-cmp-pick .th { display: block; block-size: 38px; padding: 2px; border-radius: calc(var(--pl-inner) - 2px); background: var(--pl-media); overflow: hidden; }
+html .ly .pl-cmp-pick .th { display: block; block-size: 38px; padding: 2px; border-radius: var(--pl-inner); background: var(--pl-media); overflow: hidden; }
 html .ly .pl-cmp-pick .th img { width: 100%; height: 100%; object-fit: contain; }
 html .ly .pl-cmp-pick .pk-tx { display: grid; min-width: 0; }
 html .ly .pl-cmp-pick .pk-n { font-size: .8rem; font-weight: 800; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -980,3 +980,9 @@ html .ly .pl-ag-link > .i { width: 16px; height: 16px; color: var(--pl-accent); 
 @media (min-width: 980px) {
   html .ly .pl-cmp-main .cmp-row { --ly-lab: 160px; --ly-lab-min: 118px; grid-template-columns: minmax(var(--ly-lab-min), var(--ly-lab)) repeat(var(--ly-n), minmax(184px, 1fr)); min-width: calc(var(--ly-lab-min) + var(--ly-n) * (184px + 14px)); }
 }
+/* the empty bag drawer (the design's cart-drawer.html empty): a panel with the icon circle, the words and "Explore toys" */
+html .ly #drawer .dw-empty { margin: 4px 0 8px; padding: 26px 14px; border-radius: var(--pl-panel); background: var(--pl-wash); box-shadow: inset 0 0 0 1px var(--pl-line); }
+html .ly #drawer .dw-empty .em-ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--pl-tint); color: var(--pl-accent); }
+html .ly #drawer .dw-empty .em-ic .i { width: 24px; height: 24px; }
+html .ly #drawer .dw-empty h3 { font: 700 1.6rem/1.06 var(--pl-display); text-transform: none; color: var(--pl-ink); }
+html .ly #drawer .dw-empty p { color: var(--pl-muted); }

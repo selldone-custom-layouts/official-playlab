@@ -78,10 +78,10 @@
         </div>
       </template>
       <div v-else class="dw-empty">
-        <ly-art cls="dw-art" name="croissant" />
+        <span class="em-ic"><ly-icon name="bag" /></span>
         <h3>{{ t("ly.bag.emptyT", "Your bag is empty") }}</h3>
         <p>{{ t("ly.bag.emptyP", "Pastries are sold one by one, so add exactly the pieces you want.") }}</p>
-        <a class="btn sm" href="#selection" @click.prevent="toSelection">{{ t("ly.bag.selection", "Today’s selection") }}</a>
+        <a class="btn sm" href="#" @click.prevent="toShop">{{ t("pl.saved.explore", "Explore toys") }}</a>
       </div>
       <div v-if="often.length" class="dw-often">
         <h3 class="dw-h">{{ t("ly.bag.often", "Often added") }}</h3>
@@ -108,7 +108,7 @@ import LyArt from "../LyArt.vue";
 import LyAdd from "../LyAdd.vue";
 import { bySells, closeLayer, ly, layer, money as dmMoney, priceView, productImage, productTo as pTo, scrollBehavior, shopFacts, unitOf, wayTitle } from "../ly";
 import { shownCount, stepTo } from "../../kalio/kalio-basket";
-import { productImage as lineImage } from "../../kalio/kalio-catalog";
+import { catalogueRoute, productImage as lineImage } from "../../kalio/kalio-catalog";
 import { currentCurrency, money } from "../../region-switcher/region";
 import { t } from "../../kalio/i18n/kalio-i18n";
 
@@ -228,6 +228,11 @@ export default {
     },
     productTo(it) {
       return { name: window.$storefront.routes.PRODUCT_PAGE, params: { product_id: it.product_id } };
+    },
+    /* Play Lab: the empty bag sends to the toys (the design's "Explore toys") */
+    toShop() {
+      closeLayer(true);
+      this.$router.push(catalogueRoute({})).catch(() => {});
     },
     /* "Today's selection": on the home, scroll to it; elsewhere, the home first. */
     toSelection() {
