@@ -895,3 +895,5 @@ html .ly .pl-ct .ct-mbox { height: 220px; min-height: 0; border-radius: var(--pl
 html .ly .pl-ct .ct-f { align-content: start; }
 @media (max-width: 850px) { html .ly .pl-ct-g { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 620px) { html .ly .pl-ct-facts > div { grid-template-columns: minmax(0, 1fr); } }
+/* a bag line on a phone: the line's total takes the width it needs (the lines share one panel, no padding to spill into) */
+@media (max-width: 760px) { html .ly .crl > .cr { grid-template-columns: 72px minmax(0, 1fr) auto; } }
