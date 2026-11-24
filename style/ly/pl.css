@@ -976,3 +976,7 @@ html .ly .pl-ag-link b { font-weight: 800; }
 html .ly .pl-ag-link small { color: var(--pl-muted); font-size: .82rem; }
 html .ly .pl-ag-link > .i { width: 16px; height: 16px; color: var(--pl-accent); }
 @media (max-width: 620px) { html .ly .pl-ag-links { grid-template-columns: minmax(0, 1fr); } }
+/* the table beside the side panel: narrower value columns so four toys and "Add a toy" fit on a computer */
+@media (min-width: 980px) {
+  html .ly .pl-cmp-main .cmp-row { --ly-lab: 160px; --ly-lab-min: 118px; grid-template-columns: minmax(var(--ly-lab-min), var(--ly-lab)) repeat(var(--ly-n), minmax(184px, 1fr)); min-width: calc(var(--ly-lab-min) + var(--ly-n) * (184px + 14px)); }
+}

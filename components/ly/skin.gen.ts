@@ -397,7 +397,8 @@ export const SKIN = {
       "pl.acc.signInP": "See your orders, saved addresses and saved toys in one place. Checkout works without an account.",
       "pl.acc.yourOrders": "Your orders",
       "pl.acc.bookShort": "Kept with your account",
-      "pl.acc.lead": "Orders, addresses and saved toys."
+      "pl.acc.lead": "Orders, addresses and saved toys.",
+      "bakini.n.rd.gDelivery": "Delivery"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -719,7 +720,8 @@ export const SKIN = {
       "pl.acc.signInP": "شاهد طلباتك وعناوينك المحفوظة وألعابك المحفوظة في مكان واحد. يعمل الدفع من دون حساب.",
       "pl.acc.yourOrders": "طلباتك",
       "pl.acc.bookShort": "محفوظة مع حسابك",
-      "pl.acc.lead": "الطلبات والعناوين والألعاب المحفوظة."
+      "pl.acc.lead": "الطلبات والعناوين والألعاب المحفوظة.",
+      "bakini.n.rd.gDelivery": "التوصيل"
     }
   }
 } as const;

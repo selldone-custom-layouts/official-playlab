@@ -40,6 +40,8 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 | Guides, About, 404 | `pages/blog/list/`, `pages/official/about-us/`, `pages/errors/404/` |
 | Sign-in page and sheet | `pages/login/StorefrontPageLogin.vue` (a Play Lab panel that opens the sheet), `components/kalio/shell/KalioSignIn.vue` (Play Lab's logo) |
 | Saved toys, address book | `pages/user/wishlist/StorefrontPageUserWishlist.vue` (Play Lab cards; a guest is asked to sign in), `pages/user/addresses/StorefrontUserAddresses.vue` (no request for a guest) |
+| Compare, FAQ, the account's guest overview | `components/ly/compare/LyCompare.vue` (the design's side panel beside the table), `pages/faq/StorefrontPageFaq.vue` (one stack), `components/kalio/account/KalioAccountHome.vue` and `KalioAccountShell.vue` (a guest's overview, the design's rail) |
+| Three checkout steps, pickup only with a pickup point | `components/ly/buy/ly-cart.ts` (`pr_steps`: Details folded into Delivery, as Storybook; the bag's ways), `components/ly/ly.ts` (`deliveryWays`: the Rino rule) |
 | Bag drawer, bag, checkout, order, account, compare, read pages | the base's pages in the design's panels, frame and plain-case headings (`style/ly/pl.css`); the checkout says why no delivery way shows before an address (`pages/basket/cart/StorefrontPageBasketCart.vue`) |
 | Words | `skins/playlab/skin.json` words.en / words.ar (the base's bakery words for a toy shop, Play Lab's own words in Arabic) |
 | Loading screen | `scripts/loading/config.json` → `scripts/loading/out/loading.json` (`test-loading.cjs` TOTAL 0) |
@@ -52,6 +54,10 @@ The approved Play Lab design (Toychi Layout Mockups, `play-lab/`), every part fr
 | workbench | `skins/playlab/photos/workbench.webp` | 1320 × 990 | yes |
 | feature | `skins/playlab/photos/feature.webp` | 1500 × 1000 | yes |
 | each collection | `skins/playlab/photos/col-<slug of its title>.webp` | 900 × 1200 | 0 file(s); a collection without one shows its best sellers on a plate |
+
+## A guide opened directly
+
+A guide's address opened fresh (`/blog/<slug>-<blog id>`) draws Play Lab's article page in a real browser: the route is `blog/:slug-:blog_id` → `StorefrontPageBlogsView` (checked on the live domain with a normal Chrome's client hints: route `ShopBlogPageSlug`, the article and Play Lab's footer drawn). Selldone serves its own server-rendered blog page (jQuery and Bootstrap, no Layout) to headless browsers and bots: a request whose user agent or `sec-ch-ua` says `HeadlessChrome` gets it. Playwright is headless, so a check that opens a guide directly must send a normal `sec-ch-ua` (for example `"Chromium";v="130", "Google Chrome";v="130"`) to see the Layout; the same happens on every Layout of the shop (Storybook included). Inside the shop, a guide is always Play Lab's page. The blog id is the post's `parent_id` (the shop-blog), not the article id.
 
 ## Checks
 
