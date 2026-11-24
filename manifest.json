@@ -3,7 +3,7 @@
   "deploy_path": "",
   "package": "play-lab-toy-store",
   "name": "Play Lab Toy Store",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "storefront": true,
   "backoffice": false,
   "description": "A dark, sporty Layout for a toy shop, built like a workshop catalogue. A header with a square glyph and a condensed upper-case wordmark, a wide search, saved, account and a Bag button, over a row with Departments, the shop's first departments, Deals, Compare, Guides and the language and currency. The home: a full-width photo stage with a giant italic Barlow Condensed line, a strip of department buttons, a lineup of wide list cards, three challenge tiles from the shop's departments, a photo feature with an italic headline, a row of cards, Shop by age built from the toys' real Suggested Age, a side-by-side comparison teaser and the newest guides. A catalogue with a lead panel and its own search, a department rail, a toolbar with List and Grid views, Filters in a side sheet built from the real specification and wide list cards or a five-column grid; a product page with a gallery and thumbnails, the toy's own facts, a buy panel with an Add to bag control that turns into a counter, its specification in the shop's groups and honest reviews; compare side by side, saved toys, quick view, a bag drawer, the bag, a three-step checkout with the address sheet and map, the payment window, the order page with its messages, the account, the guides, About, Terms, Privacy, Contact, FAQ and a 404. One colour family from the chosen palette (Deep teal by default; Forest, Cobalt, Berry or any colour), dark by default with a light mode from the footer's Theme row; Barlow Condensed over DM Sans, 10 px panels and 6 px controls. English and Arabic, right to left."
