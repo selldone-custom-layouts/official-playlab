@@ -357,7 +357,9 @@ export const SKIN = {
       "ly.rd.post": "Guide",
       "ly.co.receipt": "Order summary",
       "ly.co.yourOrder": "Order summary",
-      "ly.rd.faqT": "Help and FAQ"
+      "ly.rd.faqT": "Help and FAQ",
+      "bakini.n.rd.gAllergens": "Ages and safety",
+      "bakini.n.rd.fq10": "Where can I see what is in the box?"
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -635,7 +637,9 @@ export const SKIN = {
       "ly.rd.post": "دليل",
       "ly.co.receipt": "ملخص الطلب",
       "ly.co.yourOrder": "ملخص الطلب",
-      "ly.rd.faqT": "المساعدة والأسئلة الشائعة"
+      "ly.rd.faqT": "المساعدة والأسئلة الشائعة",
+      "bakini.n.rd.gAllergens": "الأعمار والسلامة",
+      "bakini.n.rd.fq10": "أين أرى محتويات العلبة؟"
     }
   }
 } as const;

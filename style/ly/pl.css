@@ -786,3 +786,6 @@ html .ly #qv .pc-c { font: 800 .73rem/1.4 var(--pl-body); letter-spacing: .13em;
 
 /* a link keeps one shape, focused or not (shape-check: no corner that appears only on focus) */
 html .ly :is(a, summary, .ch-n, .cf-a) { border-radius: var(--pl-inner); }
+/* contact: without a map the form takes the row (no empty map box) */
+html .ly .ct-g:not(:has(.ct-map)) { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+html .ly :is(.ct-h, .ct-g h2, .ct-info h2) { font-family: var(--pl-display); font-weight: 800; text-transform: uppercase; }

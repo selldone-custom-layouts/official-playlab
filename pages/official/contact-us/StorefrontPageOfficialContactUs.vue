@@ -54,7 +54,7 @@
           <h2 id="ct-h" class="h2">{{ t("ly.rd.sendH", "Send {shop} a message", { shop: name }) }}</h2>
         </header>
         <div class="ct-g">
-          <div class="ct-map">
+          <div v-if="street || f.location" class="ct-map">
             <div class="ct-mbox"><ly-map :line="street" :location="f.location" :title="name" /></div>
             <p v-if="street" class="ct-cap">
               <ly-icon name="pin" /><span
