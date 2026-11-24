@@ -160,6 +160,7 @@ export default {
     /** What is happening to the orders, in a sentence. */
     summary() {
       if (this.$route.name === window.$storefront.routes.USER_FAVORITES_PAGE) return t("pl.saved.lead", "Come back to the toys you’re thinking about.");
+      if (this.$route.name === window.$storefront.routes.USER_ADDRESSES_PAGE) return t("pl.acc.bookLead", "The addresses you deliver to, kept with your account.");
       if (this.pending) return t("account.summary.opening", "One moment, opening your account…");
       if (!account.loaded) return this.user ? t("account.summary.default", "Your orders, money and addresses in one place.") : t("account.summary.guest", "The orders placed on this device.");
       const tones = account.orders.map((o) => standing(o).tone);

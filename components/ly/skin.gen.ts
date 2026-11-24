@@ -384,7 +384,8 @@ export const SKIN = {
       "pl.ct.orderHelp": "For questions about an order, open the order and use its message panel.",
       "pl.ct.findOrders": "Find your orders",
       "pl.ct.sendH": "Send us a message",
-      "pl.ct.send": "Send message"
+      "pl.ct.send": "Send message",
+      "pl.acc.bookLead": "The addresses you deliver to, kept with your account."
     },
     "ar": {
       "ly.bag.emptyP": "أضف لعبة من المتجر لتبدأ حقيبتك.",
@@ -693,7 +694,8 @@ export const SKIN = {
       "pl.ct.orderHelp": "لأسئلة عن طلب، افتح الطلب واستخدم لوحة الرسائل فيه.",
       "pl.ct.findOrders": "اعثر على طلباتك",
       "pl.ct.sendH": "أرسل إلينا رسالة",
-      "pl.ct.send": "أرسل الرسالة"
+      "pl.ct.send": "أرسل الرسالة",
+      "pl.acc.bookLead": "العناوين التي تُوصَل إليها طلباتك، محفوظة مع حسابك."
     }
   }
 } as const;
