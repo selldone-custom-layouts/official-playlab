@@ -79,6 +79,9 @@ for (const W of WIDTHS) {
   const push = (to) => page.evaluate((p) => window.$global_router.push(p).catch(() => {}), to);
   const visible = (sel) => page.locator(sel).filter({ visible: true }).first();
   const ways = () => page.locator("#co-delivery .mcs label.mc");
+  /* a way by its name: the list changes as ways come and go (a pickup point's place brings the truck in) */
+  const wayByName = (name) => ways().filter({ has: page.locator(".mc-t", { hasText: name }) }).first();
+  const readWays = () => page.evaluate(() => [...document.querySelectorAll("#co-delivery .mcs label.mc")].map((b) => ({ name: b.querySelector(".mc-t")?.textContent?.trim() || "", pickup: !!b.querySelector(".mc-ic svg") && /pick ?up|store/i.test(b.innerHTML) })));
 
   try {
     // ── home and one piece in the bag
@@ -131,12 +134,12 @@ for (const W of WIDTHS) {
     if (!list.length) console.log("  (no way before an address: a courier with a range shows once the address is in)");
     let wayInfo = [];
     for (let i = 0; i < list.length; i++) {
-      const card = ways().nth(i);
+      const card = wayByName(list[i].split(" | ")[0]);
       await card.scrollIntoViewIfNeeded();
       await card.click();
       await sleep(3500);
-      const st = await page.evaluate((i) => {
-        const c = document.querySelectorAll("#co-delivery .mcs label.mc")[i];
+      const st = await page.evaluate((name) => {
+        const c = [...document.querySelectorAll("#co-delivery .mcs label.mc")].find((x) => x.querySelector(".mc-t")?.textContent?.trim() === name);
         const chips = [...document.querySelectorAll("#co-delivery .wins .wchip")];
         return {
           checked: !!c?.querySelector("input")?.checked,
@@ -145,7 +148,7 @@ for (const W of WIDTHS) {
           addressH: document.querySelector("#co-address h2")?.textContent?.trim(),
           receipt: (document.querySelector("#co-pay")?.innerText || "").replace(/\s+/g, " ").match(/(Delivery|Pickup|Shipping)[^$]*\$?[\d.,]*|Free/i)?.[0] || "",
         };
-      }, i);
+      }, list[i].split(" | ")[0]);
       const name = list[i].split(" | ")[0];
       console.log(`  way ${i + 1} "${name}": checked=${st.checked} windows=[${st.chips.join(", ")}]${st.date ? " date-field" : ""} address-card="${st.addressH}" receipt="${st.receipt}"`);
       if (!st.checked) bad(W, `way "${name}" did not become the chosen one`);
@@ -162,6 +165,13 @@ for (const W of WIDTHS) {
       wayInfo.push({ i, name, pickup: /pickup/i.test(st.addressH || "") });
       await page.locator("#co-delivery").screenshot({ path: path.join(OUT, `walk-${W}-03-way${i + 1}-${slug(name)}.png`) });
       console.log(`  shot walk-${W}-03-way${i + 1}-${slug(name)}.png`);
+    }
+    /* the ways once these were chosen (a pickup point's place can bring a far-reaching way in) */
+    if (list.length) {
+      const now = await readWays();
+      const added = now.filter((w) => !wayInfo.some((x) => x.name === w.name));
+      if (added.length) console.log("  ways after choosing (" + now.length + "): " + now.map((w) => w.name).join(", "));
+      for (const w of added) wayInfo.push({ i: -1, name: w.name, pickup: false });
     }
 
     // ── the delivery sheet
@@ -185,7 +195,7 @@ for (const W of WIDTHS) {
     /* a courier with a range (distance) is in the bill only once an address is in: with no way listed yet, go to the address sheet anyway */
     const home = wayInfo.find((w) => !w.pickup) || (wayInfo.length ? null : (await page.locator("#co-address .addr-add, #co-address .addr-card .qlink").count()) ? { i: -1, name: "(the address first)" } : null);
     if (home) {
-      if (home.i >= 0) await ways().nth(home.i).click();
+      if (home.name && home.i !== -2 && wayInfo.length) await wayByName(home.name).click();
       await sleep(3000);
       const firstChip = page.locator("#co-delivery .wins .wchip:not([disabled])").first();
       if (await firstChip.count()) {
@@ -261,8 +271,8 @@ for (const W of WIDTHS) {
     const chosen = wayInfo.filter((w) => !only || only.test(w.name));
     if (only && !chosen.length) bad(W, `no way matches ${only} (ways: ${wayInfo.map((w) => w.name).join(", ")})`);
     for (const w of chosen) {
-      await ways().nth(w.i).scrollIntoViewIfNeeded();
-      await ways().nth(w.i).click();
+      await wayByName(w.name).scrollIntoViewIfNeeded();
+      await wayByName(w.name).click();
       await sleep(3500);
       const chip = page.locator("#co-delivery .wins .wchip:not([disabled])").first();
       if ((await chip.count()) && !(await page.locator("#co-delivery .wins .wchip[aria-checked='true']").count())) {
